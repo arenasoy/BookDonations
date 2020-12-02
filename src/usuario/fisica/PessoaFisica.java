@@ -1,5 +1,7 @@
 package usuario.fisica;
 
+import java.util.List;
+
 import usuario.Usuario;
 
 public class PessoaFisica extends Usuario {
@@ -8,6 +10,7 @@ public class PessoaFisica extends Usuario {
 	private String cpf;
 	private String rg;
 	private String telefone;
+	private List<Perfil> perfis;
 
 	public String getNome() {
 		return nome;
@@ -39,6 +42,14 @@ public class PessoaFisica extends Usuario {
 
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
+	}
+
+	public List<Perfil> getPerfis() {
+		return perfis;
+	}
+
+	public void setPerfis(List<Perfil> perfis) {
+		this.perfis = perfis;
 	}
 
 }

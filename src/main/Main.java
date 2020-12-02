@@ -14,10 +14,14 @@ public class Main {
 	
 	private void execute() {
 		scanner = new Scanner(System.in);
+		setConnection();
+	}
+	
+	private void setConnection() {
 		System.out.println("Oracle user:");
 		Conexao.setUser(scanner.nextLine());
 		System.out.println("Oracle password");
 		Conexao.setPassword(scanner.nextLine());
-		Conexao.getInstance();	
+		Conexao.getInstance();
 	}
 }
