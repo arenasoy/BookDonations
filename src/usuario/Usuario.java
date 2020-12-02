@@ -1,17 +1,14 @@
 package usuario;
 
 import cidade.Cidade;
+import endereco.Endereco;
 
 public class Usuario {
 
 	protected String email;
 	protected String senha;
 	protected Cidade cidade;
-	protected String rua;
-	protected String bairro;
-	protected int numero;
-	protected String cep;
-	protected String complemeto;
+	protected Endereco endereco;
 	protected String tipo;
 
 	public String getEmail() {
@@ -38,44 +35,12 @@ public class Usuario {
 		this.cidade = cidade;
 	}
 
-	public String getRua() {
-		return rua;
+	public Endereco getEndereco() {
+		return endereco;
 	}
 
-	public void setRua(String rua) {
-		this.rua = rua;
-	}
-
-	public String getBairro() {
-		return bairro;
-	}
-
-	public void setBairro(String bairro) {
-		this.bairro = bairro;
-	}
-
-	public int getNumero() {
-		return numero;
-	}
-
-	public void setNumero(int numero) {
-		this.numero = numero;
-	}
-
-	public String getCep() {
-		return cep;
-	}
-
-	public void setCep(String cep) {
-		this.cep = cep;
-	}
-
-	public String getComplemeto() {
-		return complemeto;
-	}
-
-	public void setComplemeto(String complemeto) {
-		this.complemeto = complemeto;
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
 	}
 
 	public String getTipo() {

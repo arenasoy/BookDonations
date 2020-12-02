@@ -1,15 +1,14 @@
 package bibliotecario;
 
+import cidade.Cidade;
+import endereco.Endereco;
+
 public class Bibliotecario {
 
 	private String cib;
 	private String nome;
-	private String cidade;
-	private String rua;
-	private String bairro;
-	private int numero;
-	private String cep;
-	private String compleento;
+	private Cidade cidade;
+	private Endereco endereco;
 
 	public String getCib() {
 		return cib;
@@ -27,52 +26,20 @@ public class Bibliotecario {
 		this.nome = nome;
 	}
 
-	public String getCidade() {
+	public Cidade getCidade() {
 		return cidade;
 	}
 
-	public void setCidade(String cidade) {
+	public void setCidade(Cidade cidade) {
 		this.cidade = cidade;
 	}
 
-	public String getRua() {
-		return rua;
+	public Endereco getEndereco() {
+		return endereco;
 	}
 
-	public void setRua(String rua) {
-		this.rua = rua;
-	}
-
-	public String getBairro() {
-		return bairro;
-	}
-
-	public void setBairro(String bairro) {
-		this.bairro = bairro;
-	}
-
-	public int getNumero() {
-		return numero;
-	}
-
-	public void setNumero(int numero) {
-		this.numero = numero;
-	}
-
-	public String getCep() {
-		return cep;
-	}
-
-	public void setCep(String cep) {
-		this.cep = cep;
-	}
-
-	public String getCompleento() {
-		return compleento;
-	}
-
-	public void setCompleento(String compleento) {
-		this.compleento = compleento;
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
 	}
 
 }
