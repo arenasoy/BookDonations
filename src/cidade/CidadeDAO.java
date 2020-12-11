@@ -28,9 +28,14 @@ public class CidadeDAO {
 
 	public void insert(Cidade cidade) {
 		try {
-			sql = "";
+			sql = "insert into cidade (id, nome_cidade, uf_cidade)"
+					+ "values (?, ?, ?)";
 
 			pstm = conn.prepareStatement(sql);
+			
+			pstm.setInt(1, cidade.getId());
+			pstm.setString(2, cidade.getNome());
+			pstm.setString(3, cidade.getUf());
 			
 			pstm.execute();
 			pstm.close();

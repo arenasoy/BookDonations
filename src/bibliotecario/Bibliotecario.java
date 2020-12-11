@@ -5,17 +5,26 @@ import endereco.Endereco;
 
 public class Bibliotecario {
 
-	private String cib;
+	private Integer cib;
+	private String senha;
 	private String nome;
 	private Cidade cidade;
 	private Endereco endereco;
 
-	public String getCib() {
+	public Integer getCib() {
 		return cib;
 	}
 
-	public void setCib(String cib) {
+	public void setCib(Integer cib) {
 		this.cib = cib;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 
 	public String getNome() {

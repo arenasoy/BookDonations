@@ -28,9 +28,18 @@ public class PessoaJuridicaDAO {
 
 	public void insert(PessoaJuridica pessoaJuridica) {
 		try {
-			sql = "";
+			sql = "insert into pessoa_juridica "
+					+ "(email_usuario_pj, razao_social, nome_fantasia, cnpj_usuario_pj, "
+					+ "inscricao_estadual) "
+					+ "values (?, ?, ?, ?, ?)";
 
 			pstm = conn.prepareStatement(sql);
+			
+			pstm.setString(1, pessoaJuridica.getEmail());
+			pstm.setString(2, pessoaJuridica.getRazaoSocial());
+			pstm.setString(3, pessoaJuridica.getNomeFantasia());
+			pstm.setString(4, pessoaJuridica.getCnpj());
+			pstm.setString(5, pessoaJuridica.getInscricaoEstadual());
 			
 			pstm.execute();
 			pstm.close();

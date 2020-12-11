@@ -28,9 +28,17 @@ public class BibliotecarioDAO {
 
 	public void insert(Bibliotecario bibliotecario) {
 		try {
-			sql = "";
+			sql = "insert into bibliotecario "
+					+ "(cib, senha_bibliotecario, nome_bibliotecario, cidade_id, endereco_id)"
+					+ "values (?, ?, ?, ?, ?)";
 
 			pstm = conn.prepareStatement(sql);
+			
+			pstm.setInt(1, bibliotecario.getCib());
+			pstm.setString(2, bibliotecario.getSenha());
+			pstm.setString(3, bibliotecario.getNome());
+			pstm.setInt(4, bibliotecario.getCidade().getId());
+			pstm.setInt(5, bibliotecario.getEndereco().getId());
 			
 			pstm.execute();
 			pstm.close();

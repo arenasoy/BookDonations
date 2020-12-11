@@ -1,6 +1,6 @@
 package administrador;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import livro.Livro;
@@ -10,7 +10,7 @@ public class Administrador {
 	private String email;
 	private String senha;
 	private String nome;
-	private Date dataRegistro;
+	private LocalDate dataRegistro;
 	private List<Livro> livros;
 
 	public String getEmail() {
@@ -37,11 +37,11 @@ public class Administrador {
 		this.nome = nome;
 	}
 
-	public Date getDataRegistro() {
+	public LocalDate getDataRegistro() {
 		return dataRegistro;
 	}
 
-	public void setDataRegistro(Date dataRegistro) {
+	public void setDataRegistro(LocalDate dataRegistro) {
 		this.dataRegistro = dataRegistro;
 	}
 

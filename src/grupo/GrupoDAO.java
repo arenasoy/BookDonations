@@ -28,9 +28,15 @@ public class GrupoDAO {
 
 	public void insert(Grupo grupo) {
 		try {
-			sql = "";
+			sql = "insert into grupo (nome_grupo, tipo_grupo, pontuacao_minima, criado_por)"
+					+ "values (?, ?, ?, ?)";
 
 			pstm = conn.prepareStatement(sql);
+			
+			pstm.setString(1, grupo.getNome());
+			pstm.setString(2, grupo.getTipo());
+			pstm.setDouble(3, grupo.getPontuacaoMinima());
+			pstm.setString(4, grupo.getAdministrador().getEmail());
 			
 			pstm.execute();
 			pstm.close();

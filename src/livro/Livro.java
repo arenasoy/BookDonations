@@ -2,7 +2,7 @@ package livro;
 
 public class Livro {
 
-	private String codigoBarras;
+	private Integer codigoBarras;
 	private String autor;
 	private String titulo;
 	private String isbn;
@@ -10,11 +10,11 @@ public class Livro {
 	private String condicao;
 	private String origem;
 
-	public String getCodigoBarras() {
+	public Integer getCodigoBarras() {
 		return codigoBarras;
 	}
 
-	public void setCodigoBarras(String codigoBarras) {
+	public void setCodigoBarras(Integer codigoBarras) {
 		this.codigoBarras = codigoBarras;
 	}
 

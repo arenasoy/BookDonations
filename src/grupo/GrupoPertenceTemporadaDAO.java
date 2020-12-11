@@ -28,9 +28,15 @@ public class GrupoPertenceTemporadaDAO {
 
 	public void insert(GrupoPertenceTemporada grupoPertenceTemporada) {
 		try {
-			sql = "";
+			sql = "insert into pertence (nome_grupo, tipo_grupo, temporada, email_usuario_pf)"
+					+ "values (?, ?, ?, ?)";
 
 			pstm = conn.prepareStatement(sql);
+			
+			pstm.setString(1, grupoPertenceTemporada.getGrupo().getNome());
+			pstm.setString(2, grupoPertenceTemporada.getGrupo().getTipo());
+			pstm.setDate(3, java.sql.Date.valueOf(grupoPertenceTemporada.getTemporada().getDataInicial()));
+			pstm.setString(4, grupoPertenceTemporada.getPessoaFisica().getEmail());
 			
 			pstm.execute();
 			pstm.close();

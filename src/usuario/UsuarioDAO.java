@@ -28,9 +28,16 @@ public class UsuarioDAO {
 
 	public void insert(Usuario usuario) {
 		try {
-			sql = "";
+			sql = "insert into usuario (email, senha, cidade_id, endereco_id, tipo_usuario) "
+					+ "values (?, ?, ?, ?, ?)";
 
 			pstm = conn.prepareStatement(sql);
+			
+			pstm.setString(1, usuario.getEmail());
+			pstm.setString(2, usuario.getSenha());
+			pstm.setInt(3, usuario.getCidade().getId());
+			pstm.setInt(4, usuario.getEndereco().getId());
+			pstm.setString(5, usuario.getTipo());
 			
 			pstm.execute();
 			pstm.close();

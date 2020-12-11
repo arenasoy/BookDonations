@@ -28,9 +28,15 @@ public class AdministradorDAO {
 
 	public void insert(Administrador administrador) {
 		try {
-			sql = "";
+			sql = "insert into administrador (email_adm, senha_adm, nome_adm, data_registro)"
+					+ "values (?, ?, ?, ?)";
 
 			pstm = conn.prepareStatement(sql);
+			
+			pstm.setString(1, administrador.getEmail());
+			pstm.setString(2, administrador.getSenha());
+			pstm.setString(3, administrador.getNome());
+			pstm.setDate(4, java.sql.Date.valueOf(administrador.getDataRegistro()));
 			
 			pstm.execute();
 			pstm.close();

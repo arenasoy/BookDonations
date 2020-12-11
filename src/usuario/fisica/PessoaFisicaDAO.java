@@ -28,9 +28,18 @@ public class PessoaFisicaDAO {
 
 	public void insert(PessoaFisica pessoaFisica) {
 		try {
-			sql = "";
+			sql = "insert into pessoa_fisica "
+					+ "(email_usuario_pf, nome_usuario_pf, cpf_usuario_pf, rg_usuario_pf, "
+					+ "telefone_usuario_pf)"
+					+ "values (?, ?, ?, ?, ?)";
 
 			pstm = conn.prepareStatement(sql);
+			
+			pstm.setString(1, pessoaFisica.getEmail());
+			pstm.setString(2, pessoaFisica.getNome());
+			pstm.setString(3, pessoaFisica.getCpf());
+			pstm.setString(4, pessoaFisica.getRg());
+			pstm.setString(5, pessoaFisica.getTelefone());
 			
 			pstm.execute();
 			pstm.close();

@@ -28,9 +28,13 @@ public class DoadorDAO {
 
 	public void insert(Doador doador) {
 		try {
-			sql = "";
+			sql = "insert into doador (email_usuario_doador, pontuacao_doador) "
+					+ "values (?, ?)";
 
 			pstm = conn.prepareStatement(sql);
+			
+			pstm.setString(1, doador.getEmail());
+			pstm.setDouble(2, doador.getPontuacao());
 			
 			pstm.execute();
 			pstm.close();

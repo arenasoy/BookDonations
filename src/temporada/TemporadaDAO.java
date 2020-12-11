@@ -28,9 +28,13 @@ public class TemporadaDAO {
 
 	public void insert(Temporada temporada) {
 		try {
-			sql = "";
+			sql = "insert into temporada (data_inicial_temp, duracao_temp) "
+					+ "values (?, ?)";
 
 			pstm = conn.prepareStatement(sql);
+			
+			pstm.setDate(1, java.sql.Date.valueOf(temporada.getDataInicial()));
+			pstm.setInt(2, temporada.getDuracao());
 			
 			pstm.execute();
 			pstm.close();

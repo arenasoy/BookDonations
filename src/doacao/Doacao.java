@@ -1,6 +1,6 @@
 package doacao;
 
-import java.util.Date;
+import java.time.Instant;
 
 import bibliotecario.Bibliotecario;
 import livro.Livro;
@@ -8,7 +8,7 @@ import livro.Livro;
 public class Doacao {
 
 	private Livro livro;
-	private Date dataHora;
+	private Instant dataHora;
 	private double pontuacao;
 	private Bibliotecario bibliotecario;
 
@@ -20,11 +20,11 @@ public class Doacao {
 		this.livro = livro;
 	}
 
-	public Date getDataHora() {
+	public Instant getDataHora() {
 		return dataHora;
 	}
 
-	public void setDataHora(Date dataHora) {
+	public void setDataHora(Instant dataHora) {
 		this.dataHora = dataHora;
 	}
 

@@ -1,6 +1,6 @@
 package emprestimo;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import bibliotecario.Bibliotecario;
 import livro.Livro;
@@ -10,8 +10,8 @@ public class Emprestimo {
 
 	private Donatario donatario;
 	private Livro livro;
-	private Date dataRetirada;
-	private Date dataDevolucao;
+	private LocalDate dataRetirada;
+	private LocalDate dataDevolucao;
 	private Bibliotecario bibliotecario;
 
 	public Donatario getDonatario() {
@@ -30,19 +30,19 @@ public class Emprestimo {
 		this.livro = livro;
 	}
 
-	public Date getDataRetirada() {
+	public LocalDate getDataRetirada() {
 		return dataRetirada;
 	}
 
-	public void setDataRetirada(Date dataRetirada) {
+	public void setDataRetirada(LocalDate dataRetirada) {
 		this.dataRetirada = dataRetirada;
 	}
 
-	public Date getDataDevolucao() {
+	public LocalDate getDataDevolucao() {
 		return dataDevolucao;
 	}
 
-	public void setDataDevolucao(Date dataDevolucao) {
+	public void setDataDevolucao(LocalDate dataDevolucao) {
 		this.dataDevolucao = dataDevolucao;
 	}
 

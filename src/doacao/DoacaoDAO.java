@@ -28,9 +28,17 @@ public class DoacaoDAO {
 
 	public void insert(Doacao doacao) {
 		try {
-			sql = "";
+			sql = "insert into doacao "
+					+ "(codigo_barras_ld, data_horario_doacao, pontuacao_doacao, bibliotecario_aprovador) "
+					+ "values (?, ?, ?, ?)";
 
 			pstm = conn.prepareStatement(sql);
+			
+			pstm.setInt(1, doacao.getLivro().getCodigoBarras());
+			//TODO verify how to convert
+			//pstm.setDate(2, java.sql.Timestamp.valueOf(doacao.getDataHora()));
+			pstm.setDouble(3, doacao.getPontuacao());
+			pstm.setInt(4, doacao.getBibliotecario().getCib());
 			
 			pstm.execute();
 			pstm.close();

@@ -1,25 +1,25 @@
 package temporada;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Temporada {
 
-	private Date dataInicial;
-	private Date duracao;
+	private LocalDate dataInicial;
+	private int duracao;
 
-	public Date getDataInicial() {
+	public LocalDate getDataInicial() {
 		return dataInicial;
 	}
 
-	public void setDataInicial(Date dataInicial) {
+	public void setDataInicial(LocalDate dataInicial) {
 		this.dataInicial = dataInicial;
 	}
 
-	public Date getDuracao() {
+	public int getDuracao() {
 		return duracao;
 	}
 
-	public void setDuracao(Date duracao) {
+	public void setDuracao(int duracao) {
 		this.duracao = duracao;
 	}
 

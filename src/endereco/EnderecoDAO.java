@@ -28,11 +28,17 @@ public class EnderecoDAO {
 
 	public void insert(Endereco endereco) {
 		try {
-			sql = "insert into  (matricula_aluno, nome_aluno, curso_id) "
-					+ "values (?, ?, ?)";
+			sql = "insert into endereco (id, cep, numero, rua, bairro, complemento) "
+					+ "values (?, ?, ?, ?, ?, ?)";
 
 			pstm = conn.prepareStatement(sql);
-			//pstm.setLong(1, aluno.getMatricula());
+			
+			pstm.setInt(1, endereco.getId());
+			pstm.setString(2, endereco.getCep());
+			pstm.setInt(3, endereco.getNumero());
+			pstm.setString(4, endereco.getRua());
+			pstm.setString(5, endereco.getBairro());
+			pstm.setString(6, endereco.getComplemento());
 			
 			pstm.execute();
 			pstm.close();

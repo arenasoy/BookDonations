@@ -28,9 +28,17 @@ public class MissaoDAO {
 
 	public void insert(Missao missao) {
 		try {
-			sql = "";
+			sql = "insert into missao "
+					+ "(data_horario_missao, codigo_barras_lv, pontucao_missao, adm_aprovador) "
+					+ "values (?, ?, ?, ?)";
 
 			pstm = conn.prepareStatement(sql);
+			
+			//TODO
+			//pstm.setTimestamp(1, );
+			pstm.setInt(2, missao.getLivro().getCodigoBarras());
+			pstm.setDouble(3, missao.getPontuacao());
+			pstm.setString(4, missao.getAdministrador().getEmail());
 			
 			pstm.execute();
 			pstm.close();

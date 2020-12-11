@@ -4,7 +4,7 @@ public class Cidade {
 
 	private int id;
 	private String nome;
-	private String estado;
+	private String uf;
 
 	public int getId() {
 		return id;
@@ -22,12 +22,12 @@ public class Cidade {
 		this.nome = nome;
 	}
 
-	public String getEstado() {
-		return estado;
+	public String getUf() {
+		return uf;
 	}
 
-	public void setEstado(String estado) {
-		this.estado = estado;
+	public void setUf(String uf) {
+		this.uf = uf;
 	}
 
 }

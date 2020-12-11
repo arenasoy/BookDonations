@@ -28,9 +28,13 @@ public class VoluntarioDAO {
 
 	public void insert(Voluntario voluntario) {
 		try {
-			sql = "";
+			sql = "insert into voluntario (email_usuario_voluntario, pontuacao_voluntario) "
+					+ "values (?, ?)";
 
 			pstm = conn.prepareStatement(sql);
+			
+			pstm.setString(1, voluntario.getEmail());
+			pstm.setDouble(2, voluntario.getPontuacao());
 			
 			pstm.execute();
 			pstm.close();

@@ -28,9 +28,17 @@ public class EmprestimoDAO {
 
 	public void insert(Emprestimo emprestimo) {
 		try {
-			sql = "";
+			sql = "insert into emprestimo "
+					+ "(email_usuario_donatario, codigo_barra, data_retirada, data_devolucao, cib)"
+					+ "values (?, ?, ?, ?, ?)";
 
 			pstm = conn.prepareStatement(sql);
+			
+			pstm.setString(1, emprestimo.getDonatario().getEmail());
+			pstm.setInt(2, emprestimo.getLivro().getCodigoBarras());
+			pstm.setDate(3, java.sql.Date.valueOf(emprestimo.getDataRetirada()));
+			pstm.setDate(4, java.sql.Date.valueOf(emprestimo.getDataDevolucao()));
+			pstm.setInt(4, emprestimo.getBibliotecario().getCib());
 			
 			pstm.execute();
 			pstm.close();
