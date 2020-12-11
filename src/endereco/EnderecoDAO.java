@@ -28,18 +28,17 @@ public class EnderecoDAO {
 
 	public void insert(Endereco endereco) {
 		try {
-			sql = "insert into endereco (id, cep, numero, rua, bairro, complemento) "
-					+ "values (?, ?, ?, ?, ?, ?)";
+			sql = "insert into endereco (id, cep, numero, rua, bairro, complemento) " + "values (?, ?, ?, ?, ?, ?)";
 
 			pstm = conn.prepareStatement(sql);
-			
+
 			pstm.setInt(1, endereco.getId());
 			pstm.setString(2, endereco.getCep());
 			pstm.setInt(3, endereco.getNumero());
 			pstm.setString(4, endereco.getRua());
 			pstm.setString(5, endereco.getBairro());
 			pstm.setString(6, endereco.getComplemento());
-			
+
 			pstm.execute();
 			pstm.close();
 
@@ -53,19 +52,15 @@ public class EnderecoDAO {
 
 		List<Endereco> enderecos = new ArrayList<Endereco>();
 		try {
-			sql = "SELECT * FROM campeonato";
+			sql = "SELECT * FROM endereco";
 			pstm = conn.prepareStatement(sql);
 
 			ResultSet rs = pstm.executeQuery();
 
 			while (rs.next()) {
-				Endereco endereco = new Endereco();
-				endereco.setId(rs.getInt("id"));
-				endereco.setCep(rs.getString("cep"));
-				endereco.setBairro(rs.getString("bairro"));
-				endereco.setComplemento("complemento");
-				endereco.setRua(rs.getString("rua"));
-				endereco.setNumero(rs.getInt("numero"));
+				Endereco endereco = new Endereco(rs.getInt("id"), rs.getString("cep"), rs.getInt("numero"),
+						rs.getString("rua"), rs.getString("bairro"), rs.getString("complemento"));
+				enderecos.add(endereco);
 			}
 			pstm.close();
 		} catch (SQLException e) {
@@ -91,5 +86,4 @@ public class EnderecoDAO {
 		}
 	}
 
-	
 }

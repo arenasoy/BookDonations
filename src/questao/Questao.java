@@ -1,4 +1,4 @@
-package questionario;
+package questao;
 
 import emprestimo.Emprestimo;
 

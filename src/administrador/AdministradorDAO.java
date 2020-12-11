@@ -26,24 +26,28 @@ public class AdministradorDAO {
 		}
 	}
 
-	public void insert(Administrador administrador) {
+	public int insert(Administrador administrador) {
 		try {
-			sql = "insert into administrador (email_adm, senha_adm, nome_adm, data_registro)"
-					+ "values (?, ?, ?, ?)";
+			sql = "insert into administrador (email_adm, senha_adm, nome_adm, data_registro)" + "values (?, ?, ?, ?)";
 
 			pstm = conn.prepareStatement(sql);
-			
+
 			pstm.setString(1, administrador.getEmail());
 			pstm.setString(2, administrador.getSenha());
 			pstm.setString(3, administrador.getNome());
 			pstm.setDate(4, java.sql.Date.valueOf(administrador.getDataRegistro()));
-			
+
 			pstm.execute();
 			pstm.close();
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			if (e.getErrorCode() == 1) {
+				System.out.println("E-mail já cadastrado");
+			}
+			return e.getErrorCode();
 		}
+		
+		return 0;
 
 	}
 
@@ -51,13 +55,19 @@ public class AdministradorDAO {
 
 		List<Administrador> administradores = new ArrayList<Administrador>();
 		try {
-			sql = "";
+			sql = "select * from administrador";
 			pstm = conn.prepareStatement(sql);
 
 			ResultSet rs = pstm.executeQuery();
 
 			while (rs.next()) {
+				Administrador administrador = new Administrador(
+						rs.getString("email_adm"),
+						rs.getString("senha_adm"),
+						rs.getString("nome_adm"),
+						rs.getDate("data_registro").toLocalDate());
 				
+				administradores.add(administrador);
 			}
 			pstm.close();
 		} catch (SQLException e) {
@@ -81,5 +91,4 @@ public class AdministradorDAO {
 		}
 	}
 
-	
 }

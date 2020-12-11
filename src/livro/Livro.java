@@ -9,6 +9,10 @@ public class Livro {
 	private String edicao;
 	private String condicao;
 	private String origem;
+	
+	public void print() {
+		//TODO
+	}
 
 	public Integer getCodigoBarras() {
 		return codigoBarras;
