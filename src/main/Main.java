@@ -177,7 +177,7 @@ public class Main {
 			System.out.println("O que você deseja fazer?");
 			System.out.println("1 - Acessar menu de pessoa física");
 			System.out.println("2 - Acessar menu de pessoa jurídica");
-			System.out.println("3 - Listar todos os usuários"); // TODO
+			System.out.println("3 - Listar todos os usuários");
 			System.out.println("4 - Pesquisar usuário por e-mail"); // TODO
 			System.out.println("0 - Sair");
 
@@ -191,7 +191,61 @@ public class Main {
 				showMenuPessoaJuridica();
 				break;
 			case 3:
-				System.out.println("Função ainda não implementada :(");
+				int op = 0;
+
+				boolean selectCidade = false;
+				boolean selectEndereco = false;
+
+				do {
+					op = console.readInt(
+							"Gostaria de saber as informções de cidade dos usuários?\n1 - Sim\n2 - Não\n0 - Sair");
+					if (op == 1) {
+						selectCidade = true;
+					} else if (op == 2) {
+						selectCidade = false;
+					} else if (op != 0) {
+						System.out.println("Opção inválida");
+						continue;
+					} else {
+						break;
+					}
+
+				} while (op != 1 && op != 2 && op != 0);
+
+				if (op == 0)
+					break;
+
+				do {
+					op = console.readInt(
+							"Gostaria de saber as informções de endereço dos usuários?\n1 - Sim\n2 - Não\n0 - Sair");
+					if (op == 1) {
+						selectEndereco = true;
+					} else if (op == 2) {
+						selectEndereco = false;
+					} else if (op != 0) {
+						System.out.println("Opção inválida");
+						continue;
+					} else {
+						break;
+					}
+
+				} while (op != 1 && op != 2 && op != 0);
+
+				if (op == 0)
+					break;
+
+				List<Usuario> usuarios = dao.getUsuarioDAO().select(selectEndereco, selectCidade);
+
+				if (usuarios.size() == 0) {
+					System.out.println("Não há usuários cadastrados!");
+					break;
+				}
+
+				for (Usuario usuario : usuarios) {
+					System.out.println("=================================================");
+					usuario.print();
+				}
+
 				break;
 			case 4:
 				System.out.println("Função ainda não implementada :(");
