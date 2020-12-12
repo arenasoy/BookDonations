@@ -154,4 +154,55 @@ public class BibliotecarioDAO {
 		}
 	}
 
+	public Bibliotecario selectByCIB(int cib, boolean selectEndereco, boolean selectCidade) {
+
+		Bibliotecario bibliotecario = null;
+		try {
+
+			StringBuilder sb = new StringBuilder();
+			sb.append("select * from bibliotecario B");
+
+			if (selectEndereco) {
+				sb.append(" left join endereco E on B.endereco_id = E.id");
+			}
+
+			if (selectCidade) {
+				sb.append(" left join cidade C on B.cidade_id = C.id");
+			}
+
+			sb.append(" where B.cib = ?");
+
+			sql = sb.toString();
+
+			pstm = conn.prepareStatement(sql);
+
+			pstm.setInt(1, cib);
+
+			ResultSet rs = pstm.executeQuery();
+
+			if (!rs.next()) {
+				return null;
+			}
+
+			bibliotecario = new Bibliotecario(rs.getInt("cib"), rs.getString("senha_bibliotecario"),
+					rs.getString("nome_bibliotecario"));
+
+			if (selectEndereco && rs.getInt(5) != 0) {
+				bibliotecario.setEndereco(new Endereco(rs.getInt(5), rs.getString("cep"), rs.getInt("numero"),
+						rs.getString("rua"), rs.getString("bairro"), rs.getString("complemento")));
+			}
+
+			if (selectCidade && rs.getInt(4) != 0) {
+				bibliotecario
+						.setCidade(new Cidade(rs.getInt(4), rs.getString("nome_cidade"), rs.getString("uf_cidade")));
+
+			}
+
+			pstm.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return bibliotecario;
+	}
+
 }

@@ -63,7 +63,7 @@ public class Main {
 
 		// Conexao.setUser(console.readString("User: "));
 		// Conexao.setPassword(console.readLine("Password:"));
-		
+
 		try {
 			Conexao.getInstance();
 		} catch (Exception e) {
@@ -85,6 +85,10 @@ public class Main {
 			System.out.println("2 - Usuários");
 			System.out.println("3 - Bibliotecários");
 			System.out.println("4 - Livros");
+			System.out.println("5 - Grupos, temporadas e questões"); //TODO
+			System.out.println("6 - Missões"); //TODO
+			System.out.println("7 - Doações"); //TODO
+			System.out.println("8 - Empréstimos"); //TODO
 			System.out.println("0 - Sair");
 
 			option = console.readInt();
@@ -102,6 +106,19 @@ public class Main {
 			case LIVRO:
 				showMenuLivro();
 				break;
+			case 5: 
+				System.out.println("Função ainda não implementada :(");
+				break;
+			case 6: 
+				System.out.println("Função ainda não implementada :(");
+				break;
+			case 7: 
+				System.out.println("Função ainda não implementada :(");
+				break;
+			case 8: 
+				System.out.println("Função ainda não implementada :(");
+				break;
+				
 			}
 
 		} while (option != EXIT);
@@ -1081,7 +1098,163 @@ public class Main {
 	}
 
 	private void showMenuBibliotecario() {
+		do {
+			System.out.println("======================================================");
+			System.out.println("                   MENU BIBLIOTECARIO                 ");
+			System.out.println("======================================================");
+			System.out.println("O que você quer fazer?");
+			System.out.println("1 - Cadastrar bibliotecário");
+			System.out.println("2 - Listar todos os bibliotecários");
+			System.out.println("3 - Pesquisar bibliotecário por CIB");
+			System.out.println("4 - Atualizar bibliotecário"); // TODO
+			System.out.println("5 - Remover bibliotecário"); // TODO
+			System.out.println("0 - Sair");
 
+			option = console.readInt();
+
+			switch (option) {
+			case 1:
+				Bibliotecario b = Forms.getBibliotecario();
+				int error = 0;
+				if (b.getCidade() != null)
+					error = dao.getCidadeDAO().insert(b.getCidade());
+				if (error != 0)
+					break;
+				if (b.getEndereco() != null)
+					dao.getEnderecoDAO().insert(b.getEndereco());
+				if (error != 0)
+					break;
+				error = dao.getBibliotecarioDAO().insert(b);
+				if (error != 0)
+					break;
+
+				System.out.println("\nBibliotecário cadastrado com sucesso!");
+				break;
+			case 2:
+				
+				int op = 0;
+
+				boolean selectCidade = false;
+				boolean selectEndereco = false;
+
+				do {
+					op = console.readInt(
+							"Gostaria de saber as informções de cidade dos bibliotecários?\n1 - Sim\n2 - Não\n0 - Sair");
+					if (op == 1) {
+						selectCidade = true;
+					} else if (op == 2) {
+						selectCidade = false;
+					} else if (op != 0) {
+						System.out.println("Opção inválida");
+						continue;
+					} else {
+						break;
+					}
+
+				} while (op != 1 && op != 2 && op != 0);
+
+				if (op == 0)
+					break;
+
+				do {
+					op = console.readInt(
+							"Gostaria de saber as informações de endereço dos bibliotecários?\n1 - Sim\n2 - Não\n0 - Sair");
+					if (op == 1) {
+						selectEndereco = true;
+					} else if (op == 2) {
+						selectEndereco = false;
+					} else if (op != 0) {
+						System.out.println("Opção inválida");
+						continue;
+					} else {
+						break;
+					}
+
+				} while (op != 1 && op != 2 && op != 0);
+
+				if (op == 0)
+					break;
+
+				List<Bibliotecario> bibliotecarios = dao.getBibliotecarioDAO().select(selectEndereco, selectCidade);
+
+				if (bibliotecarios == null || bibliotecarios.size() == 0) {
+					System.out.println("Não há bibliotecários cadastrados!");
+					break;
+				}
+
+				for (Bibliotecario bibliotecario : bibliotecarios) {
+					System.out.println("=================================================");
+					bibliotecario.print();
+				}
+
+				break;
+			case 3:
+				
+				int cib = console.readInt("CIB para pesquisa: ");
+				
+				selectCidade = false;
+				selectEndereco = false;
+
+				do {
+					op = console.readInt(
+							"Gostaria de saber as informações de cidade?\n1 - Sim\n2 - Não\n0 - Sair");
+					if (op == 1) {
+						selectCidade = true;
+					} else if (op == 2) {
+						selectCidade = false;
+					} else if (op != 0) {
+						System.out.println("Opção inválida");
+						continue;
+					} else {
+						break;
+					}
+
+				} while (op != 1 && op != 2 && op != 0);
+
+				if (op == 0)
+					break;
+
+				do {
+					op = console.readInt(
+							"Gostaria de saber as informações de endereço?\n1 - Sim\n2 - Não\n0 - Sair");
+					if (op == 1) {
+						selectEndereco = true;
+					} else if (op == 2) {
+						selectEndereco = false;
+					} else if (op != 0) {
+						System.out.println("Opção inválida");
+						continue;
+					} else {
+						break;
+					}
+
+				} while (op != 1 && op != 2 && op != 0);
+
+				if (op == 0)
+					break;
+				
+				b = dao.getBibliotecarioDAO().selectByCIB(cib, selectEndereco, selectCidade);
+				
+				if (b == null) {
+					System.out.println("Bibliotecário inexistente");
+					break;
+				}
+				
+				b.print();
+				
+				break;
+			case 4:
+				System.out.println("Função ainda não implementada :(");
+				break;
+			case 5:
+				System.out.println("Função ainda não implementada :(");
+				break;
+			}
+
+		} while (option != EXIT);
+
+		option = BIBLIOTECARIO;
+	
 	}
 
 	private void showMenuLivro() {
