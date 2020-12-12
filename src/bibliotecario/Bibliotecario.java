@@ -32,6 +32,30 @@ public class Bibliotecario {
 		this.endereco = endereco;
 		
 	}
+	
+	public Bibliotecario (Integer cib, String senha, String nome){
+		
+		this.cib = cib;
+		this.senha = senha;
+		this.nome = nome;
+	}
+
+	
+	public void print() {
+		
+		System.out.println("CIB: " + this.cib + "\nNome: " + this.nome);
+		
+		if (this.cidade != null) {
+			System.out.println("Cidade:");
+			this.cidade.print();
+		}
+		
+		if (this.endereco != null) {
+			System.out.println("Endereço:");
+			this.endereco.print();
+		}
+		
+	}
 
 	public Integer getCib() {
 		return cib;

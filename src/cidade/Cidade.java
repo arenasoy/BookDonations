@@ -18,8 +18,19 @@ public class Cidade {
 
 		this.nome = nome;
 		this.uf = uf;
-		//TODO gerar id
-		this.id = 123;
+		// TODO gerar id
+		this.id = (int) (Math.random() * 100);
+	}
+
+	public Cidade(Integer id, String nome, String uf) {
+
+		this.id = id;
+		this.nome = nome;
+		this.uf = uf;
+	}
+
+	public void print() {
+		System.out.println("ID: " + this.id + "\n" + this.nome + " - " + this.uf);
 	}
 
 	public Integer getId() {

@@ -25,7 +25,7 @@ public class Endereco {
 		this.bairro = bairro;
 		this.complemento = complemento;
 		// TODO gerar id
-		this.id = 1;
+		this.id = (int) (Math.random() * 100);
 
 	}
 
