@@ -13,6 +13,22 @@ public class Emprestimo {
 	private LocalDate dataRetirada;
 	private LocalDate dataDevolucao;
 	private Bibliotecario bibliotecario;
+	
+	public void print() {
+		//TODO print emprestimo
+	}
+	
+	public Emprestimo(Donatario donatario, Livro livro, LocalDate dataRetirada, LocalDate dataDevolucao,
+			Bibliotecario bibliotecario) {
+
+		this.donatario = donatario;
+		this.livro = livro;
+		this.dataRetirada = dataRetirada;
+		this.dataDevolucao = dataDevolucao;
+		this.bibliotecario = bibliotecario;
+	}
+
+
 
 	public Donatario getDonatario() {
 		return donatario;

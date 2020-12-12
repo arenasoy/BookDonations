@@ -82,7 +82,7 @@ create table livro (
     edicao varchar2(30) not null,
     condicao number not null,
     origem varchar2(15) not null,
-    constraint pk_livro primary key (codigo_barra),
+    constraint pk_livro primary key (codigo_barras),
     constraint ck_livro check (origem = 'DOADOR' or origem = 'VOLUNTARIO' 
         or origem = 'PESSOA_JURIDICA' or origem = 'ADMINISTRADOR')
 );
@@ -155,7 +155,7 @@ create table livro_doador_pj (
     email_usuario_pj varchar2(100) not null,
     constraint pk_livro_doador_pj primary key (codigo_barras_ldpj),
     constraint fk1_livro_doador_pj foreign key (codigo_barras_ldpj)
-        references livro (codigo_barra)
+        references livro (codigo_barras)
         on delete cascade,
     constraint fk2_livro_doador_pj foreign key (email_usuario_pj)
         references pessoa_juridica (email_usuario_pj)
@@ -184,7 +184,7 @@ create table livro_doador (
     email_usuario_doador varchar2(100) not null,
     constraint pk_livro_doador primary key (codigo_barras_ld),
     constraint fk1_livro_doador foreign key (codigo_barras_ld)
-        references livro (codigo_barra)
+        references livro (codigo_barras)
         on delete cascade,
     constraint fk2_livro_doador foreign key (email_usuario_doador)
         references doador (email_usuario_doador)
@@ -207,17 +207,17 @@ create table doacao (
 
 create table emprestimo (
     email_usuario_donatario varchar2(100) not null,
-    codigo_barra number not null,
+    codigo_barras number not null,
     data_retirada date not null,
     data_devolucao date not null,
     cib number not null,
     constraint pk_emprestimo 
-        primary key (email_usuario_donatario,codigo_barra,data_retirada),
+        primary key (email_usuario_donatario,codigo_barras,data_retirada),
     constraint fk1_emprestimo foreign key (email_usuario_donatario)
         references donatario (email_usuario_donatario)
         on delete set null,
-    constraint fk2_emprestimo foreign key (codigo_barra)
-        references livro (codigo_barra)
+    constraint fk2_emprestimo foreign key (codigo_barras)
+        references livro (codigo_barras)
         on delete set null,
     constraint fk3_emprestimo foreign key (cib)
         references bibliotecario (cib)
@@ -226,7 +226,7 @@ create table emprestimo (
 
 create table questao (
     email_usuario_donatario varchar2(100) not null,
-    codigo_barra number not null,
+    codigo_barras number not null,
     data_retirada date not null,
     numero_identificador int not null,
     nivel int not null,
@@ -234,10 +234,10 @@ create table questao (
     solucao varchar2(150) not null,
     pontuacao number not null,
     constraint pk_questao 
-        primary key (email_usuario_donatario,codigo_barra,data_retirada,numero_identificador),
+        primary key (email_usuario_donatario,codigo_barras,data_retirada,numero_identificador),
     constraint fk_questao 
-        foreign key (email_usuario_donatario,codigo_barra,data_retirada)
-        references emprestimo (email_usuario_donatario,codigo_barra,data_retirada)
+        foreign key (email_usuario_donatario,codigo_barras,data_retirada)
+        references emprestimo (email_usuario_donatario,codigo_barras,data_retirada)
         on delete cascade
 );
 
@@ -246,7 +246,7 @@ create table livro_voluntario (
     email_usuario_voluntario varchar2(100) not null,
     constraint pk_livro_voluntario primary key (codigo_barras_lv),
     constraint fk1_livro_voluntario foreign key (codigo_barras_lv)
-        references livro (codigo_barra)
+        references livro (codigo_barras)
         on delete cascade,
     constraint fk2_livro_voluntario foreign key (email_usuario_voluntario)
         references voluntario (email_usuario_voluntario)

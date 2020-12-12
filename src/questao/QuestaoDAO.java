@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import conexao.Conexao;
+import emprestimo.Emprestimo;
 
 public class QuestaoDAO {
 
@@ -26,12 +27,10 @@ public class QuestaoDAO {
 		}
 	}
 
-	public void insert(Questao questao) {
+	public int insert(Questao questao) {
 		try {
-			sql = "insert into questao "
-					+ "(email_usuario_donatario, codigo_barra, "
-					+ "data_retirada, numero_identificador, "
-					+ "nivel, pergunta, solucao, pontuacao) "
+			sql = "insert into questao " + "(email_usuario_donatario, codigo_barra, "
+					+ "data_retirada, numero_identificador, " + "nivel, pergunta, solucao, pontuacao) "
 					+ "values (?, ?, ?, ?, ?, ?, ?)";
 
 			pstm = conn.prepareStatement(sql);
@@ -44,33 +43,60 @@ public class QuestaoDAO {
 			pstm.setString(6, questao.getPergunta());
 			pstm.setString(7, questao.getSolucao());
 			pstm.setDouble(8, questao.getPontuacao());
-			
+
 			pstm.execute();
 			pstm.close();
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+
+			if (e.getErrorCode() == 1) {
+				System.out.println("Questão já existe");
+			} else if (e.getErrorCode() == 2291) {
+				System.out.println("Erro de chave estrangeira: Empréstimo não existe");
+			} else {
+				e.printStackTrace();
+			}
+
+			return e.getErrorCode();
 		}
 
+		return 0;
 	}
 
-	public List<Questao> select() {
+	public List<Questao> select(boolean selectEmprestimo) {
 
-		List<Questao> questionarios = new ArrayList<Questao>();
+		List<Questao> questoes = new ArrayList<Questao>();
 		try {
-			sql = "";
+
+			StringBuilder sb = new StringBuilder();
+
+			sb.append("select * from questao Q");
+
+			if (selectEmprestimo) {
+				sb.append(" join emprestimo E on Q.email_usuario_donatario = E.email_usuario_donatario "
+						+ "and Q.codigo_barras = E.codigo_barras and Q.data_retirada = E.data_retirada");
+			}
 			pstm = conn.prepareStatement(sql);
 
 			ResultSet rs = pstm.executeQuery();
 
 			while (rs.next()) {
 
+				Questao q = new Questao(rs.getInt("numero_identificador"), rs.getInt("nivel"), rs.getString("pergunta"),
+						rs.getString("solucao"), rs.getDouble("pontuacao"));
+
+				if (selectEmprestimo) {
+					//TODO select com emprestimo, vai juntar donatario e livro?
+					//q.setEmprestimo(new Emprestimo());
+				}
+				
+				questoes.add(q);
 			}
 			pstm.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return questionarios;
+		return questoes;
 
 	}
 
