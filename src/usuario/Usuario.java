@@ -11,6 +11,9 @@ public class Usuario {
 	protected Endereco endereco;
 	protected Tipo tipo;
 	
+	public Usuario() {
+	}
+	
 	public Usuario(String email, String senha, Cidade cidade, Endereco endereco, Tipo tipo) throws Exception {
 		
 		if (email == null || email.length() == 0 || email.length() > 100) {

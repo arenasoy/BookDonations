@@ -1,5 +1,6 @@
 package main;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -10,6 +11,8 @@ import conexao.Conexao;
 import endereco.Endereco;
 import usuario.Tipo;
 import usuario.Usuario;
+import usuario.fisica.Perfil;
+import usuario.fisica.PessoaFisica;
 
 public class Main {
 
@@ -36,18 +39,25 @@ public class Main {
 //		}
 		
 		try {
-//			Cidade c = new Cidade("Cidade 4", "SP");
-//			Endereco e = new Endereco("00000-000", 1, "Rua", "", "bairroo");
-//			
-//			Usuario u = new Usuario("a@a.a", "senha u", c, e, Tipo.PESSOA_FISICA);
+			Cidade c = new Cidade("Cidade 5", "SP");
+			Endereco e = new Endereco("00000-000", 1, "Rua 5", "", "bairroo");
+			
+			List<Perfil> p = new ArrayList<Perfil>();
+			p.add(Perfil.DOADOR);
+			p.add(Perfil.VOLUNTARIO);
+			PessoaFisica pf = new PessoaFisica("e@e.c", "senha", c, e, Tipo.PESSOA_FISICA, "nome pf", "000.000.000-00", "1232", "432432", p);
+			
+			
 //			
 //			dao.getCidadeDAO().insert(c);
 //			dao.getEnderecoDAO().insert(e);
-//			dao.getUsuarioDAO().insert(u);
+//			dao.getUsuarioDAO().insert(pf);
+//			dao.getPessoaFisicaDAO().insert(pf);
+//			dao.getPerfilDAO().insert(pf);
 			
-			List<Usuario> list = dao.getUsuarioDAO().select(false, false);
-			for (Usuario usuario : list) {
-				usuario.print();
+			List<Usuario> list = dao.getUsuarioDAO().select(true, true);
+			for (Usuario pessoaFisica: list) {
+				pessoaFisica.print();
 			}
 			
 		} catch (Exception e) {

@@ -12,6 +12,7 @@ import missao.MissaoDAO;
 import questao.QuestaoDAO;
 import temporada.TemporadaDAO;
 import usuario.UsuarioDAO;
+import usuario.fisica.PerfilDAO;
 import usuario.fisica.PessoaFisicaDAO;
 import usuario.fisica.doador.DoadorDAO;
 import usuario.fisica.donatario.DonatarioDAO;
@@ -37,6 +38,7 @@ public class DAO {
 	private DonatarioDAO donatarioDAO;
 	private VoluntarioDAO voluntarioDAO;
 	private PessoaJuridicaDAO pessoaJuridicaDAO;
+	private PerfilDAO perfilDAO;
 
 	public DAO() {
 		administradorDAO = new AdministradorDAO();
@@ -56,8 +58,9 @@ public class DAO {
 		donatarioDAO = new DonatarioDAO();
 		voluntarioDAO = new VoluntarioDAO();
 		pessoaJuridicaDAO = new PessoaJuridicaDAO();
+		perfilDAO = new PerfilDAO();
 	}
-	
+
 	public AdministradorDAO getAdministradorDAO() {
 		return administradorDAO;
 	}
@@ -192,6 +195,14 @@ public class DAO {
 
 	public void setPessoaJuridicaDAO(PessoaJuridicaDAO pessoaJuridicaDAO) {
 		this.pessoaJuridicaDAO = pessoaJuridicaDAO;
+	}
+
+	public PerfilDAO getPerfilDAO() {
+		return perfilDAO;
+	}
+
+	public void setPerfilDAO(PerfilDAO perfilDAO) {
+		this.perfilDAO = perfilDAO;
 	}
 
 }

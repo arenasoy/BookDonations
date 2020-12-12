@@ -10,8 +10,8 @@ import usuario.fisica.PessoaFisica;
 
 public class Doador extends PessoaFisica {
 
-	public Doador(String email, String senha, Cidade cidade, Endereco endereco, Tipo tipo) throws Exception {
-		super(email, senha, cidade, endereco, tipo);
+	public Doador(String email, String nome, String cpf, String rg, String telefone) throws Exception {
+		super(email, nome, cpf, rg, telefone);
 		// TODO Auto-generated constructor stub
 	}
 
