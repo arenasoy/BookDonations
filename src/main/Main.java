@@ -100,10 +100,10 @@ public class Main {
 	}
 	
 	private void setConnection() {
-//		System.out.println("Oracle user:");
-//		Conexao.setUser(scanner.nextLine());
-//		System.out.println("Oracle password");
-//		Conexao.setPassword(scanner.nextLine());
+		System.out.println("Oracle user:");
+		Conexao.setUser(scanner.nextLine());
+		System.out.println("Oracle password");
+		Conexao.setPassword(scanner.nextLine());
 		Conexao.getInstance();
 	}
 }
