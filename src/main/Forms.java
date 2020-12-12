@@ -11,6 +11,7 @@ import console.Console;
 import endereco.Endereco;
 import grupo.Tipo;
 import usuario.fisica.Perfil;
+import usuario.fisica.donatario.Donatario;
 import usuario.fisica.voluntario.Voluntario;
 
 public class Forms {
@@ -104,9 +105,9 @@ public class Forms {
 
 		usuario.Tipo tipo = usuario.Tipo.PESSOA_FISICA;
 
-		System.out.println("Sobre a cidade: ");
+		System.out.println("Sobre a cidade de moradia: ");
 		Cidade c = getCidade();
-		System.out.println("Sobre o endereço: ");
+		System.out.println("Sobre o endereço de moradia: ");
 		Endereco e = getEndereco();
 
 		String nome = console.readLine("Nome do voluntário: ");
@@ -205,5 +206,78 @@ public class Forms {
 		}
 
 		return e;
+	}
+
+	public static Donatario getDonatario() {
+		Console console = Console.getInstance();
+
+		String email = console.readLine("E-mail: ");
+
+		while (email == null || email.length() == 0 || email.length() > 100) {
+			System.out.println("E-mail é obrigatório e deve ter até 100 caracteres");
+			email = console.readLine("E-mail");
+		}
+
+		Pattern pattern = Pattern.compile("^.+@.+\\..+$");
+		Matcher matcher = pattern.matcher(email);
+
+		while (!matcher.matches()) {
+			System.out.println("E-mail inválido");
+			email = console.readLine("E-mail");
+			matcher = pattern.matcher(email);
+		}
+
+		String senha = console.readLine("Senha: ");
+
+		while (senha == null || senha.length() == 0 || senha.length() > 20) {
+			System.out.println("Senha é obrigatória e deve ter até 20 caracteres");
+			senha = console.readLine("Senha: ");
+		}
+
+		usuario.Tipo tipo = usuario.Tipo.PESSOA_FISICA;
+
+		System.out.println("Sobre a cidade de moradia: ");
+		Cidade c = getCidade();
+		System.out.println("Sobre o endereço de moradia: ");
+		Endereco e = getEndereco();
+
+		String nome = console.readLine("Nome do donatário: ");
+
+		while (nome == null || nome.length() == 0 || nome.length() > 50) {
+			System.out.println("Nome é obrigatório e deve ter até 50 caracteres");
+			nome = console.readLine("Nome do donatário: ");
+		}
+
+		String cpf = console.readString("CPF: ");
+		while (cpf == null || cpf.length() != 14) {
+			System.out.println("CPF é obrigatório e deve ser no formato '000.000.000-00'");
+			cpf = console.readString("CPF: ");
+		}
+
+		String rg = console.readString("RG: ");
+		while (rg != null && rg.length() > 9) {
+			System.out.println("RG deve ter até 9 caracteres");
+			rg = console.readString("RG: ");
+		}
+
+		String telefone = console.readString("Telefone: ");
+		while (telefone != null && telefone.length() > 15) {
+			System.out.println("O telefone deve ter até 15 caracteres");
+			telefone = console.readString("Telefone: ");
+		}
+
+		List<Perfil> perfis = new ArrayList<Perfil>();
+		perfis.add(Perfil.DONATARIO);
+
+		double pontuacao = 0;
+
+		Donatario d = null;
+		try {
+			d = new Donatario(email, senha, c, e, tipo, nome, cpf, rg, telefone, perfis, pontuacao);
+		} catch (Exception e1) {
+			System.out.println(e1.getMessage());
+		}
+		
+		return d;
 	}
 }

@@ -17,6 +17,7 @@ import usuario.Tipo;
 import usuario.Usuario;
 import usuario.fisica.Perfil;
 import usuario.fisica.PessoaFisica;
+import usuario.fisica.donatario.Donatario;
 import usuario.fisica.voluntario.Voluntario;
 
 public class Main {
@@ -58,8 +59,8 @@ public class Main {
 
 	private boolean setConnection() {
 
-		//Conexao.setUser(console.readString("User: "));
-		//Conexao.setPassword(console.readLine("Password:"));
+		// Conexao.setUser(console.readString("User: "));
+		// Conexao.setPassword(console.readLine("Password:"));
 
 		try {
 			Conexao.getInstance();
@@ -140,11 +141,11 @@ public class Main {
 					} else {
 						break;
 					}
-					
+
 					if (administradores.size() == 0) {
 						System.out.println("Não há administradores cadastrados.");
 					}
-					
+
 					for (Administrador administrador : administradores) {
 						administrador.print();
 					}
@@ -174,8 +175,8 @@ public class Main {
 			System.out.println("O que você deseja fazer?");
 			System.out.println("1 - Acessar menu de pessoa física");
 			System.out.println("2 - Acessar menu de pessoa jurídica");
-			System.out.println("3 - Listar todos os usuários"); //TODO
-			System.out.println("4 - Pesquisar usuário por e-mail"); //TODO
+			System.out.println("3 - Listar todos os usuários"); // TODO
+			System.out.println("4 - Pesquisar usuário por e-mail"); // TODO
 			System.out.println("0 - Sair");
 
 			option = console.readInt();
@@ -187,16 +188,16 @@ public class Main {
 			case 2:
 				showMenuPessoaJuridica();
 				break;
-			case 3: 
+			case 3:
 				System.out.println("Função ainda não implementada :(");
 				break;
-			case 4: 
+			case 4:
 				System.out.println("Função ainda não implementada :(");
 				break;
 			}
 
 		} while (option != EXIT);
-		
+
 		option = USUARIO;
 	}
 
@@ -210,7 +211,7 @@ public class Main {
 			System.out.println("2 - Acessar menu de donatário");
 			System.out.println("3 - Acessar menu de voluntário");
 			System.out.println("4 - Listar todas as pessoas físicas");
-			System.out.println("5 - Pesquisar pessoa física por e-mail"); //TODO
+			System.out.println("5 - Pesquisar pessoa física por e-mail"); // TODO
 			System.out.println("0 - Sair");
 
 			option = console.readInt();
@@ -226,13 +227,14 @@ public class Main {
 				showMenuVoluntario();
 				break;
 			case 4:
-				
+
 				boolean selectUsuario = false;
 				boolean selectPerfil = false;
 				int usuario = 0;
 				int perfil = 0;
 				do {
-					usuario = console.readInt("Gostaria de saber informações como cidade e endereço das pessoas?\n1 - Sim\n2 - Não\n0 - Sair");
+					usuario = console.readInt(
+							"Gostaria de saber informações como cidade e endereço das pessoas?\n1 - Sim\n2 - Não\n0 - Sair");
 					if (usuario == 1) {
 						selectUsuario = true;
 					} else if (usuario == 2) {
@@ -243,9 +245,9 @@ public class Main {
 					} else {
 						break;
 					}
-					
+
 				} while (usuario != 1 && usuario != 2 && usuario != 0);
-				
+
 				do {
 					perfil = console.readInt("Gostaria de saber os perfis das pessoas?\n1 - Sim\n2 - Não\n0 - Sair");
 					if (perfil == 1) {
@@ -258,23 +260,24 @@ public class Main {
 					} else {
 						break;
 					}
-					
+
 				} while (perfil != 1 && perfil != 2 && perfil != 0);
-				
-				if (perfil == 0) break;
-				
+
+				if (perfil == 0)
+					break;
+
 				List<PessoaFisica> pessoas = dao.getPessoaFisicaDAO().select(selectUsuario, selectPerfil);
-				
+
 				if (pessoas.size() == 0) {
 					System.out.println("Não há pessoas físicas cadastradas.");
 					break;
 				}
-				
+
 				for (PessoaFisica pessoaFisica : pessoas) {
 					System.out.println("========================================================");
 					pessoaFisica.print();
 				}
-				
+
 				option = USUARIO;
 				break;
 			case 5:
@@ -283,10 +286,10 @@ public class Main {
 			}
 
 		} while (option != EXIT);
-		
+
 		option = USUARIO;
 	}
-	
+
 	private void showMenuVoluntario() {
 		do {
 			System.out.println("======================================================");
@@ -295,9 +298,9 @@ public class Main {
 			System.out.println("O que você deseja fazer?");
 			System.out.println("1 - Cadastrar voluntário");
 			System.out.println("2 - Listar voluntários");
-			System.out.println("3 - Atualizar voluntário"); //TODO
-			System.out.println("4 - Pesquisar voluntário por e-mail"); //TODO
-			System.out.println("5 - Excluir voluntário"); //TODO
+			System.out.println("3 - Atualizar voluntário"); // TODO
+			System.out.println("4 - Pesquisar voluntário por e-mail"); // TODO
+			System.out.println("5 - Excluir voluntário"); // TODO
 			System.out.println("0 - Sair");
 
 			option = console.readInt();
@@ -305,25 +308,39 @@ public class Main {
 			switch (option) {
 			case 1:
 				Voluntario v = Forms.getVoluntario();
+				int error = 0;
 				if (v.getCidade() != null)
-					dao.getCidadeDAO().insert(v.getCidade());
+					error = dao.getCidadeDAO().insert(v.getCidade());
+				if (error != 0)
+					break;
 				if (v.getEndereco() != null)
 					dao.getEnderecoDAO().insert(v.getEndereco());
-				dao.getUsuarioDAO().insert(v);
-				dao.getPessoaFisicaDAO().insert(v);
-				dao.getVoluntarioDAO().insert(v);
-				dao.getPerfilDAO().insert(v);
+				if (error != 0)
+					break;
+				error = dao.getUsuarioDAO().insert(v);
+				if (error != 0)
+					break;
+				error = dao.getPessoaFisicaDAO().insert(v);
+				if (error != 0)
+					break;
+				error = dao.getVoluntarioDAO().insert(v);
+				if (error != 0)
+					break;
+				error = dao.getPerfilDAO().insert(v);
+				if (error != 0)
+					break;
 				System.out.println("\nVoluntário cadastrado com sucesso!");
 				break;
 			case 2:
 				int op = 0;
-				
+
 				boolean selectPessoaFisica = false;
 				boolean selectUsuario = false;
 				boolean selectLivros = false;
-				
+
 				do {
-					op = console.readInt("Gostaria de saber as informções de pessoa físcia dos voluntários?\n1 - Sim\n2 - Não\n0 - Sair");
+					op = console.readInt(
+							"Gostaria de saber as informções de pessoa física dos voluntários?\n1 - Sim\n2 - Não\n0 - Sair");
 					if (op == 1) {
 						selectPessoaFisica = true;
 					} else if (op == 2) {
@@ -334,13 +351,15 @@ public class Main {
 					} else {
 						break;
 					}
-					
+
 				} while (op != 1 && op != 2 && op != 0);
-				
-				if (op == 0) break;
+
+				if (op == 0)
+					break;
 
 				do {
-					op = console.readInt("Gostaria de saber as informções de usuário gerais dos voluntários?\n1 - Sim\n2 - Não\n0 - Sair");
+					op = console.readInt(
+							"Gostaria de saber as informções de usuário gerais dos voluntários?\n1 - Sim\n2 - Não\n0 - Sair");
 					if (op == 1) {
 						selectUsuario = true;
 					} else if (op == 2) {
@@ -351,13 +370,15 @@ public class Main {
 					} else {
 						break;
 					}
-					
+
 				} while (op != 1 && op != 2 && op != 0);
-				
-				if (op == 0) break;
-				
+
+				if (op == 0)
+					break;
+
 				do {
-					op = console.readInt("Gostaria de saber os livros pegos pelos voluntários?\n1 - Sim\n2 - Não\n0 - Sair");
+					op = console.readInt(
+							"Gostaria de saber os livros pegos pelos voluntários?\n1 - Sim\n2 - Não\n0 - Sair");
 					if (op == 1) {
 						selectLivros = true;
 					} else if (op == 2) {
@@ -368,48 +389,159 @@ public class Main {
 					} else {
 						break;
 					}
-					
+
 				} while (op != 1 && op != 2 && op != 0);
-				
-				if (op == 0) break;
-				
-				List<Voluntario> voluntarios = dao.getVoluntarioDAO().select(selectPessoaFisica, selectUsuario, selectLivros);
-				
+
+				if (op == 0)
+					break;
+
+				List<Voluntario> voluntarios = dao.getVoluntarioDAO().select(selectPessoaFisica, selectUsuario,
+						selectLivros);
+
 				if (voluntarios.size() == 0) {
 					System.out.println("Não há voluntários cadastrados!");
 					break;
 				}
-				
+
 				for (Voluntario voluntario : voluntarios) {
 					System.out.println("=================================================");
 					voluntario.print();
 				}
-				
+
 				break;
 			case 3:
 				showMenuVoluntario();
 				break;
 			case 4:
-				
+
 			case 5:
 				showMenuPessoaJuridica();
 				break;
 			}
 
 		} while (option != EXIT);
-		
+
 		option = USUARIO;
-		
+
 	}
 
 	private void showMenuDonatario() {
-		// TODO Auto-generated method stub
-		
+		do {
+			System.out.println("======================================================");
+			System.out.println("                      MENU DONATARIO                  ");
+			System.out.println("======================================================");
+			System.out.println("O que você deseja fazer?");
+			System.out.println("1 - Cadastrar donatário");
+			System.out.println("2 - Listar donatários");
+			System.out.println("3 - Atualizar donatário"); // TODO
+			System.out.println("4 - Pesquisar donatário por e-mail"); // TODO
+			System.out.println("5 - Excluir donatário"); // TODO
+			System.out.println("0 - Sair");
+
+			option = console.readInt();
+
+			switch (option) {
+			case 1:
+				Donatario d = Forms.getDonatario();
+				int error = 0;
+				if (d.getCidade() != null)
+					error = dao.getCidadeDAO().insert(d.getCidade());
+				if (error != 0)
+					break;
+				if (d.getEndereco() != null)
+					error = dao.getEnderecoDAO().insert(d.getEndereco());
+				if (error != 0)
+					break;
+				error = dao.getUsuarioDAO().insert(d);
+				if (error != 0)
+					break;
+				error = dao.getPessoaFisicaDAO().insert(d);
+				if (error != 0)
+					break;
+				error = dao.getDonatarioDAO().insert(d);
+				if (error != 0)
+					break;
+				error = dao.getPerfilDAO().insert(d);
+				if (error != 0)
+					break;
+				System.out.println("\nDonatário cadastrado com sucesso!");
+				break;
+			case 2:
+				int op = 0;
+
+				boolean selectPessoaFisica = false;
+				boolean selectUsuario = false;
+
+				do {
+					op = console.readInt(
+							"Gostaria de saber as informções de pessoa física dos donatários?\n1 - Sim\n2 - Não\n0 - Sair");
+					if (op == 1) {
+						selectPessoaFisica = true;
+					} else if (op == 2) {
+						selectPessoaFisica = false;
+					} else if (op != 0) {
+						System.out.println("Opção inválida");
+						continue;
+					} else {
+						break;
+					}
+
+				} while (op != 1 && op != 2 && op != 0);
+
+				if (op == 0)
+					break;
+
+				do {
+					op = console.readInt(
+							"Gostaria de saber as informções de usuário gerais dos donatários?\n1 - Sim\n2 - Não\n0 - Sair");
+					if (op == 1) {
+						selectUsuario = true;
+					} else if (op == 2) {
+						selectUsuario = false;
+					} else if (op != 0) {
+						System.out.println("Opção inválida");
+						continue;
+					} else {
+						break;
+					}
+
+				} while (op != 1 && op != 2 && op != 0);
+
+				if (op == 0)
+					break;
+
+				List<Donatario> donatarios = dao.getDonatarioDAO().select(selectPessoaFisica, selectUsuario);
+
+				if (donatarios.size() == 0) {
+					System.out.println("Não há donatários cadastrados!");
+					break;
+				}
+
+				for (Donatario donatario : donatarios) {
+					System.out.println("=================================================");
+					donatario.print();
+				}
+
+				break;
+			case 3:
+				showMenuVoluntario();
+				break;
+			case 4:
+
+			case 5:
+				showMenuPessoaJuridica();
+				break;
+			}
+
+		} while (option != EXIT);
+
+		option = USUARIO;
+
 	}
 
 	private void showMenuDoador() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	private void showMenuPessoaJuridica() {
@@ -434,10 +566,10 @@ public class Main {
 			}
 
 		} while (option != EXIT);
-		
+
 		option = USUARIO;
 	}
-	
+
 	private void showMenuBibliotecario() {
 
 	}

@@ -69,7 +69,11 @@ public class PessoaFisica extends Usuario {
 
 	public void print() {
 		super.print();
-		System.out.println("Nome: " + nome + "\nCPF: " + cpf + " RG: " + rg + "\nTelefone: " + telefone);
+		System.out.print("Nome: " + nome + "\nCPF: " + cpf);
+		if (rg != null && rg.length() > 0)
+			System.out.println(" RG: " + rg);
+		if (telefone != null && telefone.length() > 0)
+			System.out.println("\nTelefone: " + telefone);
 		if (perfis.size() > 0) {
 			System.out.println("Perfis: ");
 			for (Perfil perfil : perfis) {

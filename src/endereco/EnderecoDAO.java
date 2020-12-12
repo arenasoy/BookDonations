@@ -26,7 +26,7 @@ public class EnderecoDAO {
 		}
 	}
 
-	public void insert(Endereco endereco) {
+	public int insert(Endereco endereco) {
 		try {
 			sql = "insert into endereco (id, cep, numero, rua, bairro, complemento) " + "values (?, ?, ?, ?, ?, ?)";
 
@@ -43,9 +43,15 @@ public class EnderecoDAO {
 			pstm.close();
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			if (e.getErrorCode() == 1) {
+				System.out.println("Endereço já existe");
+			} else {
+				e.printStackTrace();
+			}
+			return e.getErrorCode();
 		}
 
+		return 0;
 	}
 
 	public List<Endereco> select() {
