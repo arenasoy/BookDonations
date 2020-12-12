@@ -7,6 +7,8 @@ import usuario.fisica.PessoaFisica;
 
 public class Donatario extends PessoaFisica {
 
+	private double pontuacao;
+
 	public Donatario(String email, String nome, String cpf, String rg, String telefone) throws Exception {
 		super(email, nome, cpf, rg, telefone);
 		// TODO Auto-generated constructor stub
@@ -17,7 +19,10 @@ public class Donatario extends PessoaFisica {
 		this.pontuacao = pontuacao;
 	}
 
-	private double pontuacao;
+	public void print() {
+		super.print();
+		System.out.println("Pontuação: " + pontuacao);
+	}
 
 	public double getPontuacao() {
 		return pontuacao;
