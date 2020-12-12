@@ -88,13 +88,13 @@ public class UsuarioDAO {
 				Usuario usuario = new Usuario(rs.getString("email"), rs.getString("senha"),
 						Tipo.valueOf(rs.getString("tipo_usuario")));
 
-				if (selectEndereco && rs.getInt(4) != 0) {
-					usuario.setEndereco(new Endereco(rs.getInt(4), rs.getString("cep"), rs.getInt("numero"),
+				if (selectEndereco && rs.getInt("endereco_id") != 0) {
+					usuario.setEndereco(new Endereco(rs.getInt("endereco_id"), rs.getString("cep"), rs.getInt("numero"),
 							rs.getString("rua"), rs.getString("bairro"), rs.getString("complemento")));
 				}
 
-				if (selectCidade && rs.getInt(3) != 0) {
-					usuario.setCidade(new Cidade(rs.getInt(3), rs.getString("nome_cidade"), rs.getString("uf_cidade")));
+				if (selectCidade && rs.getInt("cidade_id") != 0) {
+					usuario.setCidade(new Cidade(rs.getInt("cidade_id"), rs.getString("nome_cidade"), rs.getString("uf_cidade")));
 
 				}
 
@@ -105,6 +105,57 @@ public class UsuarioDAO {
 			e.printStackTrace();
 		}
 		return usuarios;
+	}
+
+	public Usuario selectByEmail(String email, boolean selectCidade, boolean selectEndereco) {
+
+		Usuario u = null;
+
+		try {
+			StringBuilder sb = new StringBuilder();
+			sb.append("select * from usuario U");
+
+			if (selectEndereco) {
+				sb.append(" left join endereco E on U.endereco_id = E.id");
+			}
+
+			if (selectCidade) {
+				sb.append(" left join cidade C on U.cidade_id = C.id");
+			}
+			
+			sb.append(" where U.email = ?");
+
+			sql = sb.toString();
+
+			pstm = conn.prepareStatement(sql);
+
+			pstm.setString(1, email);
+
+			ResultSet rs = pstm.executeQuery();
+
+			if (!rs.next()) {
+				return null;
+			}
+
+			u = new Usuario(rs.getString("email"), rs.getString("senha"),
+					Tipo.valueOf(rs.getString("tipo_usuario")));
+
+			if (selectEndereco && rs.getInt("endereco_id") != 0) {
+				u.setEndereco(new Endereco(rs.getInt("endereco_id"), rs.getString("cep"), rs.getInt("numero"),
+						rs.getString("rua"), rs.getString("bairro"), rs.getString("complemento")));
+			}
+
+			if (selectCidade && rs.getInt("cidade_id") != 0) {
+				u.setCidade(new Cidade(rs.getInt("cidade_id"), rs.getString("nome_cidade"), rs.getString("uf_cidade")));
+
+			}
+
+			pstm.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return u;
 	}
 
 	public void delete(int id) {

@@ -45,7 +45,7 @@ public class DonatarioDAO {
 			pstm.close();
 
 		} catch (SQLException e) {
-			
+
 			if (e.getErrorCode() == 1) {
 				System.out.println("E-mail já cadastrado");
 			} else if (e.getErrorCode() == 2291) {
@@ -53,7 +53,7 @@ public class DonatarioDAO {
 			} else {
 				e.printStackTrace();
 			}
-			
+
 			return e.getErrorCode();
 		}
 
@@ -120,7 +120,8 @@ public class DonatarioDAO {
 								rs.getString("rua"), rs.getString("bairro"), rs.getString("complemento")));
 
 					if (rs.getInt("cidade_id") != 0) {
-						d.setCidade(new Cidade(rs.getInt("cidade_id"), rs.getString("nome_cidade"), rs.getString("uf_cidade")));
+						d.setCidade(new Cidade(rs.getInt("cidade_id"), rs.getString("nome_cidade"),
+								rs.getString("uf_cidade")));
 					}
 				}
 
@@ -148,5 +149,81 @@ public class DonatarioDAO {
 		}
 	}
 
-	
+	public Donatario selectByEmail(String email, boolean selectPessoaFisica, boolean selectUsuario) {
+
+		Donatario d = null;
+		try {
+			StringBuilder sb = new StringBuilder();
+
+			sb.append("select * from donatario D");
+
+			if (selectPessoaFisica) {
+				sb.append(" join pessoa_fisica F on F.email_usuario_pf = D.email_usuario_donatario");
+			}
+
+			if (selectUsuario) {
+				sb.append(" join usuario U on F.email_usuario_pf = U.email left join cidade C "
+						+ "on U.cidade_id = C.id left join endereco E on U.endereco_id = E.id");
+			}
+
+			sb.append(" where D.email_usuario_donatario = ?");
+
+			sql = sb.toString();
+
+			pstm = conn.prepareStatement(sql);
+
+			pstm.setString(1, email);
+
+			ResultSet rs = pstm.executeQuery();
+
+			if (!rs.next()) {
+				return null;
+			}
+
+			d = new Donatario(rs.getString("email_usuario_donatario"), rs.getDouble("pontuacao_donatario"));
+
+			if (selectPessoaFisica) {
+				d.setNome(rs.getString("nome_usuario_pf"));
+				d.setCpf(rs.getString("cpf_usuario_pf"));
+				d.setRg(rs.getString("rg_usuario_pf"));
+				d.setTelefone(rs.getString("telefone_usuario_pf"));
+
+				sql = "select perfil from perfis where email_usuario_pf = ?";
+
+				pstm = conn.prepareStatement(sql);
+
+				pstm.setString(1, d.getEmail());
+
+				ResultSet rsp = pstm.executeQuery();
+
+				List<Perfil> perfis = new ArrayList<Perfil>();
+
+				while (rsp.next()) {
+					perfis.add(Perfil.valueOf(rsp.getString("perfil")));
+				}
+
+				d.setPerfis(perfis);
+			}
+
+			if (selectUsuario) {
+				d.setSenha(rs.getString("senha"));
+				d.setTipo(Tipo.valueOf(rs.getString("tipo_usuario")));
+
+				if (rs.getInt("endereco_id") != 0)
+					d.setEndereco(new Endereco(rs.getInt("endereco_id"), rs.getString("cep"), rs.getInt("numero"),
+							rs.getString("rua"), rs.getString("bairro"), rs.getString("complemento")));
+
+				if (rs.getInt("cidade_id") != 0) {
+					d.setCidade(
+							new Cidade(rs.getInt("cidade_id"), rs.getString("nome_cidade"), rs.getString("uf_cidade")));
+				}
+			}
+
+			pstm.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return d;
+	}
+
 }

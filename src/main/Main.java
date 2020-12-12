@@ -178,7 +178,7 @@ public class Main {
 			System.out.println("1 - Acessar menu de pessoa física");
 			System.out.println("2 - Acessar menu de pessoa jurídica");
 			System.out.println("3 - Listar todos os usuários");
-			System.out.println("4 - Pesquisar usuário por e-mail"); // TODO
+			System.out.println("4 - Pesquisar usuário por e-mail");
 			System.out.println("0 - Sair");
 
 			option = console.readInt();
@@ -217,7 +217,7 @@ public class Main {
 
 				do {
 					op = console.readInt(
-							"Gostaria de saber as informções de endereço dos usuários?\n1 - Sim\n2 - Não\n0 - Sair");
+							"Gostaria de saber as informações de endereço dos usuários?\n1 - Sim\n2 - Não\n0 - Sair");
 					if (op == 1) {
 						selectEndereco = true;
 					} else if (op == 2) {
@@ -248,7 +248,55 @@ public class Main {
 
 				break;
 			case 4:
-				System.out.println("Função ainda não implementada :(");
+				String email = console.readString("E-mail para busca: ");
+
+				selectCidade = false;
+				selectEndereco = false;
+
+				do {
+					op = console.readInt("Gostaria de saber as informações de cidade?\n1 - Sim\n2 - Não\n0 - Sair");
+					if (op == 1) {
+						selectCidade = true;
+					} else if (op == 2) {
+						selectCidade = false;
+					} else if (op != 0) {
+						System.out.println("Opção inválida");
+						continue;
+					} else {
+						break;
+					}
+
+				} while (op != 1 && op != 2 && op != 0);
+
+				if (op == 0)
+					break;
+
+				do {
+					op = console.readInt("Gostaria de saber as informações de endereço?\n1 - Sim\n2 - Não\n0 - Sair");
+					if (op == 1) {
+						selectEndereco = true;
+					} else if (op == 2) {
+						selectEndereco = false;
+					} else if (op != 0) {
+						System.out.println("Opção inválida");
+						continue;
+					} else {
+						break;
+					}
+
+				} while (op != 1 && op != 2 && op != 0);
+
+				if (op == 0)
+					break;
+
+				Usuario u = dao.getUsuarioDAO().selectByEmail(email, selectCidade, selectEndereco);
+
+				if (u == null) {
+					System.out.println("Usuário inexistente");
+				} else {
+					u.print();
+				}
+
 				break;
 			}
 
@@ -355,7 +403,7 @@ public class Main {
 			System.out.println("1 - Cadastrar voluntário");
 			System.out.println("2 - Listar voluntários");
 			System.out.println("3 - Atualizar voluntário"); // TODO
-			System.out.println("4 - Pesquisar voluntário por e-mail"); // TODO
+			System.out.println("4 - Pesquisar voluntário por e-mail");
 			System.out.println("5 - Excluir voluntário"); // TODO
 			System.out.println("0 - Sair");
 
@@ -469,7 +517,78 @@ public class Main {
 				System.out.println("Função ainda não implementada :(");
 				break;
 			case 4:
-				System.out.println("Função ainda não implementada :(");
+				String email = console.readString("E-mail para busca: ");
+
+				selectPessoaFisica = false;
+				selectUsuario = false;
+				selectLivros = false;
+
+				do {
+					op = console
+							.readInt("Gostaria de saber as informações de pessoa física?\n1 - Sim\n2 - Não\n0 - Sair");
+					if (op == 1) {
+						selectPessoaFisica = true;
+					} else if (op == 2) {
+						selectPessoaFisica = false;
+					} else if (op != 0) {
+						System.out.println("Opção inválida");
+						continue;
+					} else {
+						break;
+					}
+
+				} while (op != 1 && op != 2 && op != 0);
+
+				if (op == 0)
+					break;
+
+				do {
+					op = console
+							.readInt("Gostaria de saber as informações gerais de usuário?\n1 - Sim\n2 - Não\n0 - Sair");
+					if (op == 1) {
+						selectUsuario = true;
+					} else if (op == 2) {
+						selectUsuario = false;
+					} else if (op != 0) {
+						System.out.println("Opção inválida");
+						continue;
+					} else {
+						break;
+					}
+
+				} while (op != 1 && op != 2 && op != 0);
+
+				if (op == 0)
+					break;
+
+				do {
+					op = console
+							.readInt("Gostaria de saber as informações dos livros pegos?\n1 - Sim\n2 - Não\n0 - Sair");
+					if (op == 1) {
+						selectLivros = true;
+					} else if (op == 2) {
+						selectLivros = false;
+					} else if (op != 0) {
+						System.out.println("Opção inválida");
+						continue;
+					} else {
+						break;
+					}
+
+				} while (op != 1 && op != 2 && op != 0);
+
+				if (op == 0)
+					break;
+
+				Voluntario u = dao.getVoluntarioDAO().selectByEmail(email, selectPessoaFisica, selectUsuario,
+						selectLivros);
+
+				if (u == null) {
+					System.out.println("Usuário inexistente");
+				} else {
+					u.print();
+				}
+
 				break;
 			case 5:
 				System.out.println("Função ainda não implementada :(");
@@ -491,7 +610,7 @@ public class Main {
 			System.out.println("1 - Cadastrar donatário");
 			System.out.println("2 - Listar donatários");
 			System.out.println("3 - Atualizar donatário"); // TODO
-			System.out.println("4 - Pesquisar donatário por e-mail"); // TODO
+			System.out.println("4 - Pesquisar donatário por e-mail");
 			System.out.println("5 - Excluir donatário"); // TODO
 			System.out.println("0 - Sair");
 
@@ -584,7 +703,58 @@ public class Main {
 				System.out.println("Função ainda não implementada :(");
 				break;
 			case 4:
-				System.out.println("Função ainda não implementada :(");
+				String email = console.readString("E-mail para busca: ");
+
+				selectPessoaFisica = false;
+				selectUsuario = false;
+				
+				do {
+					op = console
+							.readInt("Gostaria de saber as informações de pessoa física?\n1 - Sim\n2 - Não\n0 - Sair");
+					if (op == 1) {
+						selectPessoaFisica = true;
+					} else if (op == 2) {
+						selectPessoaFisica = false;
+					} else if (op != 0) {
+						System.out.println("Opção inválida");
+						continue;
+					} else {
+						break;
+					}
+
+				} while (op != 1 && op != 2 && op != 0);
+
+				if (op == 0)
+					break;
+
+				do {
+					op = console
+							.readInt("Gostaria de saber as informações gerais de usuário?\n1 - Sim\n2 - Não\n0 - Sair");
+					if (op == 1) {
+						selectUsuario = true;
+					} else if (op == 2) {
+						selectUsuario = false;
+					} else if (op != 0) {
+						System.out.println("Opção inválida");
+						continue;
+					} else {
+						break;
+					}
+
+				} while (op != 1 && op != 2 && op != 0);
+
+				if (op == 0)
+					break;
+
+
+				Donatario u = dao.getDonatarioDAO().selectByEmail(email, selectPessoaFisica, selectUsuario);
+
+				if (u == null) {
+					System.out.println("Usuário inexistente");
+				} else {
+					u.print();
+				}
+
 				break;
 			case 5:
 				System.out.println("Função ainda não implementada :(");
@@ -606,7 +776,7 @@ public class Main {
 			System.out.println("1 - Cadastrar doador");
 			System.out.println("2 - Listar doadores");
 			System.out.println("3 - Atualizar doador"); // TODO
-			System.out.println("4 - Pesquisar doador por e-mail"); // TODO
+			System.out.println("4 - Pesquisar doador por e-mail");
 			System.out.println("5 - Excluir doador"); // TODO
 			System.out.println("6 - Listar todas as doações"); // TODO
 			System.out.println("0 - Sair");
@@ -685,8 +855,8 @@ public class Main {
 					break;
 
 				do {
-					op = console.readInt(
-							"Gostaria de saber os livros doados pelos doadores?\n1 - Sim\n2 - Não\n0 - Sair");
+					op = console
+							.readInt("Gostaria de saber os livros doados pelos doadores?\n1 - Sim\n2 - Não\n0 - Sair");
 					if (op == 1) {
 						selectLivros = true;
 					} else if (op == 2) {
@@ -703,8 +873,7 @@ public class Main {
 				if (op == 0)
 					break;
 
-				List<Doador> doadores = dao.getDoadorDAO().select(selectPessoaFisica, selectUsuario,
-						selectLivros);
+				List<Doador> doadores = dao.getDoadorDAO().select(selectPessoaFisica, selectUsuario, selectLivros);
 
 				if (doadores.size() == 0) {
 					System.out.println("Não há doadores cadastrados!");
@@ -721,7 +890,77 @@ public class Main {
 				System.out.println("Função ainda não implementada :(");
 				break;
 			case 4:
-				System.out.println("Função ainda não implementada :(");
+				String email = console.readString("E-mail para busca: ");
+
+				selectPessoaFisica = false;
+				selectUsuario = false;
+				selectLivros = false;
+
+				do {
+					op = console
+							.readInt("Gostaria de saber as informações de pessoa físcia?\n1 - Sim\n2 - Não\n0 - Sair");
+					if (op == 1) {
+						selectPessoaFisica = true;
+					} else if (op == 2) {
+						selectPessoaFisica = false;
+					} else if (op != 0) {
+						System.out.println("Opção inválida");
+						continue;
+					} else {
+						break;
+					}
+
+				} while (op != 1 && op != 2 && op != 0);
+
+				if (op == 0)
+					break;
+
+				do {
+					op = console
+							.readInt("Gostaria de saber as informações gerais de usuário?\n1 - Sim\n2 - Não\n0 - Sair");
+					if (op == 1) {
+						selectUsuario = true;
+					} else if (op == 2) {
+						selectUsuario = false;
+					} else if (op != 0) {
+						System.out.println("Opção inválida");
+						continue;
+					} else {
+						break;
+					}
+
+				} while (op != 1 && op != 2 && op != 0);
+
+				if (op == 0)
+					break;
+
+				do {
+					op = console
+							.readInt("Gostaria de saber as informações os livros doados?\n1 - Sim\n2 - Não\n0 - Sair");
+					if (op == 1) {
+						selectLivros = true;
+					} else if (op == 2) {
+						selectLivros = false;
+					} else if (op != 0) {
+						System.out.println("Opção inválida");
+						continue;
+					} else {
+						break;
+					}
+
+				} while (op != 1 && op != 2 && op != 0);
+
+				if (op == 0)
+					break;
+
+				Doador u = dao.getDoadorDAO().selectByEmail(email, selectPessoaFisica, selectUsuario, selectLivros);
+
+				if (u == null) {
+					System.out.println("Usuário inexistente");
+				} else {
+					u.print();
+				}
+
 				break;
 			case 5:
 				System.out.println("Função ainda não implementada :(");
@@ -740,9 +979,9 @@ public class Main {
 			System.out.println("O que você deseja fazer?");
 			System.out.println("1 - Cadastrar pessoa jurídica");
 			System.out.println("2 - Listar pessoas jurídicas");
-			System.out.println("3 - Atualizar pessoa jurídica"); //TODO
-			System.out.println("4 - Excluir pessoa jurídica"); //TODO
-			System.out.println("5 - Pesquisar pessoa jurídica por e-mail"); //TODO
+			System.out.println("3 - Atualizar pessoa jurídica"); // TODO
+			System.out.println("4 - Excluir pessoa jurídica"); // TODO
+			System.out.println("5 - Pesquisar pessoa jurídica por e-mail"); // TODO
 			System.out.println("0 - Sair");
 
 			option = console.readInt();
@@ -763,7 +1002,7 @@ public class Main {
 				if (error != 0)
 					break;
 				error = dao.getPessoaJuridicaDAO().insert(pj);
-				
+
 				System.out.println("\nPessoa jurídica cadastrada com sucesso!");
 
 				break;
@@ -811,8 +1050,7 @@ public class Main {
 				if (op == 0)
 					break;
 
-				List<PessoaJuridica> pjs = dao.getPessoaJuridicaDAO().select(selectUsuario,
-						selectLivros);
+				List<PessoaJuridica> pjs = dao.getPessoaJuridicaDAO().select(selectUsuario, selectLivros);
 
 				if (pjs.size() == 0) {
 					System.out.println("Não há pessoas jurídicas cadastradas!");
