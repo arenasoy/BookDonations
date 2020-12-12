@@ -27,7 +27,7 @@ public class Voluntario extends PessoaFisica {
 		super.print();
 		System.out.println("Pontuação: " + pontuacao);
 
-		if (livros.size() > 0) {
+		if (livros != null && livros.size() > 0) {
 			System.out.println("Livros: ");
 			for (Livro livro : livros) {
 				livro.print();

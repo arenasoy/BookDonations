@@ -15,10 +15,32 @@ public class PessoaJuridica extends Usuario {
 	private String cnpj;
 	private String inscricaoEstadual;
 	private List<Livro> livros;
-	
+
 	public PessoaJuridica(String email, String senha, Cidade cidade, Endereco endereco, Tipo tipo) throws Exception {
 		super(email, senha, cidade, endereco, tipo);
 		// TODO Auto-generated constructor stub
+	}
+
+	public PessoaJuridica(String email, String razaoSocial, String nomeFantasia, String cnpj,
+			String inscricaoEstadual) {
+		this.email = email;
+		this.razaoSocial = razaoSocial;
+		this.nomeFantasia = nomeFantasia;
+		this.cnpj = cnpj;
+		this.inscricaoEstadual = inscricaoEstadual;
+	}
+
+	public void print() {
+		super.print();
+		System.out.println("Razão social: " + this.razaoSocial + "\nCNPJ: " + this.cnpj + " Inscrição estadual: "
+				+ this.inscricaoEstadual + "\nNome fantasia: " + this.nomeFantasia);
+		
+		if (livros != null && this.livros.size() > 0) {
+			System.out.println("Livros doados: ");
+			for (Livro livro : livros) {
+				livro.print();
+			}
+		}
 	}
 
 	public String getRazaoSocial() {

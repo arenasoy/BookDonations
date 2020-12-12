@@ -92,11 +92,11 @@ public class PessoaFisicaDAO {
 							rs.getString("telefone_usuario_pf"));
 
 					if (rs.getInt("endereco_id") != 0)
-						pf.setEndereco(new Endereco(rs.getInt(8), rs.getString("cep"), rs.getInt("numero"),
+						pf.setEndereco(new Endereco(rs.getInt("endereco_id"), rs.getString("cep"), rs.getInt("numero"),
 								rs.getString("rua"), rs.getString("bairro"), rs.getString("complemento")));
 
 					if (rs.getInt("cidade_id") != 0) {
-						pf.setCidade(new Cidade(rs.getInt(4), rs.getString("nome_cidade"), rs.getString("uf_cidade")));
+						pf.setCidade(new Cidade(rs.getInt("cidade_id"), rs.getString("nome_cidade"), rs.getString("uf_cidade")));
 					}
 
 				} else {
