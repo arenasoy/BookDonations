@@ -209,7 +209,7 @@ create table emprestimo (
     email_usuario_donatario varchar2(100) not null,
     codigo_barras number not null,
     data_retirada date not null,
-    data_devolucao date not null,
+    data_devolucao date,
     cib number not null,
     constraint pk_emprestimo 
         primary key (email_usuario_donatario,codigo_barras,data_retirada),
