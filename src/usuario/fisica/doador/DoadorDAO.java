@@ -11,6 +11,7 @@ import cidade.Cidade;
 import conexao.Conexao;
 import endereco.Endereco;
 import livro.Livro;
+import livro.Origem;
 import usuario.Tipo;
 import usuario.fisica.Perfil;
 import usuario.fisica.voluntario.Voluntario;
@@ -138,7 +139,7 @@ public class DoadorDAO {
 					while (rsl.next()) {
 						livros.add(new Livro(rs.getInt("codigo_barras"), rs.getString("autor"), rs.getString("titulo"),
 								rs.getInt("isbn"), rs.getString("edicao"), rs.getInt("condicao"),
-								rs.getString("origem")));
+								Origem.valueOf(rs.getString("origem")), true));
 					}
 
 					d.setLivros(livros);

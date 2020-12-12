@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import conexao.Conexao;
+import livro.Livro;
+import livro.Origem;
 
 public class AdministradorDAO {
 
@@ -52,7 +54,7 @@ public class AdministradorDAO {
 	}
 
 	//TODO select com livros
-	public List<Administrador> select() {
+	public List<Administrador> select(boolean selectLivros) {
 
 		List<Administrador> administradores = new ArrayList<Administrador>();
 		try {
@@ -67,6 +69,26 @@ public class AdministradorDAO {
 						rs.getString("senha_adm"),
 						rs.getString("nome_adm"),
 						rs.getDate("data_registro").toLocalDate());
+				
+				if (selectLivros) {
+					sql = "select * from livro_adm join livro on codigo_barras_la = codigo_barras where email_adm = ?";
+
+					pstm = conn.prepareStatement(sql);
+
+					pstm.setString(1, administrador.getEmail());
+
+					ResultSet rsl = pstm.executeQuery();
+
+					List<Livro> livros = new ArrayList<Livro>();
+
+					while (rsl.next()) {
+						livros.add(new Livro(rs.getInt("codigo_barras"), rs.getString("autor"), rs.getString("titulo"),
+								rs.getInt("isbn"), rs.getString("edicao"), rs.getInt("condicao"),
+								Origem.valueOf(rs.getString("origem")), true));
+					}
+
+					administrador.setLivros(livros);
+				}
 				
 				administradores.add(administrador);
 			}

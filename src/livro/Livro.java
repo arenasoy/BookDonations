@@ -8,15 +8,45 @@ public class Livro {
 	private Integer isbn;
 	private String edicao;
 	private int condicao;
-	private String origem;
-	
+	private Origem origem;
+
 	public void print() {
-		//TODO
+
+		// TODO condicao
+		System.out.println("Código de barras: " + codigoBarras + "\nTitulo: " + titulo + "\nAutor: " + autor
+				+ "\nEdição: " + edicao + " ISBN: " + isbn + "\nOrigem: " + origem.toString());
+
 	}
-	
 
 	public Livro(Integer codigoBarras, String autor, String titulo, Integer isbn, String edicao, int condicao,
-			String origem) {
+			Origem origem) throws Exception {
+		
+		if (codigoBarras == null || codigoBarras == 0) {
+			throw new Exception("Código de barras é obrigatório");
+		}
+		
+		if (autor == null || autor.length() == 0 || autor.length() > 50) {
+			throw new Exception("Autor é obrigatório e deve ter até 50 caracteres");
+		}
+		
+		if (titulo == null || titulo.length() == 0 || titulo.length() > 50) {
+			throw new Exception("Título é obrigatório e deve ter até 50 caracateres");
+		}
+		
+		if (isbn == null || isbn == 0) {
+			throw new Exception("ISBN é obrigatório");
+		}
+		
+		if (edicao == null || edicao.length() == 0 || edicao.length() > 30) {
+			throw new Exception("Edição é obrigatória e deve ter até 30 caracteres");
+		}
+		
+		//TODO verificar condicao
+		
+		if (origem == null) {
+			throw new Exception("Origem é obrigatória");
+		}
+		
 		this.codigoBarras = codigoBarras;
 		this.autor = autor;
 		this.titulo = titulo;
@@ -26,7 +56,18 @@ public class Livro {
 		this.origem = origem;
 	}
 
-
+	public Livro(Integer codigoBarras, String autor, String titulo, Integer isbn, String edicao, int condicao,
+			Origem origem, boolean fromDatabase) {
+		if (fromDatabase) {
+			this.codigoBarras = codigoBarras;
+			this.autor = autor;
+			this.titulo = titulo;
+			this.isbn = isbn;
+			this.edicao = edicao;
+			this.condicao = condicao;
+			this.origem = origem;
+		}
+	}
 
 	public Integer getCodigoBarras() {
 		return codigoBarras;
@@ -76,11 +117,11 @@ public class Livro {
 		this.condicao = condicao;
 	}
 
-	public String getOrigem() {
+	public Origem getOrigem() {
 		return origem;
 	}
 
-	public void setOrigem(String origem) {
+	public void setOrigem(Origem origem) {
 		this.origem = origem;
 	}
 

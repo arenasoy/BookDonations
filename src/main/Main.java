@@ -9,6 +9,8 @@ import bibliotecario.Bibliotecario;
 import cidade.Cidade;
 import conexao.Conexao;
 import endereco.Endereco;
+import livro.Livro;
+import livro.Origem;
 import usuario.Tipo;
 import usuario.Usuario;
 import usuario.fisica.Perfil;
@@ -28,36 +30,21 @@ public class Main {
 		setConnection();
 		
 		dao = new DAO();
-		//insertCidade();
-//		insertEndereco();
-//		
-//
-//		insertAdministrador();
-//		List<Administrador> list = dao.getAdministradorDAO().select();
-//		for (Administrador a : list) {
-//			a.print();
-//		}
 		
 		try {
-			Cidade c = new Cidade("Cidade 5", "SP");
-			Endereco e = new Endereco("00000-000", 1, "Rua 5", "", "bairroo");
+
+			Livro l1 = new Livro(1, "Autor 1", "titulo 1", 1, "Edicao 1", 0, Origem.DOADOR);
+			Livro l2 = new Livro(2, "Autor 2", "titulo 2", 2, "Edicao 2", 0, Origem.VOLUNTARIO);
+			Livro l3 = new Livro(3, "Autor 3", "titulo 3", 3, "Edicao 3", 0, Origem.ADMINISTRADOR);
 			
-			List<Perfil> p = new ArrayList<Perfil>();
-			p.add(Perfil.DOADOR);
-			p.add(Perfil.VOLUNTARIO);
-			PessoaFisica pf = new PessoaFisica("e@e.c", "senha", c, e, Tipo.PESSOA_FISICA, "nome pf", "000.000.000-00", "1232", "432432", p);
+			dao.getLivroDAO().insert(l1);
+			dao.getLivroDAO().insert(l2);
+			dao.getLivroDAO().insert(l3);
 			
+			List<Livro> livros = dao.getLivroDAO().select();
 			
-//			
-//			dao.getCidadeDAO().insert(c);
-//			dao.getEnderecoDAO().insert(e);
-//			dao.getUsuarioDAO().insert(pf);
-//			dao.getPessoaFisicaDAO().insert(pf);
-//			dao.getPerfilDAO().insert(pf);
-			
-			List<Usuario> list = dao.getUsuarioDAO().select(true, true);
-			for (Usuario pessoaFisica: list) {
-				pessoaFisica.print();
+			for (Livro livro : livros) {
+				livro.print();
 			}
 			
 		} catch (Exception e) {

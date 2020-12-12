@@ -49,7 +49,7 @@ create table perfis (
     constraint pk_perfis primary key (email_usuario_pf, perfil),
     constraint fk_perfis foreign key (email_usuario_pf)
         references pessoa_fisica (email_usuario_pf)
-        on delete cascade
+        on delete cascade,
     constraint ck_perfis check (perfil = 'DOADOR' or perfil = 'DONATARIO' or  perfil = 'VOLUNTARIO')
 );
 
@@ -84,7 +84,7 @@ create table livro (
     origem varchar2(15) not null,
     constraint pk_livro primary key (codigo_barra),
     constraint ck_livro check (origem = 'DOADOR' or origem = 'VOLUNTARIO' 
-        or origem = 'PESSOA JURIDICA' or origem = 'ADMINISTRADOR')
+        or origem = 'PESSOA_JURIDICA' or origem = 'ADMINISTRADOR')
 );
 
 create table bibliotecario (

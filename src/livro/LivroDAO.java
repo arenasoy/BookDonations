@@ -26,18 +26,35 @@ public class LivroDAO {
 		}
 	}
 
-	public void insert(Livro livro) {
+	public int insert(Livro livro) {
 		try {
-			sql = "";
+			sql = "insert into livro (codigo_barras, autor, titulo, isbn, edicao, condicao, origem) values (?, ?, ?, ?, ?, ?, ?)";
 
 			pstm = conn.prepareStatement(sql);
 			
+			pstm.setInt(1, livro.getCodigoBarras());
+			pstm.setString(2, livro.getAutor());
+			pstm.setString(3, livro.getTitulo());
+			pstm.setInt(4, livro.getIsbn());
+			pstm.setString(5, livro.getEdicao());
+			pstm.setInt(6, livro.getCondicao());
+			pstm.setString(7, livro.getOrigem().toString());
+
 			pstm.execute();
 			pstm.close();
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			
+			if (e.getErrorCode() == 1) {
+				System.out.println("Código de barras já cadastrado");
+			} else {
+				e.printStackTrace();
+			}
+			
+			return e.getErrorCode();
 		}
+		
+		return 0;
 
 	}
 
@@ -45,13 +62,15 @@ public class LivroDAO {
 
 		List<Livro> livros = new ArrayList<Livro>();
 		try {
-			sql = "";
+			sql = "select * from livro";
 			pstm = conn.prepareStatement(sql);
 
 			ResultSet rs = pstm.executeQuery();
 
 			while (rs.next()) {
-				
+				livros.add(new Livro(rs.getInt("codigo_barras"), rs.getString("autor"), rs.getString("titulo"),
+						rs.getInt("isbn"), rs.getString("edicao"), rs.getInt("condicao"),
+						Origem.valueOf(rs.getString("origem")), true));
 			}
 			pstm.close();
 		} catch (SQLException e) {
@@ -75,5 +94,4 @@ public class LivroDAO {
 		}
 	}
 
-	
 }
