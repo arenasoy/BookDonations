@@ -20,6 +20,7 @@ import usuario.fisica.PessoaFisica;
 import usuario.fisica.doador.Doador;
 import usuario.fisica.donatario.Donatario;
 import usuario.fisica.voluntario.Voluntario;
+import usuario.juridica.PessoaJuridica;
 
 public class Main {
 
@@ -282,7 +283,7 @@ public class Main {
 				option = USUARIO;
 				break;
 			case 5:
-				showMenuPessoaJuridica();
+				System.out.println("Função ainda não implementada :(");
 				break;
 			}
 
@@ -411,12 +412,13 @@ public class Main {
 
 				break;
 			case 3:
-				showMenuVoluntario();
+				System.out.println("Função ainda não implementada :(");
 				break;
 			case 4:
-
+				System.out.println("Função ainda não implementada :(");
+				break;
 			case 5:
-				showMenuPessoaJuridica();
+				System.out.println("Função ainda não implementada :(");
 				break;
 			}
 
@@ -525,12 +527,13 @@ public class Main {
 
 				break;
 			case 3:
-				showMenuVoluntario();
+				System.out.println("Função ainda não implementada :(");
 				break;
 			case 4:
-
+				System.out.println("Função ainda não implementada :(");
+				break;
 			case 5:
-				showMenuPessoaJuridica();
+				System.out.println("Função ainda não implementada :(");
 				break;
 			}
 
@@ -661,12 +664,13 @@ public class Main {
 
 				break;
 			case 3:
-				showMenuVoluntario();
+				System.out.println("Função ainda não implementada :(");
 				break;
 			case 4:
+				System.out.println("Função ainda não implementada :(");
 				break;
 			case 5:
-				showMenuPessoaJuridica();
+				System.out.println("Função ainda não implementada :(");
 				break;
 			}
 		} while (option != EXIT);
@@ -677,21 +681,104 @@ public class Main {
 	private void showMenuPessoaJuridica() {
 		do {
 			System.out.println("======================================================");
-			System.out.println("                       MENU USUARIO                   ");
+			System.out.println("                  MENU PESSOA JURIDICA                ");
 			System.out.println("======================================================");
-			System.out.println("Que tipo de usuário você quer acessar?");
-			System.out.println("1 - Pessoa física");
-			System.out.println("2 - Pessoa jurídica");
+			System.out.println("O que você deseja fazer?");
+			System.out.println("1 - Cadastrar pessoa jurídica");
+			System.out.println("2 - Listar pessoas jurídicas");
+			System.out.println("3 - Atualizar pessoa jurídica"); //TODO
+			System.out.println("4 - Excluir pessoa jurídica"); //TODO
+			System.out.println("5 - Pesquisar pessoa jurídica por e-mail"); //TODO
 			System.out.println("0 - Sair");
 
 			option = console.readInt();
 
 			switch (option) {
 			case 1:
-				showMenuPessoaFisica();
+				PessoaJuridica pj = Forms.getPessoaJuridica();
+				int error = 0;
+				if (pj.getCidade() != null)
+					error = dao.getCidadeDAO().insert(pj.getCidade());
+				if (error != 0)
+					break;
+				if (pj.getEndereco() != null)
+					dao.getEnderecoDAO().insert(pj.getEndereco());
+				if (error != 0)
+					break;
+				error = dao.getUsuarioDAO().insert(pj);
+				if (error != 0)
+					break;
+				error = dao.getPessoaJuridicaDAO().insert(pj);
+				
+				System.out.println("\nPessoa jurídica cadastrada com sucesso!");
+
 				break;
 			case 2:
-				showMenuPessoaJuridica();
+				int op = 0;
+
+				boolean selectUsuario = false;
+				boolean selectLivros = false;
+
+				do {
+					op = console.readInt(
+							"Gostaria de saber as informções de usuário gerais das pessoas jurídicas?\n1 - Sim\n2 - Não\n0 - Sair");
+					if (op == 1) {
+						selectUsuario = true;
+					} else if (op == 2) {
+						selectUsuario = false;
+					} else if (op != 0) {
+						System.out.println("Opção inválida");
+						continue;
+					} else {
+						break;
+					}
+
+				} while (op != 1 && op != 2 && op != 0);
+
+				if (op == 0)
+					break;
+
+				do {
+					op = console.readInt(
+							"Gostaria de saber os livros doados pelos pessoas jurídicas?\n1 - Sim\n2 - Não\n0 - Sair");
+					if (op == 1) {
+						selectLivros = true;
+					} else if (op == 2) {
+						selectLivros = false;
+					} else if (op != 0) {
+						System.out.println("Opção inválida");
+						continue;
+					} else {
+						break;
+					}
+
+				} while (op != 1 && op != 2 && op != 0);
+
+				if (op == 0)
+					break;
+
+				List<PessoaJuridica> pjs = dao.getPessoaJuridicaDAO().select(selectUsuario,
+						selectLivros);
+
+				if (pjs.size() == 0) {
+					System.out.println("Não há pessoas jurídicas cadastradas!");
+					break;
+				}
+
+				for (PessoaJuridica pessoaJuridica : pjs) {
+					System.out.println("=================================================");
+					pessoaJuridica.print();
+				}
+
+				break;
+			case 3:
+				System.out.println("Função ainda não implementada :(");
+				break;
+			case 4:
+				System.out.println("Função ainda não implementada :(");
+				break;
+			case 5:
+				System.out.println("Função ainda não implementada :(");
 				break;
 			}
 

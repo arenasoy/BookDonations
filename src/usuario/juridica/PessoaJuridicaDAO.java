@@ -120,6 +120,8 @@ public class PessoaJuridicaDAO {
 
 					pj.setLivros(livros);
 				}
+				
+				pessoas.add(pj);
 			}
 			pstm.close();
 		} catch (SQLException e) {

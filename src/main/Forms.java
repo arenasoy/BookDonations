@@ -14,6 +14,7 @@ import usuario.fisica.Perfil;
 import usuario.fisica.doador.Doador;
 import usuario.fisica.donatario.Donatario;
 import usuario.fisica.voluntario.Voluntario;
+import usuario.juridica.PessoaJuridica;
 
 public class Forms {
 
@@ -354,5 +355,74 @@ public class Forms {
 		}
 		d.setLivros(null);
 		return d;
+	}
+
+	public static PessoaJuridica getPessoaJuridica() {
+		
+		Console console = Console.getInstance();
+
+		String email = console.readLine("E-mail: ");
+
+		while (email == null || email.length() == 0 || email.length() > 100) {
+			System.out.println("E-mail é obrigatório e deve ter até 100 caracteres");
+			email = console.readLine("E-mail");
+		}
+
+		Pattern pattern = Pattern.compile("^.+@.+\\..+$");
+		Matcher matcher = pattern.matcher(email);
+
+		while (!matcher.matches()) {
+			System.out.println("E-mail inválido");
+			email = console.readLine("E-mail");
+			matcher = pattern.matcher(email);
+		}
+
+		String senha = console.readLine("Senha: ");
+
+		while (senha == null || senha.length() == 0 || senha.length() > 20) {
+			System.out.println("Senha é obrigatória e deve ter até 20 caracteres");
+			senha = console.readLine("Senha: ");
+		}
+
+		usuario.Tipo tipo = usuario.Tipo.PESSOA_JURIDICA;
+
+		System.out.println("Sobre a cidade de localização: ");
+		Cidade c = getCidade();
+		System.out.println("Sobre o endereço: ");
+		Endereco e = getEndereco();
+
+		String razaoSocial = console.readLine("Razão social: ");
+		while (razaoSocial == null || razaoSocial.length() == 0 || razaoSocial.length() > 50) {
+			System.out.println("Razão social é obrigatória e deve ter até 50 caracteres");
+			razaoSocial = console.readLine("Razão social: ");
+		}
+		
+		String nomeFantasia = console.readLine("Nome fantasia: ");
+		while (nomeFantasia == null || nomeFantasia.length() == 0 || nomeFantasia.length() > 50) {
+			System.out.println("Nome fantasia é obrigatório e deve ter até 50 caracteres");
+			nomeFantasia = console.readLine("Nome fantasia: ");
+		}
+		
+		String cnpj = console.readLine("CNPJ: ");
+		while (cnpj == null || cnpj.length() == 0 || cnpj.length() > 18) {
+			System.out.println("CNPJ é obrigatório e deve ter até 18 caracteres");
+			cnpj = console.readLine("CNPJ: ");
+		}
+		
+		String inscricaoEstadual = console.readLine("Inscrição estadual: ");
+		while (inscricaoEstadual == null || inscricaoEstadual.length() == 0 || inscricaoEstadual.length() > 50) {
+			System.out.println("Inscrição estadual é obrigatória e deve ter até 9 caracteres");
+			razaoSocial = console.readLine("Inscrição estadual: ");
+		}
+		
+		PessoaJuridica pj = null;
+		
+		try {
+			pj = new PessoaJuridica(email, senha, c, e, tipo, razaoSocial, nomeFantasia, cnpj, inscricaoEstadual);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		
+		return pj;
 	}
 }

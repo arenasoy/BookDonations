@@ -16,9 +16,13 @@ public class PessoaJuridica extends Usuario {
 	private String inscricaoEstadual;
 	private List<Livro> livros;
 
-	public PessoaJuridica(String email, String senha, Cidade cidade, Endereco endereco, Tipo tipo) throws Exception {
+	public PessoaJuridica(String email, String senha, Cidade cidade, Endereco endereco, Tipo tipo, String razaoSocial, String nomeFantasia, String cnpj, String inscricaoEstadual) throws Exception {
 		super(email, senha, cidade, endereco, tipo);
-		// TODO Auto-generated constructor stub
+
+		this.razaoSocial = razaoSocial;
+		this.nomeFantasia = nomeFantasia;
+		this.cnpj = cnpj;
+		this.inscricaoEstadual = inscricaoEstadual;
 	}
 
 	public PessoaJuridica(String email, String razaoSocial, String nomeFantasia, String cnpj,
