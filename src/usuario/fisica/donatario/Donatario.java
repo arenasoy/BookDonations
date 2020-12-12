@@ -12,6 +12,11 @@ public class Donatario extends PessoaFisica {
 		// TODO Auto-generated constructor stub
 	}
 
+	public Donatario(String email, double pontuacao) {
+		this.email = email;
+		this.pontuacao = pontuacao;
+	}
+
 	private double pontuacao;
 
 	public double getPontuacao() {

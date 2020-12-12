@@ -75,7 +75,7 @@ create table administrador (
 );
 
 create table livro (
-    codigo_barra number not null,
+    codigo_barras number not null,
     autor varchar2(50) not null,
     titulo varchar2(50) not null,
     isbn number not null,

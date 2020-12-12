@@ -24,6 +24,10 @@ public class PessoaFisica extends Usuario {
 		this.tipo = Tipo.PESSOA_FISICA;
 	}
 	
+	public PessoaFisica() {
+		
+	}
+	
 	public PessoaFisica(String email, String senha, Cidade cidade, Endereco endereco, Tipo tipo, String nome,
 			String cpf, String rg, String telefone, List<Perfil> perfis) throws Exception {
 		super(email, senha, cidade, endereco, tipo);

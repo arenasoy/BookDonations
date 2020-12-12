@@ -15,6 +15,11 @@ public class Doador extends PessoaFisica {
 		// TODO Auto-generated constructor stub
 	}
 
+	public Doador(String email, double pontuacao) {
+		this.email = email;
+		this.pontuacao = pontuacao;
+	}
+
 	private double pontuacao;
 	private List<Livro> livros;
 

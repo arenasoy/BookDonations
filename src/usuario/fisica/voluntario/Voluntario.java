@@ -14,6 +14,11 @@ public class Voluntario extends PessoaFisica {
 		super(email, nome, cpf, rg, telefone);
 		// TODO Auto-generated constructor stub
 	}
+	
+	public Voluntario(String email, double pontuacao) {
+		this.email = email;
+		this.pontuacao = pontuacao;
+	}
 
 	private double pontuacao;
 	private List<Livro> livros;

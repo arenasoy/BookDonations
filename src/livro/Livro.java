@@ -5,14 +5,28 @@ public class Livro {
 	private Integer codigoBarras;
 	private String autor;
 	private String titulo;
-	private String isbn;
+	private Integer isbn;
 	private String edicao;
-	private String condicao;
+	private int condicao;
 	private String origem;
 	
 	public void print() {
 		//TODO
 	}
+	
+
+	public Livro(Integer codigoBarras, String autor, String titulo, Integer isbn, String edicao, int condicao,
+			String origem) {
+		this.codigoBarras = codigoBarras;
+		this.autor = autor;
+		this.titulo = titulo;
+		this.isbn = isbn;
+		this.edicao = edicao;
+		this.condicao = condicao;
+		this.origem = origem;
+	}
+
+
 
 	public Integer getCodigoBarras() {
 		return codigoBarras;
@@ -38,11 +52,11 @@ public class Livro {
 		this.titulo = titulo;
 	}
 
-	public String getIsbn() {
+	public Integer getIsbn() {
 		return isbn;
 	}
 
-	public void setIsbn(String isbn) {
+	public void setIsbn(Integer isbn) {
 		this.isbn = isbn;
 	}
 
@@ -54,11 +68,11 @@ public class Livro {
 		this.edicao = edicao;
 	}
 
-	public String getCondicao() {
+	public int getCondicao() {
 		return condicao;
 	}
 
-	public void setCondicao(String condicao) {
+	public void setCondicao(int condicao) {
 		this.condicao = condicao;
 	}
 
