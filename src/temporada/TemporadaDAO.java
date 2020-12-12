@@ -26,36 +26,48 @@ public class TemporadaDAO {
 		}
 	}
 
-	public void insert(Temporada temporada) {
+	public int insert(Temporada temporada) {
 		try {
-			sql = "insert into temporada (data_inicial_temp, duracao_temp) "
-					+ "values (?, ?)";
+			sql = "insert into temporada (data_inicial_temp, duracao_temp) " + "values (?, ?)";
 
 			pstm = conn.prepareStatement(sql);
-			
+
 			pstm.setDate(1, java.sql.Date.valueOf(temporada.getDataInicial()));
 			pstm.setInt(2, temporada.getDuracao());
-			
+
 			pstm.execute();
 			pstm.close();
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+
+			if (e.getErrorCode() == 1) {
+				System.out.println("Temporada já existe");
+			} else {
+				e.printStackTrace();
+			}
+
+			return e.getErrorCode();
 		}
 
+		return 0;
 	}
 
 	public List<Temporada> select() {
 
 		List<Temporada> temporadas = new ArrayList<Temporada>();
 		try {
-			sql = "";
+			sql = "select * from temporada";
 			pstm = conn.prepareStatement(sql);
 
 			ResultSet rs = pstm.executeQuery();
 
 			while (rs.next()) {
-				
+
+				Temporada t = new Temporada(rs.getDate("data_inicial_temp").toLocalDate(), rs.getInt("duracao_temp"),
+						true);
+
+				temporadas.add(t);
+
 			}
 			pstm.close();
 		} catch (SQLException e) {
@@ -79,5 +91,4 @@ public class TemporadaDAO {
 		}
 	}
 
-	
 }
