@@ -15,7 +15,12 @@ public class Livro {
 		// TODO condicao
 		System.out.println("Código de barras: " + codigoBarras + "\nTitulo: " + titulo + "\nAutor: " + autor
 				+ "\nEdição: " + edicao + " ISBN: " + isbn + "\nOrigem: " + origem.toString());
-
+		System.out.print("Condição: ");
+		
+		if (condicao == 1) System.out.println("Nova");
+		if (condicao == 2) System.out.println("Semi nova");
+		if (condicao == 3) System.out.println("Usada");
+		if (condicao == 4) System.out.println("Poucos desgastes");
 	}
 
 	public Livro(Integer codigoBarras, String autor, String titulo, Integer isbn, String edicao, int condicao,
@@ -41,7 +46,9 @@ public class Livro {
 			throw new Exception("Edição é obrigatória e deve ter até 30 caracteres");
 		}
 		
-		//TODO verificar condicao
+		if (condicao > 4 || condicao < 1) {
+			throw new Exception("Condição é obrigatória e deve ter valores entre 1 e 4");
+		}
 		
 		if (origem == null) {
 			throw new Exception("Origem é obrigatória");

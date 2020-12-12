@@ -10,6 +10,8 @@ import cidade.Cidade;
 import console.Console;
 import endereco.Endereco;
 import grupo.Tipo;
+import livro.Livro;
+import livro.Origem;
 import usuario.fisica.Perfil;
 import usuario.fisica.doador.Doador;
 import usuario.fisica.donatario.Donatario;
@@ -424,5 +426,66 @@ public class Forms {
 		}
 		
 		return pj;
+	}
+
+	public static Livro getLivro() {
+		Console console = Console.getInstance();
+		Livro l = null;
+		
+		Integer codigoBarras = console.readInt("Código de barras: ");
+		while (codigoBarras == null || codigoBarras == 0) {
+			System.out.println("Código de barras é obrigatório");
+			codigoBarras = console.readInt("Código de barras");
+		}
+		
+		String autor = console.readLine("Autor: ");
+		while (autor == null || autor.length() == 0 || autor.length() > 50) {
+			System.out.println("Autor é obrigatório e deve ter até 50 caracteres");
+			autor = console.readLine("Autor: ");
+		}
+		
+		String titulo = console.readLine("Título: ");
+		while (titulo == null || titulo.length() == 0 || titulo.length() > 50) {
+			System.out.println("Título é obrigatório e deve ter até 50 caracteres");
+			titulo = console.readLine("Título: ");
+		}
+		
+		Integer isbn = console.readInt("ISBN: ");
+		while (isbn == null || isbn == 0) {
+			System.out.println("ISBN é obrigatório");
+			isbn = console.readInt("ISBN: ");
+		}
+		
+		String edicao = console.readLine("Edição: ");
+		while (edicao == null || edicao.length() == 0 || edicao.length() > 30) {
+			System.out.println("Edição é obrigatória e deve ter até 30 caracteres");
+			edicao = console.readLine("Edição: ");
+		}
+		
+		int condicao = console.readInt("Condição (1 - Nova, 2 - Semi nova, 3 - Usada, 4 - Poucos desgastes)");
+		while (condicao > 4 || condicao < 1) {
+			System.out.println("Condição é obrigatória e deve ter valores entre 1 e 4");
+			condicao = console.readInt("Condição (1 - Nova, 2 - Semi nova, 3 - Usada, 4 - Poucos desgastes)");
+		}
+		
+		int o = console.readInt("Origem (1 - Doador Física, 2 - Voluntário, 3 - Pessoa Jurídica, 4 - Administrador)");
+		while (o > 4 || o < 1) {
+			System.out.println("Origem é obrigatória e deve ter valor entre 1 e 4");
+			 o = console.readInt("Origem (1 - Doador Física, 2 - Voluntário, 3 - Pessoa Jurídica, 4 - Administrador)");
+		}
+		
+		Origem origem = null;
+		if (o == 1) origem = Origem.DOADOR;
+		if (o == 2) origem = Origem.VOLUNTARIO;
+		if (o == 3) origem = Origem.PESSOA_JURIDICA;
+		if (o == 4) origem = Origem.ADMINISTRADOR;
+		
+		try {
+			l = new Livro(codigoBarras, autor, titulo, isbn, edicao, condicao, origem);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return l;
 	}
 }

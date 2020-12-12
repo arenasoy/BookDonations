@@ -63,7 +63,7 @@ public class Main {
 
 		// Conexao.setUser(console.readString("User: "));
 		// Conexao.setPassword(console.readLine("Password:"));
-
+		
 		try {
 			Conexao.getInstance();
 		} catch (Exception e) {
@@ -707,7 +707,7 @@ public class Main {
 
 				selectPessoaFisica = false;
 				selectUsuario = false;
-				
+
 				do {
 					op = console
 							.readInt("Gostaria de saber as informações de pessoa física?\n1 - Sim\n2 - Não\n0 - Sair");
@@ -745,7 +745,6 @@ public class Main {
 
 				if (op == 0)
 					break;
-
 
 				Donatario u = dao.getDonatarioDAO().selectByEmail(email, selectPessoaFisica, selectUsuario);
 
@@ -1002,6 +1001,8 @@ public class Main {
 				if (error != 0)
 					break;
 				error = dao.getPessoaJuridicaDAO().insert(pj);
+				if (error != 0)
+					break;
 
 				System.out.println("\nPessoa jurídica cadastrada com sucesso!");
 
@@ -1084,6 +1085,70 @@ public class Main {
 	}
 
 	private void showMenuLivro() {
+		do {
+			System.out.println("======================================================");
+			System.out.println("                        MENU LIVRO                    ");
+			System.out.println("======================================================");
+			System.out.println("O que você quer acessar?");
+			System.out.println("1 - Cadastro de livro");
+			System.out.println("2 - Listar todos os livros");
+			System.out.println("3 - Pesquisar livro por código de barras");
+			System.out.println("4 - Atualizar livro"); // TODO
+			System.out.println("5 - Remover livro"); // TODO
+			System.out.println("0 - Sair");
 
+			option = console.readInt();
+
+			switch (option) {
+			case 1:
+				Livro l = Forms.getLivro();
+				int error = 0;
+				error = dao.getLivroDAO().insert(l);
+				//TODO forcar o cadastro correto da origem do livro
+				if (error != 0)
+					break;
+
+				System.out.println("\nLivro cadastrado com sucesso!");
+				break;
+			case 2:
+				
+				List<Livro> livros = dao.getLivroDAO().select();
+				
+				if (livros == null || livros.size() == 0) {
+					System.out.println("Não há livros cadastrados");
+					break;
+				}
+				
+				for (Livro livro : livros) {
+					System.out.println("================================================");
+					livro.print();
+				}
+				
+				break;
+			case 3:
+				
+				int codigoBarras = console.readInt("Código de barras para pesquisa: ");
+				
+				l = dao.getLivroDAO().selectByCodigo(codigoBarras);
+				
+				if (l == null) {
+					System.out.println("Livro inexistente");
+					break;
+				}
+				
+				l.print();
+				
+				break;
+			case 4:
+				System.out.println("Função ainda não implementada :(");
+				break;
+			case 5:
+				System.out.println("Função ainda não implementada :(");
+				break;
+			}
+
+		} while (option != EXIT);
+
+		option = LIVRO;
 	}
 }
