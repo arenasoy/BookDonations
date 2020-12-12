@@ -8,9 +8,18 @@ import java.util.Date;
 public class Console {
 
 	private SimpleDateFormat dateFormatter;
-
-	public Console() {
+	private static Console console;
+	
+	private Console() {
 		dateFormatter = new SimpleDateFormat();
+	}
+	
+	public static Console getInstance() {
+		if (console == null) {
+			console = new Console();
+		}
+		
+		return console;
 	}
 
 	public void printMessage(String message) {

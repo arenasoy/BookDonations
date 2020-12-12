@@ -13,14 +13,14 @@ public class Conexao {
 	private Conexao() {
 	}
 
-	public synchronized static Connection getInstance() {
+	public synchronized static Connection getInstance() throws Exception {
 		if (conn == null) {
 			try {
 				Class.forName("oracle.jdbc.driver.OracleDriver");
 				conn = DriverManager.getConnection("jdbc:oracle:thin:@grad.icmc.usp.br:15215:orcl", user,
 						password);
 			} catch (Exception e) {
-				e.printStackTrace();
+				throw e;
 			}
 		}
 		return conn;
