@@ -25,7 +25,7 @@ public class PessoaFisica extends Usuario {
 	}
 	
 	public PessoaFisica() {
-		
+		this.tipo = Tipo.PESSOA_FISICA;
 	}
 	
 	public PessoaFisica(String email, String senha, Cidade cidade, Endereco endereco, Tipo tipo, String nome,
@@ -55,6 +55,7 @@ public class PessoaFisica extends Usuario {
 		this.rg = rg;
 		this.telefone = telefone;
 		this.perfis = perfis;
+		this.tipo = Tipo.PESSOA_FISICA;
  	}
 	
 	public PessoaFisica(String email, String senha, Tipo tipo, String nome,
@@ -65,22 +66,24 @@ public class PessoaFisica extends Usuario {
 		this.cpf = cpf;
 		this.rg = rg;
 		this.telefone = telefone;
+		this.tipo = Tipo.PESSOA_FISICA;
  	}
 
 	public void print() {
 		super.print();
-		System.out.print("Nome: " + nome + "\nCPF: " + cpf);
+		if (nome != null && cpf != null)
+			System.out.print("Nome: " + nome + "\nCPF: " + cpf);
 		if (rg != null && rg.length() > 0)
-			System.out.println(" RG: " + rg);
+			System.out.print(" RG: " + rg);
 		if (telefone != null && telefone.length() > 0)
-			System.out.println("\nTelefone: " + telefone);
-		if (perfis.size() > 0) {
-			System.out.println("Perfis: ");
+			System.out.print("\nTelefone: " + telefone);
+		if (perfis != null && perfis.size() > 0) {
+			System.out.println("\nPerfis: ");
 			for (Perfil perfil : perfis) {
 				System.out.print(perfil + " ");
 			}
-			System.out.println();
 		}
+		System.out.println();
 	}
 	
 	public String getNome() {

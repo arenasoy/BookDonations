@@ -48,7 +48,7 @@ public class PessoaFisicaDAO {
 		} catch (SQLException e) {
 
 			if (e.getErrorCode() == 1) {
-				System.out.println("E-mail já cadastrado");
+				System.out.println("E-mail ou CPF já cadastrado");
 			} else if (e.getErrorCode() == 2291) {
 				System.out.println("Erro de chave estrangeira: usuário não cadastrado");
 			} else {

@@ -17,6 +17,7 @@ import usuario.Tipo;
 import usuario.Usuario;
 import usuario.fisica.Perfil;
 import usuario.fisica.PessoaFisica;
+import usuario.fisica.doador.Doador;
 import usuario.fisica.donatario.Donatario;
 import usuario.fisica.voluntario.Voluntario;
 
@@ -540,8 +541,137 @@ public class Main {
 	}
 
 	private void showMenuDoador() {
-		// TODO Auto-generated method stub
+		do {
+			System.out.println("======================================================");
+			System.out.println("                       MENU DOADOR                    ");
+			System.out.println("======================================================");
+			System.out.println("O que você deseja fazer?");
+			System.out.println("1 - Cadastrar doador");
+			System.out.println("2 - Listar doadores");
+			System.out.println("3 - Atualizar doador"); // TODO
+			System.out.println("4 - Pesquisar doador por e-mail"); // TODO
+			System.out.println("5 - Excluir doador"); // TODO
+			System.out.println("6 - Listar todas as doações"); // TODO
+			System.out.println("0 - Sair");
 
+			option = console.readInt();
+
+			switch (option) {
+			case 1:
+				Doador d = Forms.getDoador();
+				int error = 0;
+				if (d.getCidade() != null)
+					error = dao.getCidadeDAO().insert(d.getCidade());
+				if (error != 0)
+					break;
+				if (d.getEndereco() != null)
+					dao.getEnderecoDAO().insert(d.getEndereco());
+				if (error != 0)
+					break;
+				error = dao.getUsuarioDAO().insert(d);
+				if (error != 0)
+					break;
+				error = dao.getPessoaFisicaDAO().insert(d);
+				if (error != 0)
+					break;
+				error = dao.getDoadorDAO().insert(d);
+				if (error != 0)
+					break;
+				error = dao.getPerfilDAO().insert(d);
+				if (error != 0)
+					break;
+				System.out.println("\nDoador cadastrado com sucesso!");
+				break;
+			case 2:
+				int op = 0;
+
+				boolean selectPessoaFisica = false;
+				boolean selectUsuario = false;
+				boolean selectLivros = false;
+
+				do {
+					op = console.readInt(
+							"Gostaria de saber as informções de pessoa física dos doadores?\n1 - Sim\n2 - Não\n0 - Sair");
+					if (op == 1) {
+						selectPessoaFisica = true;
+					} else if (op == 2) {
+						selectPessoaFisica = false;
+					} else if (op != 0) {
+						System.out.println("Opção inválida");
+						continue;
+					} else {
+						break;
+					}
+
+				} while (op != 1 && op != 2 && op != 0);
+
+				if (op == 0)
+					break;
+
+				do {
+					op = console.readInt(
+							"Gostaria de saber as informções de usuário gerais dos doadores?\n1 - Sim\n2 - Não\n0 - Sair");
+					if (op == 1) {
+						selectUsuario = true;
+					} else if (op == 2) {
+						selectUsuario = false;
+					} else if (op != 0) {
+						System.out.println("Opção inválida");
+						continue;
+					} else {
+						break;
+					}
+
+				} while (op != 1 && op != 2 && op != 0);
+
+				if (op == 0)
+					break;
+
+				do {
+					op = console.readInt(
+							"Gostaria de saber os livros doados pelos doadores?\n1 - Sim\n2 - Não\n0 - Sair");
+					if (op == 1) {
+						selectLivros = true;
+					} else if (op == 2) {
+						selectLivros = false;
+					} else if (op != 0) {
+						System.out.println("Opção inválida");
+						continue;
+					} else {
+						break;
+					}
+
+				} while (op != 1 && op != 2 && op != 0);
+
+				if (op == 0)
+					break;
+
+				List<Doador> doadores = dao.getDoadorDAO().select(selectPessoaFisica, selectUsuario,
+						selectLivros);
+
+				if (doadores.size() == 0) {
+					System.out.println("Não há doadores cadastrados!");
+					break;
+				}
+
+				for (Doador doador : doadores) {
+					System.out.println("=================================================");
+					doador.print();
+				}
+
+				break;
+			case 3:
+				showMenuVoluntario();
+				break;
+			case 4:
+				break;
+			case 5:
+				showMenuPessoaJuridica();
+				break;
+			}
+		} while (option != EXIT);
+
+		option = USUARIO;
 	}
 
 	private void showMenuPessoaJuridica() {

@@ -93,7 +93,7 @@ public class DoadorDAO {
 					d.setNome(rs.getString("nome_usuario_pf"));
 					d.setCpf(rs.getString("cpf_usuario_pf"));
 					d.setRg(rs.getString("rg_usuario_pf"));
-					d.setTelefone(rs.getString("teelefone_usuario_pf"));
+					d.setTelefone(rs.getString("telefone_usuario_pf"));
 
 					sql = "select perfil from perfis where email_usuario_pf = ?";
 
@@ -117,11 +117,11 @@ public class DoadorDAO {
 					d.setTipo(Tipo.valueOf(rs.getString("tipo_usuario")));
 
 					if (rs.getInt("endereco_id") != 0)
-						d.setEndereco(new Endereco(rs.getInt(8), rs.getString("cep"), rs.getInt("numero"),
+						d.setEndereco(new Endereco(rs.getInt("endereco_id"), rs.getString("cep"), rs.getInt("numero"),
 								rs.getString("rua"), rs.getString("bairro"), rs.getString("complemento")));
 
 					if (rs.getInt("cidade_id") != 0) {
-						d.setCidade(new Cidade(rs.getInt(4), rs.getString("nome_cidade"), rs.getString("uf_cidade")));
+						d.setCidade(new Cidade(rs.getInt("cidade_id"), rs.getString("nome_cidade"), rs.getString("uf_cidade")));
 					}
 				}
 
