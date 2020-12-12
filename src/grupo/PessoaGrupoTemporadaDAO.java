@@ -9,13 +9,13 @@ import java.util.List;
 
 import conexao.Conexao;
 
-public class GrupoPertenceTemporadaDAO {
+public class PessoaGrupoTemporadaDAO {
 
 	private Connection conn;
 	private PreparedStatement pstm;
 	private String sql;
 
-	public GrupoPertenceTemporadaDAO() {
+	public PessoaGrupoTemporadaDAO() {
 
 		try {
 			conn = Conexao.getInstance();
@@ -26,7 +26,7 @@ public class GrupoPertenceTemporadaDAO {
 		}
 	}
 
-	public void insert(GrupoPertenceTemporada grupoPertenceTemporada) {
+	public void insert(PessoaGrupoTemporada grupoPertenceTemporada) {
 		try {
 			sql = "insert into pertence (nome_grupo, tipo_grupo, temporada, email_usuario_pf)"
 					+ "values (?, ?, ?, ?)";
@@ -34,7 +34,7 @@ public class GrupoPertenceTemporadaDAO {
 			pstm = conn.prepareStatement(sql);
 			
 			pstm.setString(1, grupoPertenceTemporada.getGrupo().getNome());
-			pstm.setString(2, grupoPertenceTemporada.getGrupo().getTipo());
+			pstm.setString(2, grupoPertenceTemporada.getGrupo().getTipo().toString());
 			pstm.setDate(3, java.sql.Date.valueOf(grupoPertenceTemporada.getTemporada().getDataInicial()));
 			pstm.setString(4, grupoPertenceTemporada.getPessoaFisica().getEmail());
 			
@@ -47,9 +47,9 @@ public class GrupoPertenceTemporadaDAO {
 
 	}
 
-	public List<GrupoPertenceTemporada> select() {
+	public List<PessoaGrupoTemporada> select() {
 
-		List<GrupoPertenceTemporada> grupoPertenceTemporadas = new ArrayList<GrupoPertenceTemporada>();
+		List<PessoaGrupoTemporada> grupoPertenceTemporadas = new ArrayList<PessoaGrupoTemporada>();
 		try {
 			sql = "";
 			pstm = conn.prepareStatement(sql);

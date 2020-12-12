@@ -3,7 +3,7 @@ package grupo;
 import temporada.Temporada;
 import usuario.fisica.PessoaFisica;
 
-public class GrupoPertenceTemporada {
+public class PessoaGrupoTemporada {
 
 	private Grupo grupo;
 	private Temporada temporada;

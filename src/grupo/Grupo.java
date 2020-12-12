@@ -5,9 +5,50 @@ import administrador.Administrador;
 public class Grupo {
 
 	private String nome;
-	private String tipo;
+	private Tipo tipo;
 	private double pontuacaoMinima;
 	private Administrador administrador;
+
+	public Grupo(String nome, Tipo tipo, double pontuacaoMinima) {
+		this.nome = nome;
+		this.tipo = tipo;
+		this.pontuacaoMinima = pontuacaoMinima;
+		this.administrador = null;
+	}
+
+	public Grupo(String nome, Tipo tipo, double pontuacaoMinima, Administrador administrador) throws Exception {
+
+		if (nome == null || nome.length() == 0 || nome.length() > 20) {
+			throw new Exception("Nome é obrigatório e deve ter até 20 caracteres");
+		}
+
+		if (tipo == null) {
+			throw new Exception("Tipo é obrigatório");
+		}
+
+		if (pontuacaoMinima < 0) {
+			throw new Exception("Pontuação mínima é obrigatória");
+		}
+
+		if (administrador == null) {
+			throw new Exception("Administrador é obrigatório");
+		}
+
+		this.nome = nome;
+		this.tipo = tipo;
+		this.pontuacaoMinima = pontuacaoMinima;
+		this.administrador = administrador;
+	}
+
+	public void print() {
+
+		System.out.println(
+				"Nome: " + nome + "\nTipo: " + tipo.toString() + " Pontuação mínima: " + pontuacaoMinima);
+		if (administrador != null) {
+			System.out.println("Administrador:");
+			administrador.print();
+		}
+	}
 
 	public String getNome() {
 		return nome;
@@ -17,11 +58,11 @@ public class Grupo {
 		this.nome = nome;
 	}
 
-	public String getTipo() {
+	public Tipo getTipo() {
 		return tipo;
 	}
 
-	public void setTipo(String tipo) {
+	public void setTipo(Tipo tipo) {
 		this.tipo = tipo;
 	}
 

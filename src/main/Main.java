@@ -9,6 +9,7 @@ import bibliotecario.Bibliotecario;
 import cidade.Cidade;
 import conexao.Conexao;
 import endereco.Endereco;
+import grupo.Grupo;
 import livro.Livro;
 import livro.Origem;
 import usuario.Tipo;
@@ -33,18 +34,29 @@ public class Main {
 		
 		try {
 
-			Livro l1 = new Livro(1, "Autor 1", "titulo 1", 1, "Edicao 1", 0, Origem.DOADOR);
-			Livro l2 = new Livro(2, "Autor 2", "titulo 2", 2, "Edicao 2", 0, Origem.VOLUNTARIO);
-			Livro l3 = new Livro(3, "Autor 3", "titulo 3", 3, "Edicao 3", 0, Origem.ADMINISTRADOR);
+//			Administrador a1 = new Administrador("adm@a.a", "senha", "Adm 1");
+//
+//			Administrador a2 = new Administrador("a@a.a", "senha", "Adm 2");
+//			
+//			Grupo g1 = new Grupo("grupo 1", grupo.Tipo.DOADOR, 0.0, a1);
+//			Grupo g2 = new Grupo("grupo 2", grupo.Tipo.DONATARIO, 14, a2);
+//			
+//			dao.getAdministradorDAO().insert(a1);
+//			dao.getGrupoDAO().insert(g1);
+//			dao.getGrupoDAO().insert(g2);
+//			
+			List<Grupo> list = dao.getGrupoDAO().select(false);
+		
+			for (Grupo grupo : list) {
+				grupo.print();
+			}
 			
-			dao.getLivroDAO().insert(l1);
-			dao.getLivroDAO().insert(l2);
-			dao.getLivroDAO().insert(l3);
+			System.out.println("===================");
 			
-			List<Livro> livros = dao.getLivroDAO().select();
+			list = dao.getGrupoDAO().select(true);
 			
-			for (Livro livro : livros) {
-				livro.print();
+			for (Grupo grupo : list) {
+				grupo.print();
 			}
 			
 		} catch (Exception e) {
