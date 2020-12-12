@@ -2,7 +2,10 @@ package usuario.juridica;
 
 import java.util.List;
 
+import cidade.Cidade;
+import endereco.Endereco;
 import livro.Livro;
+import usuario.Tipo;
 import usuario.Usuario;
 
 public class PessoaJuridica extends Usuario {
@@ -12,6 +15,11 @@ public class PessoaJuridica extends Usuario {
 	private String cnpj;
 	private String inscricaoEstadual;
 	private List<Livro> livros;
+	
+	public PessoaJuridica(String email, String senha, Cidade cidade, Endereco endereco, Tipo tipo) throws Exception {
+		super(email, senha, cidade, endereco, tipo);
+		// TODO Auto-generated constructor stub
+	}
 
 	public String getRazaoSocial() {
 		return razaoSocial;

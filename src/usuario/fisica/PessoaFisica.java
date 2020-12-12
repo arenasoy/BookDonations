@@ -2,6 +2,9 @@ package usuario.fisica;
 
 import java.util.List;
 
+import cidade.Cidade;
+import endereco.Endereco;
+import usuario.Tipo;
 import usuario.Usuario;
 
 public class PessoaFisica extends Usuario {
@@ -11,6 +14,11 @@ public class PessoaFisica extends Usuario {
 	private String rg;
 	private String telefone;
 	private List<Perfil> perfis;
+	
+	public PessoaFisica(String email, String senha, Cidade cidade, Endereco endereco, Tipo tipo) throws Exception {
+		super(email, senha, cidade, endereco, tipo);
+		// TODO Auto-generated constructor stub
+	}
 
 	public String getNome() {
 		return nome;

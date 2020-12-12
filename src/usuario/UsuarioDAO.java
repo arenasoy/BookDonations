@@ -7,7 +7,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import bibliotecario.Bibliotecario;
+import cidade.Cidade;
 import conexao.Conexao;
+import endereco.Endereco;
 
 public class UsuarioDAO {
 
@@ -26,46 +29,82 @@ public class UsuarioDAO {
 		}
 	}
 
-	public void insert(Usuario usuario) {
+	public int insert(Usuario usuario) {
 		try {
 			sql = "insert into usuario (email, senha, cidade_id, endereco_id, tipo_usuario) "
 					+ "values (?, ?, ?, ?, ?)";
 
 			pstm = conn.prepareStatement(sql);
-			
+
 			pstm.setString(1, usuario.getEmail());
 			pstm.setString(2, usuario.getSenha());
 			pstm.setInt(3, usuario.getCidade().getId());
 			pstm.setInt(4, usuario.getEndereco().getId());
-			pstm.setString(5, usuario.getTipo());
-			
+			pstm.setString(5, usuario.getTipo().toString());
+
 			pstm.execute();
 			pstm.close();
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+
+			if (e.getErrorCode() == 1) {
+				System.out.println("E-mail já cadastrado");
+			} else if (e.getErrorCode() == 2291) {
+				System.out.println("Erro de chave estrangeira: Cidade ou endereço inexistente");
+			} else {
+				e.printStackTrace();
+			}
+
+			return e.getErrorCode();
 		}
 
+		return 0;
 	}
 
-	public List<Usuario> select() {
+	public List<Usuario> select(boolean selectEndereco, boolean selectCidade) {
 
 		List<Usuario> usuarios = new ArrayList<Usuario>();
 		try {
-			sql = "";
+
+			StringBuilder sb = new StringBuilder();
+			sb.append("select * from usuario U");
+
+			if (selectEndereco) {
+				sb.append(" left join endereco E on U.endereco_id = E.id");
+			}
+
+			if (selectCidade) {
+				sb.append(" left join cidade C on U.cidade_id = C.id");
+			}
+
+			sql = sb.toString();
+
 			pstm = conn.prepareStatement(sql);
 
 			ResultSet rs = pstm.executeQuery();
 
 			while (rs.next()) {
-				
+
+				Usuario usuario = new Usuario(rs.getString("email"), rs.getString("senha"),
+						Tipo.valueOf(rs.getString("tipo_usuario")));
+
+				if (selectEndereco && rs.getInt(4) != 0) {
+					usuario.setEndereco(new Endereco(rs.getInt(4), rs.getString("cep"), rs.getInt("numero"),
+							rs.getString("rua"), rs.getString("bairro"), rs.getString("complemento")));
+				}
+
+				if (selectCidade && rs.getInt(3) != 0) {
+					usuario.setCidade(new Cidade(rs.getInt(3), rs.getString("nome_cidade"), rs.getString("uf_cidade")));
+
+				}
+
+				usuarios.add(usuario);
 			}
 			pstm.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return usuarios;
-
 	}
 
 	public void delete(int id) {
@@ -82,5 +121,4 @@ public class UsuarioDAO {
 		}
 	}
 
-	
 }

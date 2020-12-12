@@ -8,6 +8,8 @@ import bibliotecario.Bibliotecario;
 import cidade.Cidade;
 import conexao.Conexao;
 import endereco.Endereco;
+import usuario.Tipo;
+import usuario.Usuario;
 
 public class Main {
 
@@ -34,38 +36,20 @@ public class Main {
 //		}
 		
 		try {
-//			Cidade c = new Cidade("Cidade 2", "UF");
-//			Endereco e = new Endereco("12345-000", 12, "Rua", "ap 13123", "jskajs");
-//			Bibliotecario b1 = new Bibliotecario(1, "senha 1", "Bibliotecario 1", c, e);
+//			Cidade c = new Cidade("Cidade 4", "SP");
+//			Endereco e = new Endereco("00000-000", 1, "Rua", "", "bairroo");
 //			
-//			Bibliotecario b2 = new Bibliotecario(2, "senha 2", "Bibliotecario 2", c, null);
-//			Bibliotecario b3 = new Bibliotecario(3, "senha 3", "Bibliotecario 3", null, e);
+//			Usuario u = new Usuario("a@a.a", "senha u", c, e, Tipo.PESSOA_FISICA);
 //			
 //			dao.getCidadeDAO().insert(c);
 //			dao.getEnderecoDAO().insert(e);
-//			dao.getBibliotecarioDAO().insert(b1);
-//			dao.getBibliotecarioDAO().insert(b2);
-//			dao.getBibliotecarioDAO().insert(b3);
+//			dao.getUsuarioDAO().insert(u);
 			
-			System.out.println("sem nada\n");
-			List<Bibliotecario> list = dao.getBibliotecarioDAO().select(false, false);
-			print(list);
-			System.out.println("=================================");
+			List<Usuario> list = dao.getUsuarioDAO().select(false, false);
+			for (Usuario usuario : list) {
+				usuario.print();
+			}
 			
-			System.out.println("so cidade\n");
-			list = dao.getBibliotecarioDAO().select(false, true);
-			print(list);
-			System.out.println("=================================");
-			
-			System.out.println("so endereco\n");
-			list = dao.getBibliotecarioDAO().select(true, false);
-			print(list);
-			System.out.println("=================================");
-			
-			System.out.println("ambos\n");
-			list = dao.getBibliotecarioDAO().select(true, true);
-			print(list);
-			System.out.println("=================================");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
