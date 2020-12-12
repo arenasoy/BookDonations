@@ -41,8 +41,14 @@ public class Endereco {
 	}
 
 	public void print() {
-		System.out.println("ID: " + this.id + "\nRua: " + this.rua + ", " + this.numero + " " + this.complemento
-				+ "\nBairro: " + this.bairro + " CEP: " + this.cep);
+		System.out.print("ID: " + this.id + "\nRua: " + this.rua);
+		if (this.numero > 0)
+			System.out.print(", " + this.numero); 
+		if (this.complemento != null && this.complemento.length() > 0)
+			System.out.print(" " + this.complemento);
+		if (this.bairro != null && this.bairro.length() > 0)
+			System.out.println("\nBairro: " + this.bairro);
+		System.out.println("\nCEP: " + this.cep);
 	}
 
 	public Integer getId() {

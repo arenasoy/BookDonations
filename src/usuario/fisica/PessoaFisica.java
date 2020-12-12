@@ -75,6 +75,7 @@ public class PessoaFisica extends Usuario {
 			for (Perfil perfil : perfis) {
 				System.out.print(perfil + " ");
 			}
+			System.out.println();
 		}
 	}
 	

@@ -27,7 +27,7 @@ create table usuario (
         references cidade (id),
     constraint fk2_usuario foreign key (endereco_id)
         references endereco(id),
-    constraint ck_tipo_usuario check (tipo_usuario = 'PESSOA FISICA' or tipo_usuario = 'PESSOA JURIDICA')
+    constraint ck_tipo_usuario check (tipo_usuario = 'PESSOA_FISICA' or tipo_usuario = 'PESSOA_JURIDICA')
 );
 
 create table pessoa_fisica (

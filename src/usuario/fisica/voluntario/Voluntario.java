@@ -6,6 +6,7 @@ import cidade.Cidade;
 import endereco.Endereco;
 import livro.Livro;
 import usuario.Tipo;
+import usuario.fisica.Perfil;
 import usuario.fisica.PessoaFisica;
 
 public class Voluntario extends PessoaFisica {
@@ -15,8 +16,17 @@ public class Voluntario extends PessoaFisica {
 
 	public Voluntario(String email, String nome, String cpf, String rg, String telefone) throws Exception {
 		super(email, nome, cpf, rg, telefone);
-		// TODO Auto-generated constructor stub
 	}
+	
+	
+
+	public Voluntario(String email, String senha, Cidade cidade, Endereco endereco, Tipo tipo, String nome, String cpf,
+			String rg, String telefone, List<Perfil> perfis, double pontuacao) throws Exception {
+		super(email, senha, cidade, endereco, tipo, nome, cpf, rg, telefone, perfis);
+		this.pontuacao = pontuacao;
+	}
+
+
 
 	public Voluntario(String email, double pontuacao) {
 		this.email = email;
