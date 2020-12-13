@@ -14,7 +14,6 @@ import console.Console;
 import endereco.Endereco;
 import grupo.Grupo;
 import grupo.PessoaGrupoTemporada;
-import grupo.Tipo;
 import livro.Livro;
 import livro.Origem;
 import temporada.Temporada;
@@ -25,6 +24,12 @@ import usuario.fisica.donatario.Donatario;
 import usuario.fisica.voluntario.Voluntario;
 import usuario.juridica.PessoaJuridica;
 
+/**
+ * Classe Forms
+ * Essa classe faz a leitura da entrada do usuario para criação dos objetos
+ * Realiza verificações de erros 
+ *
+ */
 public class Forms {
 
 	public static Administrador getAdministrador() {

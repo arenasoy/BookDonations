@@ -58,7 +58,7 @@ create table pessoa_juridica (
     razao_social varchar2(50) not null,
     nome_fantasia varchar2(50) not null,
     cnpj_usuario_pj varchar2(18) not null,
-    inscricao_estadual varchar2(9),
+    inscricao_estadual varchar2(20),
     constraint pk_pessoa_juridica primary key (email_usuario_pj),
     constraint sk_pessoa_juridica unique (cnpj_usuario_pj),
     constraint fk_pessoa_juridica foreign key (email_usuario_pj)
@@ -84,7 +84,8 @@ create table livro (
     origem varchar2(15) not null,
     constraint pk_livro primary key (codigo_barras),
     constraint ck_livro check (origem = 'DOADOR' or origem = 'VOLUNTARIO' 
-        or origem = 'PESSOA_JURIDICA' or origem = 'ADMINISTRADOR')
+        or origem = 'PESSOA_JURIDICA' or origem = 'ADMINISTRADOR'),
+    constraint ck_condicao_livro check (condicao in (1, 2, 3, 4))
 );
 
 create table bibliotecario (
@@ -103,7 +104,7 @@ create table bibliotecario (
 );
     
 create table grupo (
-    nome_grupo varchar2(20) not null,
+    nome_grupo varchar2(40) not null,
     tipo_grupo varchar2(10) not null,
     pontuacao_minima number not null,
     criado_por varchar2(100) not null,
@@ -163,7 +164,7 @@ create table livro_doador_pj (
 );
 
 create table pertence (
-    nome_grupo varchar2(20) not null,
+    nome_grupo varchar2(40) not null,
     tipo_grupo varchar2(10) not null,
     temporada date not null,
     email_usuario_pf varchar2(100) not null,
@@ -256,7 +257,7 @@ create table livro_voluntario (
 create table missao (
     data_horario_missao timestamp not null,
     codigo_barras_lv number not null,
-    pontucao_missao number not null,
+    pontuacao_missao number not null,
     adm_aprovador varchar2(100),
     constraint pk_missao 
         primary key (data_horario_missao,codigo_barras_lv),

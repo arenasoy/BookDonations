@@ -1,29 +1,35 @@
 package main;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Scanner;
 
 import administrador.Administrador;
 import bibliotecario.Bibliotecario;
-import cidade.Cidade;
 import conexao.Conexao;
 import console.Console;
-import endereco.Endereco;
 import grupo.Grupo;
 import grupo.PessoaGrupoTemporada;
 import livro.Livro;
-import livro.Origem;
 import temporada.Temporada;
-import usuario.Tipo;
 import usuario.Usuario;
-import usuario.fisica.Perfil;
 import usuario.fisica.PessoaFisica;
 import usuario.fisica.doador.Doador;
 import usuario.fisica.donatario.Donatario;
 import usuario.fisica.voluntario.Voluntario;
 import usuario.juridica.PessoaJuridica;
 
+/**
+ * Classe Main
+ * Essa classe inicializa o programa
+ * Cada uma das funções é referente a um sub-menu
+ * 
+ * O projeto esta dividido em diversos pacotes
+ * Cada pacote referente a uma tabela possui pelo menos duas classes
+ * - Uma define a entidade e métodos
+ * - Uma faz as conexoes com a base de dados (classes com final DAO)
+ * 
+ *
+ */
 public class Main {
 
 	private Console console;
@@ -63,8 +69,9 @@ public class Main {
 
 	private boolean setConnection() {
 
-		// Conexao.setUser(console.readString("User: "));
-		// Conexao.setPassword(console.readLine("Password:"));
+		Conexao.setUser(console.readString("User: "));
+		Conexao.setPassword(console.readLine("Password:"));
+		
 		try {
 			Conexao.getInstance();
 		} catch (Exception e) {
@@ -86,7 +93,8 @@ public class Main {
 			System.out.println("2 - Usuários");
 			System.out.println("3 - Bibliotecários");
 			System.out.println("4 - Livros");
-			System.out.println("5 - Grupos, temporadas e questões");
+			System.out.println("5 - Grupos e temporadas");
+			System.out.println("6 - Consultas complexas");
 			System.out.println("0 - Sair");
 
 			option = console.readInt();
@@ -107,10 +115,132 @@ public class Main {
 			case 5:
 				showMenuGrupoTemporadaQuestao();
 				break;
-
+			case 6:
+				showConsultasComplexas();
+				break;
 			}
 
 		} while (option != EXIT);
+
+	}
+
+	private void showConsultasComplexas() {
+		do {
+
+			System.out.println("======================================================");
+			System.out.println("               MENU DE CONSULTAS COMPLEXAS            ");
+			System.out.println("======================================================");
+			System.out.println("O que deseja fazer?");
+			System.out.println("1 - Busca média de pontuação por grupo na temporada atual)");
+			System.out.println("2 - Busca por quantidade de livros que um doador doou no mês atual");
+			System.out.println("3 - Busca por quantidade de livros que um voluntário coletou no mês atual");
+			System.out.println("4 - Busca a média de livros doados no mês atual");
+			System.out.println("5 - Busca a média de livros coletados no mês atual");
+			System.out.println("6 - Busca a média de pontuação de um doador por doações realizadas no mês atual e compara com a média geral");
+			System.out.println("7 - Busca a média de pontuação de um voluntário por coletas realizadas no mês atual e compara com a média geral");
+			System.out.println("8 - Busca a média de pontuação de um donatário por pontuações conquistadas no mês atual e compara com a média geral");
+			System.out.println("0 - Sair");
+
+			option = console.readInt();
+
+			switch (option) {
+			case 1:
+				HashMap<String, Double> medias = dao.getConsultaDAO().pontuacaoMediaGrupoTemporada();
+
+				if (medias.size() == 0) {
+					System.out.println("Não há dados suficientes para realizar essa consulta");
+					break;
+				}
+				System.out.println("Grupo: média");
+				for (String s : medias.keySet()) {
+					System.out.println(s + ": " + medias.get(s));
+				}
+				break;
+			case 2:
+				HashMap<String, Integer> quantidade = dao.getConsultaDAO().quantidadeLivrosDoador();
+
+				if (quantidade.size() == 0) {
+					System.out.println("Não há dados suficientes para realizar essa consulta");
+					break;
+				}
+				System.out.println("Nome: quantidade");
+				for (String s : quantidade.keySet()) {
+					System.out.println(s + ": " + quantidade.get(s));
+				}
+				break;
+			case 3:
+				quantidade = dao.getConsultaDAO().quantidadeLivrosVoluntario();
+
+				if (quantidade.size() == 0) {
+					System.out.println("Não há dados suficientes para realizar essa consulta");
+					break;
+				}
+				System.out.println("Nome: quantidade");
+				for (String s : quantidade.keySet()) {
+					System.out.println(s + ": " + quantidade.get(s));
+				}
+				break;
+			case 4:
+				double media = dao.getConsultaDAO().mediaLivrosDoados();
+				System.out.println("Média: " + media);
+				break;
+			case 5:
+				media = dao.getConsultaDAO().mediaLivrosColetados();
+				System.out.println("Média: " + media);
+				break;
+			case 6:
+				medias = dao.getConsultaDAO().mediaDoador();
+				media = dao.getConsultaDAO().mediaGeralDoacao();
+				if (medias.size() == 0) {
+					System.out.println("Não há dados suficientes para realizar essa consulta");
+					break;
+				}
+				System.out.println("Média geral: " + media);
+				System.out.println("Doador: média - situação");
+				for (String s : medias.keySet()) {
+					System.out.print(s + ": " + medias.get(s) + " - ");
+					if (medias.get(s) == media) System.out.println("Na média");
+					else if (medias.get(s) > media) System.out.println("Acima da média");
+					else System.out.println("Abaixo da média");
+				}
+				break;
+			case 7:
+				medias = dao.getConsultaDAO().mediaVoluntario();
+				media = dao.getConsultaDAO().mediaGeralColeta();
+				if (medias.size() == 0) {
+					System.out.println("Não há dados suficientes para realizar essa consulta");
+					break;
+				}
+				System.out.println("Média geral: " + media);
+				System.out.println("Voluntário: média - situação");
+				for (String s : medias.keySet()) {
+					System.out.print(s + ": " + medias.get(s) + " - ");
+					if (medias.get(s) == media) System.out.println("Na média");
+					else if (medias.get(s) > media) System.out.println("Acima da média");
+					else System.out.println("Abaixo da média");
+				}
+				break;
+			case 8:
+				medias = dao.getConsultaDAO().mediaDonatario();
+				media = dao.getConsultaDAO().mediaGeralDonatario();
+				if (medias.size() == 0) {
+					System.out.println("Não há dados suficientes para realizar essa consulta");
+					break;
+				}
+				System.out.println("Média geral: " + media);
+				System.out.println("Donatário: média - situação");
+				for (String s : medias.keySet()) {
+					System.out.print(s + ": " + medias.get(s) + " - ");
+					if (medias.get(s) == media) System.out.println("Na média");
+					else if (medias.get(s) > media) System.out.println("Acima da média");
+					else System.out.println("Abaixo da média");
+				}
+				break;
+			}
+
+		} while (option != EXIT);
+
+		option = 6;
 
 	}
 
@@ -212,16 +342,18 @@ public class Main {
 				int error = 0;
 				Grupo grupo = Forms.getGrupo();
 				error = dao.getAdministradorDAO().insert(grupo.getAdministrador());
-				if (error != 0) break;
+				if (error != 0)
+					break;
 				error = dao.getGrupoDAO().insert(grupo);
-				if (error != 0) break;
+				if (error != 0)
+					break;
 				System.out.println("Grupo cadastrado com sucesso!");
 				break;
 			case 3:
 				op = 0;
 
 				boolean selectAdministrador = false;
-				
+
 				do {
 					op = console.readInt(
 							"Gostaria de saber as informações de administrador do grupo?\n1 - Sim\n2 - Não\n0 - Sair");
@@ -240,43 +372,45 @@ public class Main {
 
 				if (op == 0)
 					break;
-				
+
 				List<Grupo> grupos = dao.getGrupoDAO().select(selectAdministrador);
-				
+
 				if (grupos == null || grupos.size() == 0) {
 					System.out.println("Não há grupos cadastrados");
 					break;
 				}
-				
+
 				for (Grupo g : grupos) {
 					System.out.println("=============================================");
 					g.print();
 				}
 				break;
-			case 4: 
+			case 4:
 				error = 0;
 				Temporada t = Forms.getTemporada();
 				error = dao.getTemporadaDAO().insert(t);
-				if (error != 0) break;
+				if (error != 0)
+					break;
 				System.out.println("Temporada cadastrada com sucesso!");
 				break;
-			case 5: 
+			case 5:
 				List<Temporada> temporadas = dao.getTemporadaDAO().select();
 				if (temporadas == null || temporadas.size() == 0) {
 					System.out.println("Não há temporadas cadastradas");
 					break;
 				}
-				
+
 				for (Temporada temporada : temporadas) {
 					System.out.println("============================================");
 					temporada.print();
 				}
 				break;
-			case 6: 
+			case 6:
 				error = 0;
 				PessoaGrupoTemporada pgt = Forms.getPessoaGrupoTemporada();
 				error = dao.getPessoaGrupoTemporadaDAO().insert(pgt);
-				if (error != 0) break;
+				if (error != 0)
+					break;
 				System.out.println("Relação cadastrada com sucesso!");
 				break;
 			}
@@ -301,7 +435,8 @@ public class Main {
 			case 1:
 				int error = 0;
 				error = dao.getAdministradorDAO().insert(Forms.getAdministrador());
-				if (error == 0) break;
+				if (error == 0)
+					break;
 				System.out.println("Administrador cadastrado com sucesso!");
 				break;
 			case 2:
@@ -1374,7 +1509,6 @@ public class Main {
 				Livro l = Forms.getLivro();
 				int error = 0;
 				error = dao.getLivroDAO().insert(l);
-				// TODO forcar o cadastro correto da origem do livro
 				if (error != 0)
 					break;
 

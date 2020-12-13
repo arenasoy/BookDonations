@@ -20,6 +20,13 @@ import usuario.fisica.donatario.DonatarioDAO;
 import usuario.fisica.voluntario.VoluntarioDAO;
 import usuario.juridica.PessoaJuridicaDAO;
 
+/**
+ * 
+ * Classe DAO
+ * Essa classe implementa todos os DAO
+ * Para evitar a criacao de muitos objetos diferentes
+ *
+ */
 public class DAO {
 
 	private AdministradorDAO administradorDAO;
@@ -41,6 +48,7 @@ public class DAO {
 	private PessoaJuridicaDAO pessoaJuridicaDAO;
 	private PerfilDAO perfilDAO;
 	private PessoaGrupoTemporadaDAO pessoaGrupoTemporadaDAO;
+	private ConsultaDAO consultaDAO;
 
 	public DAO() {
 		administradorDAO = new AdministradorDAO();
@@ -62,6 +70,7 @@ public class DAO {
 		pessoaJuridicaDAO = new PessoaJuridicaDAO();
 		perfilDAO = new PerfilDAO();
 		pessoaGrupoTemporadaDAO = new PessoaGrupoTemporadaDAO();
+		consultaDAO = new ConsultaDAO();
 	}
 
 	public AdministradorDAO getAdministradorDAO() {
@@ -214,6 +223,14 @@ public class DAO {
 
 	public void setPessoaGrupoTemporadaDAO(PessoaGrupoTemporadaDAO pessoaGrupoTemporadaDAO) {
 		this.pessoaGrupoTemporadaDAO = pessoaGrupoTemporadaDAO;
+	}
+
+	public ConsultaDAO getConsultaDAO() {
+		return consultaDAO;
+	}
+
+	public void setConsultaDAO(ConsultaDAO consultaDAO) {
+		this.consultaDAO = consultaDAO;
 	}
 
 }

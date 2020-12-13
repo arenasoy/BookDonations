@@ -5,6 +5,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Classe console
+ * Essa classe é utilizada para leitura de dados de entrada
+ * Corrige bugs do Scanner
+ */
 public class Console {
 
 	private SimpleDateFormat dateFormatter;
