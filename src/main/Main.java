@@ -1,5 +1,7 @@
 package main;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -141,6 +143,7 @@ public class Main {
 			System.out.println("7 - Busca a média de pontuação de um voluntário por coletas realizadas no mês atual e compara com a média geral");
 			System.out.println("8 - Busca a média de pontuação de um donatário por pontuações conquistadas no mês atual e compara com a média geral");
 			System.out.println("9 - Mostra a classificação geral dentro de um grupo");
+			System.out.println("10 - Busca média de pontuação por temporada");
 			System.out.println("0 - Sair");
 
 			option = console.readInt();
@@ -252,6 +255,19 @@ public class Main {
 				for (ArrayList<String> arrayList : list) {
 					System.out.println(arrayList.get(0) + " - " + arrayList.get(1));
 				}
+				break;
+			case 10:
+				HashMap<LocalDate, Double> m = dao.getConsultaDAO().mediaPontuacaoTemporada();
+
+				if (m.size() == 0) {
+					System.out.println("Não há dados suficientes para realizar essa consulta");
+					break;
+				}
+				System.out.println("Temporada: média");
+				for (LocalDate d: m.keySet()) {
+					System.out.println(d.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + ": " + m.get(d));
+				}
+				break;
 			}
 
 		} while (option != EXIT);

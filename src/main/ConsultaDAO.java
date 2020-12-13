@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -296,5 +297,26 @@ public class ConsultaDAO {
 		}
 
 		return list;
+	}
+	
+	public HashMap<LocalDate, Double> mediaPontuacaoTemporada() {
+		HashMap<LocalDate, Double> medias = new HashMap<LocalDate, Double>();
+		
+		try {
+			sql = "select p.temporada, round(avg( case p.tipo_grupo when 'DOADOR' then (select pontuacao_doador from doador d where d.email_usuario_doador = p.email_usuario_pf) when 'DONATARIO' then (select pontuacao_donatario from donatario do where do.email_usuario_donatario = p.email_usuario_pf) when 'VOLUNTARIO' then (select pontuacao_voluntario from voluntario v where v.email_usuario_voluntario = p.email_usuario_pf) end ), 2) as media from pertence p join temporada t on p.temporada = t.data_inicial_temp join pessoa_fisica pf on p.email_usuario_pf = pf.email_usuario_pf group by p.temporada";
+			pstm = conn.prepareStatement(sql);
+
+			ResultSet rs = pstm.executeQuery();
+
+			while (rs.next()) {
+				medias.put(rs.getDate(1).toLocalDate(), rs.getDouble(2));
+			}
+			pstm.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return medias;
 	}
 }
