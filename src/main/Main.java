@@ -11,8 +11,10 @@ import conexao.Conexao;
 import console.Console;
 import endereco.Endereco;
 import grupo.Grupo;
+import grupo.PessoaGrupoTemporada;
 import livro.Livro;
 import livro.Origem;
+import temporada.Temporada;
 import usuario.Tipo;
 import usuario.Usuario;
 import usuario.fisica.Perfil;
@@ -63,7 +65,6 @@ public class Main {
 
 		// Conexao.setUser(console.readString("User: "));
 		// Conexao.setPassword(console.readLine("Password:"));
-
 		try {
 			Conexao.getInstance();
 		} catch (Exception e) {
@@ -85,10 +86,7 @@ public class Main {
 			System.out.println("2 - Usuários");
 			System.out.println("3 - Bibliotecários");
 			System.out.println("4 - Livros");
-			System.out.println("5 - Grupos, temporadas e questões"); //TODO
-			System.out.println("6 - Missões"); //TODO
-			System.out.println("7 - Doações"); //TODO
-			System.out.println("8 - Empréstimos"); //TODO
+			System.out.println("5 - Grupos, temporadas e questões");
 			System.out.println("0 - Sair");
 
 			option = console.readInt();
@@ -106,23 +104,185 @@ public class Main {
 			case LIVRO:
 				showMenuLivro();
 				break;
-			case 5: 
-				System.out.println("Função ainda não implementada :(");
+			case 5:
+				showMenuGrupoTemporadaQuestao();
 				break;
-			case 6: 
-				System.out.println("Função ainda não implementada :(");
-				break;
-			case 7: 
-				System.out.println("Função ainda não implementada :(");
-				break;
-			case 8: 
-				System.out.println("Função ainda não implementada :(");
-				break;
-				
+
 			}
 
 		} while (option != EXIT);
 
+	}
+
+	private void showMenuGrupoTemporadaQuestao() {
+		do {
+			System.out.println("======================================================");
+			System.out.println("            MENU GRUPO, TEMPORADAS E QUESTOES         ");
+			System.out.println("======================================================");
+			System.out.println("O que deseja fazer?");
+			System.out.println("1 - Listar pessoas por grupo por temporada");
+			System.out.println("2 - Cadastrar grupo");
+			System.out.println("3 - Listar grupos");
+			System.out.println("4 - Cadastrar temporada");
+			System.out.println("5 - Listar temporadas");
+			System.out.println("6 - Cadastrar uma pessoa em um grupo em uma temporada");
+			System.out.println("0 - Sair");
+
+			option = console.readInt();
+
+			switch (option) {
+			case 1:
+				int op = 0;
+
+				boolean selectGrupo = false;
+				boolean selectTemporada = false;
+				boolean selectPessoaFisica = false;
+
+				do {
+					op = console.readInt("Gostaria de saber as informações de grupo?\n1 - Sim\n2 - Não\n0 - Sair");
+					if (op == 1) {
+						selectGrupo = true;
+					} else if (op == 2) {
+						selectGrupo = false;
+					} else if (op != 0) {
+						System.out.println("Opção inválida");
+						continue;
+					} else {
+						break;
+					}
+
+				} while (op != 1 && op != 2 && op != 0);
+
+				if (op == 0)
+					break;
+
+				do {
+					op = console.readInt("Gostaria de saber as informações de temporada?\n1 - Sim\n2 - Não\n0 - Sair");
+					if (op == 1) {
+						selectTemporada = true;
+					} else if (op == 2) {
+						selectTemporada = false;
+					} else if (op != 0) {
+						System.out.println("Opção inválida");
+						continue;
+					} else {
+						break;
+					}
+
+				} while (op != 1 && op != 2 && op != 0);
+
+				if (op == 0)
+					break;
+
+				do {
+					op = console
+							.readInt("Gostaria de saber as informações de pessoa física?\n1 - Sim\n2 - Não\n0 - Sair");
+					if (op == 1) {
+						selectPessoaFisica = true;
+					} else if (op == 2) {
+						selectPessoaFisica = false;
+					} else if (op != 0) {
+						System.out.println("Opção inválida");
+						continue;
+					} else {
+						break;
+					}
+
+				} while (op != 1 && op != 2 && op != 0);
+
+				if (op == 0)
+					break;
+
+				List<PessoaGrupoTemporada> pgts = dao.getPessoaGrupoTemporadaDAO().select(selectGrupo, selectTemporada,
+						selectPessoaFisica);
+
+				if (pgts.size() == 0) {
+					System.out.println("Não há relações cadastradas!");
+					break;
+				}
+
+				for (PessoaGrupoTemporada pgt : pgts) {
+					System.out.println("=================================================");
+					pgt.print();
+				}
+
+				break;
+
+			case 2:
+				int error = 0;
+				Grupo grupo = Forms.getGrupo();
+				error = dao.getAdministradorDAO().insert(grupo.getAdministrador());
+				if (error != 0) break;
+				error = dao.getGrupoDAO().insert(grupo);
+				if (error != 0) break;
+				System.out.println("Grupo cadastrado com sucesso!");
+				break;
+			case 3:
+				op = 0;
+
+				boolean selectAdministrador = false;
+				
+				do {
+					op = console.readInt(
+							"Gostaria de saber as informações de administrador do grupo?\n1 - Sim\n2 - Não\n0 - Sair");
+					if (op == 1) {
+						selectAdministrador = true;
+					} else if (op == 2) {
+						selectAdministrador = false;
+					} else if (op != 0) {
+						System.out.println("Opção inválida");
+						continue;
+					} else {
+						break;
+					}
+
+				} while (op != 1 && op != 2 && op != 0);
+
+				if (op == 0)
+					break;
+				
+				List<Grupo> grupos = dao.getGrupoDAO().select(selectAdministrador);
+				
+				if (grupos == null || grupos.size() == 0) {
+					System.out.println("Não há grupos cadastrados");
+					break;
+				}
+				
+				for (Grupo g : grupos) {
+					System.out.println("=============================================");
+					g.print();
+				}
+				break;
+			case 4: 
+				error = 0;
+				Temporada t = Forms.getTemporada();
+				error = dao.getTemporadaDAO().insert(t);
+				if (error != 0) break;
+				System.out.println("Temporada cadastrada com sucesso!");
+				break;
+			case 5: 
+				List<Temporada> temporadas = dao.getTemporadaDAO().select();
+				if (temporadas == null || temporadas.size() == 0) {
+					System.out.println("Não há temporadas cadastradas");
+					break;
+				}
+				
+				for (Temporada temporada : temporadas) {
+					System.out.println("============================================");
+					temporada.print();
+				}
+				break;
+			case 6: 
+				error = 0;
+				PessoaGrupoTemporada pgt = Forms.getPessoaGrupoTemporada();
+				error = dao.getPessoaGrupoTemporadaDAO().insert(pgt);
+				if (error != 0) break;
+				System.out.println("Relação cadastrada com sucesso!");
+				break;
+			}
+		} while (option != EXIT);
+
+		option = 5;
 	}
 
 	private void showMenuAdministrador() {
@@ -133,16 +293,15 @@ public class Main {
 			System.out.println("O que deseja fazer?");
 			System.out.println("1 - Cadastrar administrador");
 			System.out.println("2 - Listar todos os administradores");
-			System.out.println("3 - Pesquisar administrador por e-mail"); // TODO
-			System.out.println("4 - Atualizar administrador"); // TODO
-			System.out.println("5 - Excluir administrador"); // TODO
 			System.out.println("0 - Sair");
 
 			option = console.readInt();
 
 			switch (option) {
 			case 1:
-				dao.getAdministradorDAO().insert(Forms.getAdministrador());
+				int error = 0;
+				error = dao.getAdministradorDAO().insert(Forms.getAdministrador());
+				if (error == 0) break;
 				System.out.println("Administrador cadastrado com sucesso!");
 				break;
 			case 2:
@@ -171,19 +330,11 @@ public class Main {
 				} while (option != 1 && option != 2 && option != 0);
 				option = ADMINISTRADOR;
 				break;
-			case 3:
-				System.out.println("Função ainda não implementada :(");
-				break;
-			case 4:
-				System.out.println("Função ainda não implementada :(");
-				break;
-			case 5:
-				System.out.println("Função ainda não implementada :(");
-				break;
 			}
 
 		} while (option != EXIT);
 
+		option = ADMINISTRADOR;
 	}
 
 	private void showMenuUsuario() {
@@ -215,7 +366,7 @@ public class Main {
 
 				do {
 					op = console.readInt(
-							"Gostaria de saber as informções de cidade dos usuários?\n1 - Sim\n2 - Não\n0 - Sair");
+							"Gostaria de saber as informações de cidade dos usuários?\n1 - Sim\n2 - Não\n0 - Sair");
 					if (op == 1) {
 						selectCidade = true;
 					} else if (op == 2) {
@@ -332,7 +483,6 @@ public class Main {
 			System.out.println("2 - Acessar menu de donatário");
 			System.out.println("3 - Acessar menu de voluntário");
 			System.out.println("4 - Listar todas as pessoas físicas");
-			System.out.println("5 - Pesquisar pessoa física por e-mail"); // TODO
 			System.out.println("0 - Sair");
 
 			option = console.readInt();
@@ -401,9 +551,6 @@ public class Main {
 
 				option = USUARIO;
 				break;
-			case 5:
-				System.out.println("Função ainda não implementada :(");
-				break;
 			}
 
 		} while (option != EXIT);
@@ -419,9 +566,7 @@ public class Main {
 			System.out.println("O que você deseja fazer?");
 			System.out.println("1 - Cadastrar voluntário");
 			System.out.println("2 - Listar voluntários");
-			System.out.println("3 - Atualizar voluntário"); // TODO
-			System.out.println("4 - Pesquisar voluntário por e-mail");
-			System.out.println("5 - Excluir voluntário"); // TODO
+			System.out.println("3 - Pesquisar voluntário por e-mail");
 			System.out.println("0 - Sair");
 
 			option = console.readInt();
@@ -531,9 +676,6 @@ public class Main {
 
 				break;
 			case 3:
-				System.out.println("Função ainda não implementada :(");
-				break;
-			case 4:
 				String email = console.readString("E-mail para busca: ");
 
 				selectPessoaFisica = false;
@@ -607,9 +749,6 @@ public class Main {
 				}
 
 				break;
-			case 5:
-				System.out.println("Função ainda não implementada :(");
-				break;
 			}
 
 		} while (option != EXIT);
@@ -626,9 +765,7 @@ public class Main {
 			System.out.println("O que você deseja fazer?");
 			System.out.println("1 - Cadastrar donatário");
 			System.out.println("2 - Listar donatários");
-			System.out.println("3 - Atualizar donatário"); // TODO
-			System.out.println("4 - Pesquisar donatário por e-mail");
-			System.out.println("5 - Excluir donatário"); // TODO
+			System.out.println("3 - Pesquisar donatário por e-mail");
 			System.out.println("0 - Sair");
 
 			option = console.readInt();
@@ -717,9 +854,6 @@ public class Main {
 
 				break;
 			case 3:
-				System.out.println("Função ainda não implementada :(");
-				break;
-			case 4:
 				String email = console.readString("E-mail para busca: ");
 
 				selectPessoaFisica = false;
@@ -772,11 +906,7 @@ public class Main {
 				}
 
 				break;
-			case 5:
-				System.out.println("Função ainda não implementada :(");
-				break;
 			}
-
 		} while (option != EXIT);
 
 		option = USUARIO;
@@ -791,10 +921,7 @@ public class Main {
 			System.out.println("O que você deseja fazer?");
 			System.out.println("1 - Cadastrar doador");
 			System.out.println("2 - Listar doadores");
-			System.out.println("3 - Atualizar doador"); // TODO
-			System.out.println("4 - Pesquisar doador por e-mail");
-			System.out.println("5 - Excluir doador"); // TODO
-			System.out.println("6 - Listar todas as doações"); // TODO
+			System.out.println("3 - Pesquisar doador por e-mail");
 			System.out.println("0 - Sair");
 
 			option = console.readInt();
@@ -903,9 +1030,6 @@ public class Main {
 
 				break;
 			case 3:
-				System.out.println("Função ainda não implementada :(");
-				break;
-			case 4:
 				String email = console.readString("E-mail para busca: ");
 
 				selectPessoaFisica = false;
@@ -978,9 +1102,6 @@ public class Main {
 				}
 
 				break;
-			case 5:
-				System.out.println("Função ainda não implementada :(");
-				break;
 			}
 		} while (option != EXIT);
 
@@ -995,9 +1116,6 @@ public class Main {
 			System.out.println("O que você deseja fazer?");
 			System.out.println("1 - Cadastrar pessoa jurídica");
 			System.out.println("2 - Listar pessoas jurídicas");
-			System.out.println("3 - Atualizar pessoa jurídica"); // TODO
-			System.out.println("4 - Excluir pessoa jurídica"); // TODO
-			System.out.println("5 - Pesquisar pessoa jurídica por e-mail"); // TODO
 			System.out.println("0 - Sair");
 
 			option = console.readInt();
@@ -1081,15 +1199,6 @@ public class Main {
 				}
 
 				break;
-			case 3:
-				System.out.println("Função ainda não implementada :(");
-				break;
-			case 4:
-				System.out.println("Função ainda não implementada :(");
-				break;
-			case 5:
-				System.out.println("Função ainda não implementada :(");
-				break;
 			}
 
 		} while (option != EXIT);
@@ -1106,8 +1215,6 @@ public class Main {
 			System.out.println("1 - Cadastrar bibliotecário");
 			System.out.println("2 - Listar todos os bibliotecários");
 			System.out.println("3 - Pesquisar bibliotecário por CIB");
-			System.out.println("4 - Atualizar bibliotecário"); // TODO
-			System.out.println("5 - Remover bibliotecário"); // TODO
 			System.out.println("0 - Sair");
 
 			option = console.readInt();
@@ -1131,7 +1238,7 @@ public class Main {
 				System.out.println("\nBibliotecário cadastrado com sucesso!");
 				break;
 			case 2:
-				
+
 				int op = 0;
 
 				boolean selectCidade = false;
@@ -1189,15 +1296,14 @@ public class Main {
 
 				break;
 			case 3:
-				
+
 				int cib = console.readInt("CIB para pesquisa: ");
-				
+
 				selectCidade = false;
 				selectEndereco = false;
 
 				do {
-					op = console.readInt(
-							"Gostaria de saber as informações de cidade?\n1 - Sim\n2 - Não\n0 - Sair");
+					op = console.readInt("Gostaria de saber as informações de cidade?\n1 - Sim\n2 - Não\n0 - Sair");
 					if (op == 1) {
 						selectCidade = true;
 					} else if (op == 2) {
@@ -1215,8 +1321,7 @@ public class Main {
 					break;
 
 				do {
-					op = console.readInt(
-							"Gostaria de saber as informações de endereço?\n1 - Sim\n2 - Não\n0 - Sair");
+					op = console.readInt("Gostaria de saber as informações de endereço?\n1 - Sim\n2 - Não\n0 - Sair");
 					if (op == 1) {
 						selectEndereco = true;
 					} else if (op == 2) {
@@ -1232,29 +1337,23 @@ public class Main {
 
 				if (op == 0)
 					break;
-				
+
 				b = dao.getBibliotecarioDAO().selectByCIB(cib, selectEndereco, selectCidade);
-				
+
 				if (b == null) {
 					System.out.println("Bibliotecário inexistente");
 					break;
 				}
-				
+
 				b.print();
-				
-				break;
-			case 4:
-				System.out.println("Função ainda não implementada :(");
-				break;
-			case 5:
-				System.out.println("Função ainda não implementada :(");
+
 				break;
 			}
 
 		} while (option != EXIT);
 
 		option = BIBLIOTECARIO;
-	
+
 	}
 
 	private void showMenuLivro() {
@@ -1266,8 +1365,6 @@ public class Main {
 			System.out.println("1 - Cadastro de livro");
 			System.out.println("2 - Listar todos os livros");
 			System.out.println("3 - Pesquisar livro por código de barras");
-			System.out.println("4 - Atualizar livro"); // TODO
-			System.out.println("5 - Remover livro"); // TODO
 			System.out.println("0 - Sair");
 
 			option = console.readInt();
@@ -1277,46 +1374,40 @@ public class Main {
 				Livro l = Forms.getLivro();
 				int error = 0;
 				error = dao.getLivroDAO().insert(l);
-				//TODO forcar o cadastro correto da origem do livro
+				// TODO forcar o cadastro correto da origem do livro
 				if (error != 0)
 					break;
 
 				System.out.println("\nLivro cadastrado com sucesso!");
 				break;
 			case 2:
-				
+
 				List<Livro> livros = dao.getLivroDAO().select();
-				
+
 				if (livros == null || livros.size() == 0) {
 					System.out.println("Não há livros cadastrados");
 					break;
 				}
-				
+
 				for (Livro livro : livros) {
 					System.out.println("================================================");
 					livro.print();
 				}
-				
+
 				break;
 			case 3:
-				
+
 				int codigoBarras = console.readInt("Código de barras para pesquisa: ");
-				
+
 				l = dao.getLivroDAO().selectByCodigo(codigoBarras);
-				
+
 				if (l == null) {
 					System.out.println("Livro inexistente");
 					break;
 				}
-				
+
 				l.print();
-				
-				break;
-			case 4:
-				System.out.println("Função ainda não implementada :(");
-				break;
-			case 5:
-				System.out.println("Função ainda não implementada :(");
+
 				break;
 			}
 

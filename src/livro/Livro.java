@@ -12,7 +12,6 @@ public class Livro {
 
 	public void print() {
 
-		// TODO condicao
 		System.out.println("Código de barras: " + codigoBarras + "\nTitulo: " + titulo + "\nAutor: " + autor
 				+ "\nEdição: " + edicao + " ISBN: " + isbn + "\nOrigem: " + origem.toString());
 		System.out.print("Condição: ");

@@ -8,6 +8,20 @@ public class PessoaGrupoTemporada {
 	private Grupo grupo;
 	private Temporada temporada;
 	private PessoaFisica pessoaFisica;
+	
+	public PessoaGrupoTemporada(Grupo grupo, Temporada temporada, PessoaFisica pessoaFisica) {
+		this.grupo = grupo;
+		this.temporada = temporada;
+		this.pessoaFisica = pessoaFisica;
+	}
+	
+	public void print() {
+		
+		grupo.print();
+		temporada.print();
+		pessoaFisica.print();
+		
+	}
 
 	public Grupo getGrupo() {
 		return grupo;

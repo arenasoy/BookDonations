@@ -16,6 +16,11 @@ public class Grupo {
 		this.administrador = null;
 	}
 
+	public Grupo(String nome, Tipo tipo) {
+		this.nome = nome;
+		this.tipo = tipo;
+	}
+
 	public Grupo(String nome, Tipo tipo, double pontuacaoMinima, Administrador administrador) throws Exception {
 
 		if (nome == null || nome.length() == 0 || nome.length() > 20) {

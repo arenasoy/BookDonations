@@ -7,6 +7,7 @@ import doacao.DoacaoDAO;
 import emprestimo.EmprestimoDAO;
 import endereco.EnderecoDAO;
 import grupo.GrupoDAO;
+import grupo.PessoaGrupoTemporadaDAO;
 import livro.LivroDAO;
 import missao.MissaoDAO;
 import questao.QuestaoDAO;
@@ -39,6 +40,7 @@ public class DAO {
 	private VoluntarioDAO voluntarioDAO;
 	private PessoaJuridicaDAO pessoaJuridicaDAO;
 	private PerfilDAO perfilDAO;
+	private PessoaGrupoTemporadaDAO pessoaGrupoTemporadaDAO;
 
 	public DAO() {
 		administradorDAO = new AdministradorDAO();
@@ -59,6 +61,7 @@ public class DAO {
 		voluntarioDAO = new VoluntarioDAO();
 		pessoaJuridicaDAO = new PessoaJuridicaDAO();
 		perfilDAO = new PerfilDAO();
+		pessoaGrupoTemporadaDAO = new PessoaGrupoTemporadaDAO();
 	}
 
 	public AdministradorDAO getAdministradorDAO() {
@@ -203,6 +206,14 @@ public class DAO {
 
 	public void setPerfilDAO(PerfilDAO perfilDAO) {
 		this.perfilDAO = perfilDAO;
+	}
+
+	public PessoaGrupoTemporadaDAO getPessoaGrupoTemporadaDAO() {
+		return pessoaGrupoTemporadaDAO;
+	}
+
+	public void setPessoaGrupoTemporadaDAO(PessoaGrupoTemporadaDAO pessoaGrupoTemporadaDAO) {
+		this.pessoaGrupoTemporadaDAO = pessoaGrupoTemporadaDAO;
 	}
 
 }

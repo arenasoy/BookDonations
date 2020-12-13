@@ -1,5 +1,6 @@
 package temporada;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -27,6 +28,10 @@ public class Temporada {
 			this.dataInicial = dataInicial;
 			this.duracao = duracao;
 		}
+	}
+
+	public Temporada(LocalDate dataInicial) {
+		this.dataInicial = dataInicial;
 	}
 
 	public void print() {

@@ -53,7 +53,6 @@ public class AdministradorDAO {
 
 	}
 
-	//TODO select com livros
 	public List<Administrador> select(boolean selectLivros) {
 
 		List<Administrador> administradores = new ArrayList<Administrador>();

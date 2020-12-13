@@ -1,5 +1,7 @@
 package main;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -10,10 +12,14 @@ import bibliotecario.Bibliotecario;
 import cidade.Cidade;
 import console.Console;
 import endereco.Endereco;
+import grupo.Grupo;
+import grupo.PessoaGrupoTemporada;
 import grupo.Tipo;
 import livro.Livro;
 import livro.Origem;
+import temporada.Temporada;
 import usuario.fisica.Perfil;
+import usuario.fisica.PessoaFisica;
 import usuario.fisica.doador.Doador;
 import usuario.fisica.donatario.Donatario;
 import usuario.fisica.voluntario.Voluntario;
@@ -529,5 +535,116 @@ public class Forms {
 		}
 
 		return b;
+	}
+
+	public static Grupo getGrupo() {
+		Console console = Console.getInstance();
+
+		Grupo g = null;
+
+		String nome = console.readLine("Nome do grupo: ");
+		while (nome == null || nome.length() == 0 || nome.length() > 20) {
+			System.out.println("Nome é obrigatório e deve ter até 20 caracteres");
+			nome = console.readLine("Nome do grupo: ");
+		}
+
+		int t = console.readInt("Tipo (1 - Doador, 2 - Voluntário, 3 - Donatário): ");
+		while (t < 1 || t > 3) {
+			System.out.println("Tipo é obrigatório");
+			t = console.readInt("Tipo (1 - Doador, 2 - Voluntário, 3 - Donatário): ");
+		}
+
+		grupo.Tipo tipo = grupo.Tipo.DOADOR;
+		if (t == 2) {
+			tipo = grupo.Tipo.VOLUNTARIO;
+		} else if (t == 3) {
+			tipo = grupo.Tipo.DONATARIO;
+		}
+
+		double pontuacaoMinima = console.readDouble("Pontuação mínima: ");
+		while (pontuacaoMinima < 0) {
+			System.out.println("Pontuação mínima é obrigatória");
+			pontuacaoMinima = console.readDouble("Pontuação mínima: ");
+		}
+
+		Administrador a = getAdministrador();
+
+		try {
+			g = new Grupo(nome, tipo, pontuacaoMinima, a);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return g;
+	}
+
+	public static Temporada getTemporada() {
+		Console console = Console.getInstance();
+
+		LocalDate dataInicial = console.readDate("Data inicial: ").toInstant().atZone(ZoneId.systemDefault())
+				.toLocalDate();
+
+		while (dataInicial == null) {
+			System.out.println("Data inicial é obrigatória");
+			dataInicial = console.readDate("Data inicial: ").toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		}
+
+		int duracao = console.readInt("Duração: ");
+		if (duracao <= 0) {
+			System.out.println("Duração é obrigatória");
+			duracao = console.readInt("Duração: ");
+		}
+
+		Temporada t = null;
+
+		try {
+			t = new Temporada(dataInicial, duracao);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return t;
+	}
+
+	public static PessoaGrupoTemporada getPessoaGrupoTemporada() {
+
+		Console console = Console.getInstance();
+		String email = console.readString("E-mail: ");
+
+		LocalDate temporada = console.readDate("Data inicial temporada: ").toInstant().atZone(ZoneId.systemDefault())
+				.toLocalDate();
+
+		while (temporada == null) {
+			System.out.println("Data inicial é obrigatória");
+			temporada = console.readDate("Data inicial temporada: ").toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		}
+		
+		String nome = console.readLine("Nome do grupo: ");
+		while (nome == null || nome.length() == 0 || nome.length() > 20) {
+			System.out.println("Nome é obrigatório e deve ter até 20 caracteres");
+			nome = console.readLine("Nome do grupo: ");
+		}
+
+		int t = console.readInt("Tipo (1 - Doador, 2 - Voluntário, 3 - Donatário): ");
+		while (t < 1 || t > 3) {
+			System.out.println("Tipo é obrigatório");
+			t = console.readInt("Tipo (1 - Doador, 2 - Voluntário, 3 - Donatário): ");
+		}
+
+		grupo.Tipo tipo = grupo.Tipo.DOADOR;
+		if (t == 2) {
+			tipo = grupo.Tipo.VOLUNTARIO;
+		} else if (t == 3) {
+			tipo = grupo.Tipo.DONATARIO;
+		}
+		
+		Grupo g = new Grupo(nome, tipo);
+		Temporada temp = new Temporada(temporada);
+		PessoaFisica pf = new PessoaFisica();
+		pf.setEmail(email);
+		
+		PessoaGrupoTemporada pgt = new PessoaGrupoTemporada(g, temp, pf);
+		
+		return pgt;
 	}
 }

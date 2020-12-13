@@ -28,6 +28,20 @@ public class CidadeDAO {
 
 	public int insert(Cidade cidade) {
 		try {
+			
+			sql = "select * from cidade where nome_cidade = ? and uf_cidade = ?";
+			
+			pstm = conn.prepareStatement(sql);
+			pstm.setString(1, cidade.getNome());
+			pstm.setString(2, cidade.getUf());
+			
+			ResultSet rs = pstm.executeQuery();
+			
+			if (rs.next()) {
+				cidade.setId(rs.getInt("id"));
+				return 0;
+			}
+			
 			sql = "insert into cidade (id, nome_cidade, uf_cidade)" + "values (?, ?, ?)";
 
 			pstm = conn.prepareStatement(sql);

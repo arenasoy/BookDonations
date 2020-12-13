@@ -40,8 +40,6 @@ public class PessoaFisica extends Usuario {
 			throw new Exception("CPF é obrigatório e deve ser no formato '000.000.000-00'");
 		}
 		
-		//TODO validar cpf
-		
 		if (rg != null && rg.length() > 9) {
 			throw new Exception("RG deve ter até 9 caracteres");
 		}

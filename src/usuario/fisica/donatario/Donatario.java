@@ -14,7 +14,6 @@ public class Donatario extends PessoaFisica {
 
 	public Donatario(String email, String nome, String cpf, String rg, String telefone) throws Exception {
 		super(email, nome, cpf, rg, telefone);
-		// TODO Auto-generated constructor stub
 	}
 
 	public Donatario(String email, double pontuacao) {
