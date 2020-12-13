@@ -1,5 +1,6 @@
 package main;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -139,6 +140,7 @@ public class Main {
 			System.out.println("6 - Busca a média de pontuação de um doador por doações realizadas no mês atual e compara com a média geral");
 			System.out.println("7 - Busca a média de pontuação de um voluntário por coletas realizadas no mês atual e compara com a média geral");
 			System.out.println("8 - Busca a média de pontuação de um donatário por pontuações conquistadas no mês atual e compara com a média geral");
+			System.out.println("9 - Mostra a classificação geral dentro de um grupo");
 			System.out.println("0 - Sair");
 
 			option = console.readInt();
@@ -236,6 +238,20 @@ public class Main {
 					else System.out.println("Abaixo da média");
 				}
 				break;
+			case 9: 
+				String grupo = console.readLine("Grupo desejado: ");
+				
+				List<ArrayList<String>> list = dao.getConsultaDAO().classificacaoGrupo(grupo);
+				
+				if (list == null || list.size() == 0) {
+					System.out.println("Não há dados suficientes para realizar essa consulta");
+					break;
+				}
+				
+				System.out.println("Classificação no grupo " + grupo);
+				for (ArrayList<String> arrayList : list) {
+					System.out.println(arrayList.get(0) + " - " + arrayList.get(1));
+				}
 			}
 
 		} while (option != EXIT);
@@ -741,7 +757,7 @@ public class Main {
 
 				do {
 					op = console.readInt(
-							"Gostaria de saber as informções de pessoa física dos voluntários?\n1 - Sim\n2 - Não\n0 - Sair");
+							"Gostaria de saber as informações de pessoa física dos voluntários?\n1 - Sim\n2 - Não\n0 - Sair");
 					if (op == 1) {
 						selectPessoaFisica = true;
 					} else if (op == 2) {
@@ -760,7 +776,7 @@ public class Main {
 
 				do {
 					op = console.readInt(
-							"Gostaria de saber as informções de usuário gerais dos voluntários?\n1 - Sim\n2 - Não\n0 - Sair");
+							"Gostaria de saber as informações de usuário gerais dos voluntários?\n1 - Sim\n2 - Não\n0 - Sair");
 					if (op == 1) {
 						selectUsuario = true;
 					} else if (op == 2) {
@@ -939,7 +955,7 @@ public class Main {
 
 				do {
 					op = console.readInt(
-							"Gostaria de saber as informções de pessoa física dos donatários?\n1 - Sim\n2 - Não\n0 - Sair");
+							"Gostaria de saber as informações de pessoa física dos donatários?\n1 - Sim\n2 - Não\n0 - Sair");
 					if (op == 1) {
 						selectPessoaFisica = true;
 					} else if (op == 2) {
@@ -958,7 +974,7 @@ public class Main {
 
 				do {
 					op = console.readInt(
-							"Gostaria de saber as informções de usuário gerais dos donatários?\n1 - Sim\n2 - Não\n0 - Sair");
+							"Gostaria de saber as informações de usuário gerais dos donatários?\n1 - Sim\n2 - Não\n0 - Sair");
 					if (op == 1) {
 						selectUsuario = true;
 					} else if (op == 2) {
@@ -1096,7 +1112,7 @@ public class Main {
 
 				do {
 					op = console.readInt(
-							"Gostaria de saber as informções de pessoa física dos doadores?\n1 - Sim\n2 - Não\n0 - Sair");
+							"Gostaria de saber as informações de pessoa física dos doadores?\n1 - Sim\n2 - Não\n0 - Sair");
 					if (op == 1) {
 						selectPessoaFisica = true;
 					} else if (op == 2) {
@@ -1115,7 +1131,7 @@ public class Main {
 
 				do {
 					op = console.readInt(
-							"Gostaria de saber as informções de usuário gerais dos doadores?\n1 - Sim\n2 - Não\n0 - Sair");
+							"Gostaria de saber as informações de usuário gerais dos doadores?\n1 - Sim\n2 - Não\n0 - Sair");
 					if (op == 1) {
 						selectUsuario = true;
 					} else if (op == 2) {
@@ -1285,7 +1301,7 @@ public class Main {
 
 				do {
 					op = console.readInt(
-							"Gostaria de saber as informções de usuário gerais das pessoas jurídicas?\n1 - Sim\n2 - Não\n0 - Sair");
+							"Gostaria de saber as informações de usuário gerais das pessoas jurídicas?\n1 - Sim\n2 - Não\n0 - Sair");
 					if (op == 1) {
 						selectUsuario = true;
 					} else if (op == 2) {
@@ -1381,7 +1397,7 @@ public class Main {
 
 				do {
 					op = console.readInt(
-							"Gostaria de saber as informções de cidade dos bibliotecários?\n1 - Sim\n2 - Não\n0 - Sair");
+							"Gostaria de saber as informações de cidade dos bibliotecários?\n1 - Sim\n2 - Não\n0 - Sair");
 					if (op == 1) {
 						selectCidade = true;
 					} else if (op == 2) {

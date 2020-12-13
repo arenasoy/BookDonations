@@ -76,20 +76,5 @@ public class EnderecoDAO {
 
 	}
 
-	public void delete(int id) {
-
-		try {
-			sql = "delete from tbAluno where matricula_aluno = ?";
-			pstm = conn.prepareStatement(sql);
-
-			pstm.setInt(1, id);
-
-			pstm.execute();
-			pstm.close();
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
 
 }

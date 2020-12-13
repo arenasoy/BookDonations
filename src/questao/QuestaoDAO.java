@@ -86,8 +86,7 @@ public class QuestaoDAO {
 						rs.getString("solucao"), rs.getDouble("pontuacao"));
 
 				if (selectEmprestimo) {
-					//TODO select com emprestimo, vai juntar donatario e livro?
-					//q.setEmprestimo(new Emprestimo());
+					//nao implementado
 				}
 				
 				questoes.add(q);
@@ -98,20 +97,6 @@ public class QuestaoDAO {
 		}
 		return questoes;
 
-	}
-
-	public void delete(int id) {
-
-		try {
-			sql = "";
-			pstm = conn.prepareStatement(sql);
-
-			pstm.execute();
-			pstm.close();
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 	}
 
 }

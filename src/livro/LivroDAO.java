@@ -35,7 +35,7 @@ public class LivroDAO {
 			pstm.setInt(1, livro.getCodigoBarras());
 			pstm.setString(2, livro.getAutor());
 			pstm.setString(3, livro.getTitulo());
-			pstm.setInt(4, livro.getIsbn());
+			pstm.setLong(4, livro.getIsbn());
 			pstm.setString(5, livro.getEdicao());
 			pstm.setInt(6, livro.getCondicao());
 			pstm.setString(7, livro.getOrigem().toString());
@@ -69,7 +69,7 @@ public class LivroDAO {
 
 			while (rs.next()) {
 				livros.add(new Livro(rs.getInt("codigo_barras"), rs.getString("autor"), rs.getString("titulo"),
-						rs.getInt("isbn"), rs.getString("edicao"), rs.getInt("condicao"),
+						rs.getLong("isbn"), rs.getString("edicao"), rs.getInt("condicao"),
 						Origem.valueOf(rs.getString("origem")), true));
 			}
 			pstm.close();
@@ -78,20 +78,6 @@ public class LivroDAO {
 		}
 		return livros;
 
-	}
-
-	public void delete(int id) {
-
-		try {
-			sql = "";
-			pstm = conn.prepareStatement(sql);
-
-			pstm.execute();
-			pstm.close();
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 	}
 
 	public Livro selectByCodigo(int codigoBarras) {
@@ -108,7 +94,7 @@ public class LivroDAO {
 
 			if (!rs.next())
 				return null;
-			l = new Livro(rs.getInt("codigo_barras"), rs.getString("autor"), rs.getString("titulo"), rs.getInt("isbn"),
+			l = new Livro(rs.getInt("codigo_barras"), rs.getString("autor"), rs.getString("titulo"), rs.getLong("isbn"),
 					rs.getString("edicao"), rs.getInt("condicao"), Origem.valueOf(rs.getString("origem")), true);
 
 			pstm.close();

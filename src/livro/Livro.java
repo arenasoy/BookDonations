@@ -5,7 +5,7 @@ public class Livro {
 	private Integer codigoBarras;
 	private String autor;
 	private String titulo;
-	private Integer isbn;
+	private long isbn;
 	private String edicao;
 	private int condicao;
 	private Origem origem;
@@ -22,7 +22,7 @@ public class Livro {
 		if (condicao == 4) System.out.println("Poucos desgastes");
 	}
 
-	public Livro(Integer codigoBarras, String autor, String titulo, Integer isbn, String edicao, int condicao,
+	public Livro(Integer codigoBarras, String autor, String titulo, long isbn, String edicao, int condicao,
 			Origem origem) throws Exception {
 		
 		if (codigoBarras == null || codigoBarras == 0) {
@@ -37,7 +37,7 @@ public class Livro {
 			throw new Exception("Título é obrigatório e deve ter até 50 caracateres");
 		}
 		
-		if (isbn == null || isbn == 0) {
+		if (isbn == 0) {
 			throw new Exception("ISBN é obrigatório");
 		}
 		
@@ -62,7 +62,7 @@ public class Livro {
 		this.origem = origem;
 	}
 
-	public Livro(Integer codigoBarras, String autor, String titulo, Integer isbn, String edicao, int condicao,
+	public Livro(Integer codigoBarras, String autor, String titulo, long isbn, String edicao, int condicao,
 			Origem origem, boolean fromDatabase) {
 		if (fromDatabase) {
 			this.codigoBarras = codigoBarras;
@@ -99,7 +99,7 @@ public class Livro {
 		this.titulo = titulo;
 	}
 
-	public Integer getIsbn() {
+	public long getIsbn() {
 		return isbn;
 	}
 

@@ -140,20 +140,6 @@ public class BibliotecarioDAO {
 
 	}
 
-	public void delete(int id) {
-
-		try {
-			sql = "";
-			pstm = conn.prepareStatement(sql);
-
-			pstm.execute();
-			pstm.close();
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
 	public Bibliotecario selectByCIB(int cib, boolean selectEndereco, boolean selectCidade) {
 
 		Bibliotecario bibliotecario = null;

@@ -97,19 +97,5 @@ public class GrupoDAO {
 
 	}
 
-	public void delete(int id) {
-
-		try {
-			sql = "";
-			pstm = conn.prepareStatement(sql);
-
-			pstm.execute();
-			pstm.close();
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
 	
 }

@@ -9,7 +9,6 @@ import endereco.EnderecoDAO;
 import grupo.GrupoDAO;
 import grupo.PessoaGrupoTemporadaDAO;
 import livro.LivroDAO;
-import missao.MissaoDAO;
 import questao.QuestaoDAO;
 import temporada.TemporadaDAO;
 import usuario.UsuarioDAO;
@@ -37,7 +36,6 @@ public class DAO {
 	private EnderecoDAO enderecoDAO;
 	private GrupoDAO grupoDAO;
 	private LivroDAO livroDAO;
-	private MissaoDAO missaoDAO;
 	private QuestaoDAO questaoDAO;
 	private TemporadaDAO temporadaDAO;
 	private UsuarioDAO usuarioDAO;
@@ -59,7 +57,6 @@ public class DAO {
 		enderecoDAO = new EnderecoDAO();
 		grupoDAO = new GrupoDAO();
 		livroDAO = new LivroDAO();
-		missaoDAO = new MissaoDAO();
 		questaoDAO = new QuestaoDAO();
 		temporadaDAO = new TemporadaDAO();
 		usuarioDAO = new UsuarioDAO();
@@ -135,14 +132,6 @@ public class DAO {
 
 	public void setLivroDAO(LivroDAO livroDAO) {
 		this.livroDAO = livroDAO;
-	}
-
-	public MissaoDAO getMissaoDAO() {
-		return missaoDAO;
-	}
-
-	public void setMissaoDAO(MissaoDAO missaoDAO) {
-		this.missaoDAO = missaoDAO;
 	}
 
 	public QuestaoDAO getQuestaoDAO() {

@@ -135,20 +135,6 @@ public class DonatarioDAO {
 
 	}
 
-	public void delete(int id) {
-
-		try {
-			sql = "";
-			pstm = conn.prepareStatement(sql);
-
-			pstm.execute();
-			pstm.close();
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
 	public Donatario selectByEmail(String email, boolean selectPessoaFisica, boolean selectUsuario) {
 
 		Donatario d = null;

@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import conexao.Conexao;
 
@@ -231,7 +233,7 @@ public class ConsultaDAO {
 		HashMap<String, Double> media = new HashMap<String, Double>();
 
 		try {
-			sql = "select don.email_usuario_donatario, avg(q.pontuacao) as media from donatario don join emprestimo e on don.email_usuario_donatario = e.email_usuario_donatario join questao q on (q.email_usuario_donatario = e.email_usuario_donatario 	and q.codigo_barras = e.codigo_barras and q.data_retirada = e.data_retirada) group by don.email_usuario_donatario";
+			sql = "select don.email_usuario_donatario, avg(q.pontuacao) as media from donatario don join emprestimo e on don.email_usuario_donatario = e.email_usuario_donatario join questao q on (q.email_usuario_donatario = e.email_usuario_donatario 	and q.codigo_barras = e.codigo_barras and q.data_retirada = e.data_retirada) where (extract(month from sysdate) = extract(month from e.data_devolucao)) and (extract(year from sysdate) = extract(year from e.data_devolucao)) group by don.email_usuario_donatario";
 			pstm = conn.prepareStatement(sql);
 
 			ResultSet rs = pstm.executeQuery();
@@ -268,5 +270,31 @@ public class ConsultaDAO {
 		}
 
 		return media;
+	}
+	
+	public List<ArrayList<String>> classificacaoGrupo(String grupo) {
+		
+		List<ArrayList<String>> list = new ArrayList<ArrayList<String>>();
+		
+		try {
+			sql = "select pf.nome_usuario_pf,  case p.tipo_grupo when 'DOADOR' then (select pontuacao_doador from doador d where d.email_usuario_doador = p.email_usuario_pf) when 'DONATARIO' then (select pontuacao_donatario from donatario do where do.email_usuario_donatario = p.email_usuario_pf) when 'VOLUNTARIO' then (select pontuacao_voluntario from voluntario v where v.email_usuario_voluntario = p.email_usuario_pf) end as pontuacao from pertence p join temporada t on p.temporada = t.data_inicial_temp join pessoa_fisica pf on p.email_usuario_pf = pf.email_usuario_pf where sysdate between p.temporada and (p.temporada + t.duracao_temp) and p.nome_grupo = ?  order by p.nome_grupo asc, pontuacao desc";
+			pstm = conn.prepareStatement(sql);
+
+			pstm.setString(1, grupo);
+			ResultSet rs = pstm.executeQuery();
+
+			while (rs.next()) {
+				ArrayList<String> i = new ArrayList<String>();
+				i.add(rs.getString("nome_usuario_pf"));
+				i.add(rs.getDouble("pontuacao") + "");
+				list.add(i);
+			}
+			pstm.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return list;
 	}
 }

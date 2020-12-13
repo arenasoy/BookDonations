@@ -138,9 +138,9 @@ public class VoluntarioDAO {
 					List<Livro> livros = new ArrayList<Livro>();
 
 					while (rsl.next()) {
-						livros.add(new Livro(rs.getInt("codigo_barras"), rs.getString("autor"), rs.getString("titulo"),
-								rs.getInt("isbn"), rs.getString("edicao"), rs.getInt("condicao"),
-								Origem.valueOf(rs.getString("origem")), true));
+						livros.add(new Livro(rsl.getInt("codigo_barras"), rsl.getString("autor"), rsl.getString("titulo"),
+								rsl.getLong("isbn"), rsl.getString("edicao"), rsl.getInt("condicao"),
+								Origem.valueOf(rsl.getString("origem")), true));
 					}
 
 					v.setLivros(livros);
@@ -154,20 +154,6 @@ public class VoluntarioDAO {
 		}
 		return voluntarios;
 
-	}
-
-	public void delete(int id) {
-
-		try {
-			sql = "";
-			pstm = conn.prepareStatement(sql);
-
-			pstm.execute();
-			pstm.close();
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 	}
 
 	public Voluntario selectByEmail(String email, boolean selectPessoaFisica, boolean selectUsuario,
